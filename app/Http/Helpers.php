@@ -6,7 +6,7 @@ use App\Models\BusinessSetting;
 use App\Models\Reward;
 use App\Models\Dog;
 use App\Models\Translation;
-
+use App\Http\Controllers\MailController;
 
 //Get Post Parent Category Nmae
 if(!function_exists('dsld_mail_send')){
@@ -14,29 +14,29 @@ if(!function_exists('dsld_mail_send')){
         $from = env('MAIL_FROM_ADDRESS');
         if($both == 2){
             
-            $content['title'] = $success_msg;
+            $content['title'] = $subject;
             $content['body'] = $mail_body;
             $cdata = new MailController;
-            $cdata->cf_submite_mail($email_user, $from, $subject, $content, $template);
+            $cdata->cf_submite_mail($to, $from, $subject, $content, $template);
             
             $cdata = new MailController;
-            $content['title'] = $success_msg." | Admin Mail";
+            $content['title'] = $subject." | Admin Mail";
             $content['body'] = $mail_body;
             $cdata->cf_submite_mail($to, $from, $subject, $content, 'emails.admin_template');
             
         }else if($both == 1){
             
             $cdata = new MailController;
-            $content['title'] = $success_msg." | Admin Mail";
+            $content['title'] = $subject." | Admin Mail";
             $content['body'] = $mail_body;
             $cdata->cf_submite_mail($to, $from, $subject, $content, 'emails.admin_template');
             
         }else{
 
-            $content['title'] = $success_msg;
+            $content['title'] = $subject;
             $content['body'] = $mail_body;
             $cdata = new MailController;
-            $cdata->cf_submite_mail($email_user, $from, $subject, $content, $template);
+            $cdata->cf_submite_mail($to, $from, $subject, $content, $template);
             
         }
         
