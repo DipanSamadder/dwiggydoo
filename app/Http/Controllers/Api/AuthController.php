@@ -177,8 +177,8 @@ class AuthController extends Controller
             $success['otp'] = $data->otp; 
             $success['user_id'] = $data->user_id; 
             $success['expire_at'] = $data->expire_at; 
-
-            dsld_mail_send($request->email, 'Otp for login/registraion.', 'emails.user_template', $success, 0);             
+            $email = 'Your Otp is '.$data->otp.'. It will expired at '.$data->expire_at.'.';
+            dsld_mail_send($request->email, 'Otp for login/registraion.', $email, 'emails.user_template', 0);             
             return $this->sendResponse($success, 'Otp sent on your email.');
         }else{
             

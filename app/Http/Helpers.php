@@ -10,7 +10,7 @@ use App\Http\Controllers\MailController;
 
 //Get Post Parent Category Nmae
 if(!function_exists('dsld_mail_send')){
-    function dsld_mail_send($to, $subject,$template, $mail_body, $both = 0){
+    function dsld_mail_send($to, $subject, $mail_body, $template, $both = 0){
         $from = env('MAIL_FROM_ADDRESS');
         if($both == 2){
             
