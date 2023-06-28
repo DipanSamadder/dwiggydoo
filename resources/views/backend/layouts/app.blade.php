@@ -22,6 +22,117 @@
         <!-- Custom Css -->
         <link rel="stylesheet" href="{{ dsld_static_asset('backend/assets/css/style.min.css') }}">
         @yield('header')
+        <style>
+            .sidebar{width: 200px;font-size: 12px;}
+            .sidebar .user-info .detail h4 {font-size: 12px;}
+            section.content{margin: 11px 70px 20px 200px;}
+  
+            .bootstrap-notify-container {
+                z-index: 99999 !important;
+            }
+            .page_banner_icon{width:30px;}
+
+
+            .purple{color: #6f42c1;}
+            .blue{color: #46b6fe;}
+            .cyan{color: #5CC5CD; }
+            .green{color: #04BE5B;}
+            .orange{color: #FF9948;}
+            .blush {color: #e47297;}
+            .disable_checkbox label::before, .disable_checkbox label::after{border: 1px solid #c30b0b;}
+            .lds-ripple {
+                display: inline-block;
+                position: relative;
+                width: 80px;
+                height: 80px;
+                }
+                .lds-ripple div {
+                position: absolute;
+                border: 4px solid #fff;
+                opacity: 1;
+                border-radius: 50%;
+                animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+                }
+                .lds-ripple div:nth-child(2) {
+                animation-delay: -0.5s;
+                }
+                @keyframes lds-ripple {
+                0% {
+                    top: 36px;
+                    left: 36px;
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                }
+                4.9% {
+                    top: 36px;
+                    left: 36px;
+                    width: 0;
+                    height: 0;
+                    opacity: 0;
+                }
+                5% {
+                    top: 36px;
+                    left: 36px;
+                    width: 0;
+                    height: 0;
+                    opacity: 1;
+                }
+                100% {
+                    top: 0px;
+                    left: 0px;
+                    width: 72px;
+                    height: 72px;
+                    opacity: 0;
+                }
+                }
+                .full_page_loader{width: 100%;
+                    height: 100%;
+                    position: fixed;
+                    top: 0;
+                    background: #2b2b2b69;
+                    z-index: 99999999;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;}
+                    .lds-ring {
+                    display: inline-block;
+                    position: relative;
+                    width: 80px;
+                    height: 80px;
+                    }
+                    .lds-ring div {
+                    box-sizing: border-box;
+                    display: block;
+                    position: absolute;
+                    width: 64px;
+                    height: 64px;
+                    margin: 8px;
+                    border: 8px solid #fff;
+                    border-radius: 50%;
+                    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+                    border-color: #fff transparent transparent transparent;
+                    }
+                    .lds-ring div:nth-child(1) {
+                    animation-delay: -0.45s;
+                    }
+                    .lds-ring div:nth-child(2) {
+                    animation-delay: -0.3s;
+                    }
+                    .lds-ring div:nth-child(3) {
+                    animation-delay: -0.15s;
+                    }
+                    @keyframes lds-ring {
+                    0% {
+                    transform: rotate(0deg);
+                    }
+                    100% {
+                    transform: rotate(360deg);
+                    }
+                    }
+                    .dropdown-loading .lds-ring{width: 20px;height: 20px;}
+                    .dropdown-loading .lds-ring div{width: 20px;height: 20px;border: 3px solid #5a8bff;border-color: #5a8bff transparent transparent transparent;margin: 5px 0px 0px;}
+        </style>
     </head>
      
     <body class="
@@ -78,7 +189,7 @@
             </div>
         </section> 
 
-        
+        @include('backend.inc.custom_js')
         <div class="full_page_loader" style="display:none"><div class="lds-ripple"><div></div><div></div></div></div>
         <!-- Jquery Core Js --> 
         <script src="{{ dsld_static_asset('backend/assets/bundles/libscripts.bundle.js') }}"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) --> 

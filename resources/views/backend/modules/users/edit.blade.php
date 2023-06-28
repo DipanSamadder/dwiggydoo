@@ -9,11 +9,10 @@
 
 @section('content')
  <!-- Exportable Table -->
- <form id="update_form" action="{{ route('users.update') }}" method="POST" enctype="multipart/form-data" >
+ <form id="update_form" action="{{ route('users.update', $data->id) }}" method="PUT" enctype="multipart/form-data" >
     <div class="row clearfix">
         <div class="col-lg-8">
             @csrf 
-            <input type="hidden" name="id" id="id" value="{{ $data->id }}" />
             <div class="card mb-0">
                 <div class="header">
                     <h2><strong> <i class="zmdi zmdi-hc-fw"></i> {{ $data->name }}</strong></h2>
@@ -51,31 +50,16 @@
                     </div>
                     <div class="row clearfix">
                         <div class="col-lg-2 col-md-2 col-sm-4 form-control-label">
-                            <label class="form-label">Roll</label>  
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-sm-8">
-                            <div class="form-group">
-                            <select class="form-control" name="role" id="role" onchange="is_edited()">
-                                <option value="">-- Please select --</option>
-                                @foreach(App\Models\Role::all() as $key => $value)
-                                    <option value="{{ $value->id }}" @if($data->role == $value->id) selected @endif> {{ $value->name}} </option>
-                                @endforeach
-                            </select> 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row clearfix">
-                        <div class="col-lg-2 col-md-2 col-sm-4 form-control-label">
                             <label class="form-label">User Type </label>  
                         </div>
                         <div class="col-lg-10 col-md-10 col-sm-8">
                             <div class="form-group">
-                            <select class="form-control" name="user_type" id="user_type" onchange="is_edited()">
+                            <select class="form-control" name="type" id="type" onchange="is_edited()">
                                 <option value="">-- Please select --</option>
-                                <option value="student" @if($data->user_type == 'student') selected @endif>Student</option>
-                                <option value="staff" @if($data->user_type == 'staff') selected @endif>Staff</option>
-                                <option value="parent" @if($data->user_type == 'parent') selected @endif>Parent</option>
-                                <option value="subadmin" @if($data->user_type == 'subadmin') selected @endif>Admin</option>
+                                <option value="student" @if($data->type == 'student') selected @endif>Student</option>
+                                <option value="staff" @if($data->type == 'staff') selected @endif>Staff</option>
+                                <option value="parent" @if($data->type == 'parent') selected @endif>Parent</option>
+                                <option value="subadmin" @if($data->type == 'subadmin') selected @endif>Admin</option>
                             </select> 
                             </div>
                         </div>
@@ -107,7 +91,7 @@
                     <div class="swal-button-container">
                         <button type="submit" class="btn btn-success btn-round waves-effect dsld-btn-loader" id="submit_btn" disabled="disabled">Update</button>
                     </div>
-                    <button type="button" class="btn btn-danger btn-round waves-effect" onclick="DSLDDeleteAlert('{{ $data->id }}','{{ route('users.destory') }}','{{ csrf_token() }}')"><i class="zmdi zmdi-delete"></i></button>
+                    <button type="button" class="btn btn-danger btn-round waves-effect" onclick="DSLDDeleteAlert('{{ $data->id }}','{{ route('users.destroy', ['id' => $data->id]) }}','{{ csrf_token() }}', 'GET')"><i class="zmdi zmdi-delete"></i></button>
                 </div>
             </div>
             <div class="card mb-0">
@@ -119,13 +103,11 @@
                         <label class="form-label">Profile</label>
                         <select class="form-control show-tick ms select2" name="avatar_original" id="avatar_original" onchange="is_edited()">
                             <option value="">-- Please select --</option>
-                            @foreach(App\Models\Upload::where('user_id', Auth::user()->id)->where('type', 'image')->get() as $key => $value)
-                                <option value="{{ $value->id }}" @if($data->avatar_original == $value->id) selected @endif>({{ $value->id }}) - {{ $value->file_title}} </option>
-                            @endforeach
+                            
                         </select>
                         @if($data->avatar_original > 0)
                         <div class="image mt-2">
-                            <img src="{{ dsld_uploaded_asset($data->avatar_original) }}"  alt="{{ dsld_upload_file_title($data->avatar_original) }}" class="img-fluid">
+                            <img src="{{ dsld_uploaded_asset($data->avatar_original) }}"  class="img-fluid">
                         </div> 
                         @endif                                                            
                     </div>
@@ -156,10 +138,10 @@
                 data: {
                     '_token':'{{ csrf_token() }}', 
                     'user_id':'{{ Auth::user()->id }}',
-                    'id': $('#id').val(),
+
                     'name': $('#name').val(),
                     'phone': $('#phone').val(),
-                    'user_type': $('#user_type').val(),
+                    'type': $('#type').val(),
                     'email': $('#email').val(),
                     'date': $('#date').val(),
                     'banned': $('#banned').val(),

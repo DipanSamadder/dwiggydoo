@@ -55,6 +55,25 @@ if (!function_exists('dsld_uploaded_asset')) {
     }
 }
 
+if (! function_exists('my_asset')) {
+    /**
+     * Generate an asset path for the application.
+     *
+     * @param  string  $path
+     * @param  bool|null  $secure
+     * @return string
+     */
+    function my_asset($path, $secure = null)
+    {
+        if(env('FILESYSTEM_DRIVER') == 's3'){
+            return Storage::disk('s3')->url($path);
+        }
+        else {
+            return app('url')->asset($path, $secure);
+        }
+    }
+}
+
 if(!function_exists('dsld_is_route_active')){
     function dsld_is_route_active(Array $routes, $output = 'active'){
         foreach($routes as $route){

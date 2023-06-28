@@ -46,7 +46,7 @@ function DSLDAlertMessage(Content = '', type = 'error', flash = 1) {
     }   
 }
 
-function DSLDDeleteAlert(id, url, csrf) {
+function DSLDDeleteAlert(id, url, csrf, method) {
     swal({
         title: "Are you sure?",
         text: "Once deleted, you will not be able to recover this imaginary file!",
@@ -56,16 +56,16 @@ function DSLDDeleteAlert(id, url, csrf) {
       })
       .then((willDelete) => {
         if (willDelete) {
-            destroy(id, url, csrf);
+            destroy(id, url, csrf, method);
         } else {
             return 0;
         }
     });    
 }
-function destroy(id, url, csrf){
+function destroy(id, url, csrf, method){
     $.ajax({
         url: url,
-        type: "post",
+        type: method,
         data: {'_token': csrf, 'id':id},
         success: function(data) {
             dsldFlashNotification(data['status'], data['message']);

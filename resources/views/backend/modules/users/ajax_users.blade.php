@@ -31,7 +31,7 @@
                 <tr>
                     <th scope="row">{{ $key }}</th>
                     <td>
-                        @if($value->avatar_original > 0)<img src="{{ dsld_uploaded_asset($value->avatar_original) }}" alt="{{ dsld_upload_file_title($value->avatar_original) }}" class="page_banner_icon">
+                        @if($value->avatar_original > 0)<img src="{{ dsld_uploaded_asset($value->avatar_original) }}" class="page_banner_icon">
                         @else
                             <img src="{{ dsld_static_asset('backend/assets/images/xs/avatar1.jpg') }}" alt="Dummy Image" class="page_banner_icon">
                         
@@ -53,20 +53,18 @@
 
                     </td>
 
-                    @if(dsld_have_user_permission('users_edit') == 1 || dsld_have_user_permission('users_delete') == 1)
-
                     <td>
                         <p class="text-center mb-0 action_items">
                                 <a href="{{ route('users.edit', [$value->id]) }}" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
                                     <i class="zmdi zmdi-edit"></i>
                                 </a>
-                            <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-danger" onclick="DSLDDeleteAlert('{{ $value->id }}','{{ route('users.destory') }}','{{ csrf_token() }}')">
+                            <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-danger" onclick="DSLDDeleteAlert('{{ $value->id }}','{{ route('users.destroy', ['id' => $value->id]) }}','{{ csrf_token() }}'), 'GET'">
                                     <i class="zmdi zmdi-delete"></i>
                             </a>
                         </p>
                     </td>
 
-                    @endif
+                  
                 </tr>
             @endforeach
         @else

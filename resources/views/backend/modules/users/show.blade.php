@@ -56,93 +56,12 @@
 @section('footer')
     @include('backend.modules.users.add')
     <input type="hidden" name="page_no" id="page_no" value="1">
-<script>
-    function add_new_lg_modal_form(){
-        $('#add_new_larger_modals').modal('show');
-        $('#add_new_larger_modals_tile').text('Add New User');
-    }
-
-    $(document).ready(function(){
-        $('#add_new_form').on('submit', function(event){
-        event.preventDefault();
-            $('.dsld-btn-loader').addClass('btnloading');
-            var Loader = ".btnloading";
-            DSLDButtonLoader(Loader, "start");
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                cache : false,
-                data: {
-                    '_token':'{{ csrf_token() }}', 
-                    'user_id':'{{ Auth::user()->id }}',
-                    'name': $('#name').val(),
-                    'email': $('#email').val(),
-                    'phone': $('#phone').val(),
-                    'password': $('#password').val(),
-                    'avatar_original': $('#avatar_original').val(),
-                    'user_type': $('#user_type').val()
-                },
-                success: function(data) {
-                    if(data['status'] =='success'){
-                        $('#add_new_form')[0].reset(); 
-                        $("#content").html('');   
-                        get_pages();
-                        $('#add_new_larger_modals').modal('hide'); 
-                    }
-                    dsldFlashNotification(data['status'], data['message']);
-                    DSLDButtonLoader(Loader, "");
-                }
-            });
-        });
-    });
-   
-
-    
-
-    function get_pages(){
-        var search = $('input[name=search]').val();
-        var sort = $('select[name=sort]').val();
-        var page = $('#page_no').val();
-        $('#data_table').html('<center><img src="{{ dsld_static_asset('backend/assets/images/circle-loading.gif') }}" style="max-width:100px" ></center>');
-
-        $.ajax({
-            url: "{{ route('ajax_users') }}",
-            type: "post",
-            cache : false,
-            data: {
-                    '_token':'{{ csrf_token() }}',
-                    'user_id':'{{ Auth::user()->id }}',
-                    'search': search,
-                    'page': page,
-                    'sort': sort
-                },
-            success: function(d) {
-                $('#data_table').html(d);
-            }
-        });
-    }
-
-    $(document).ready(function(){
-        $('#page_no').val(1);
-        get_pages();
-    });
-    function filter(){
-        $('#page_no').val(1);
-        get_pages();
-    }
-    $(document).ready(function()
-{
-        $(document).on('click', '.pagination a',function(event)
-        {
-            $('li').removeClass('active');
-            $(this).parent('li').addClass('active');
-            event.preventDefault();
-            var myurl = $(this).attr('href');
-            var page=$(this).attr('href').split('page=')[1];
-            $('#page_no').val(page);
-            get_pages();
-        });
-    });
-
-</script>
+    <input type="hidden" name="get_pages" id="get_pages" value="{{ route('users.all') }}">
+    @include('backend.inc.crul_ajax')
+    <script>
+         function add_new_lg_modal_form(){
+            $('#add_new_larger_modals').modal('show');
+            $('#add_new_larger_modals_tile').text('Add New User');
+        }
+    </script>
 @endsection

@@ -40,13 +40,15 @@ Route::post('media/edit', [UploadsMediaController::class, 'edit'])->name('media.
 
     
 //Users
-Route::get('users', 'User\UsersController@index')->name('users.index');
-Route::get('user/edit/{id}', [User\UsersController::class, 'edit'])->name('users.edit');
-Route::post('user/store', [User\UsersController::class, 'store'])->name('users.store');
-Route::post('get-all-users', [User\UsersController::class, 'get_ajax_users'])->name('ajax_users');
-Route::post('user/destory', [User\UsersController::class, 'destory'])->name('users.destory');
-Route::post('user/status', [User\UsersController::class, 'status'])->name('users.status');
-Route::post('user/update', [User\UsersController::class, 'update'])->name('users.update');
+Route::resource('users', 'User\UserController');
+Route::post('get/users', 'User\UserController@all')->name('users.all');
+Route::post('user/status', 'User\UserController@status')->name('users.status');
+Route::get('user/{id}/destroy', 'User\UserController@destroy')->name('users.destroy');
+/* Route::get('user/edit/{id}', 'User\UsersController@edit')->name('users.edit');
+Route::post('get-all-users', 'User\UsersController@get_ajax_users')->name('ajax_users');
+Route::post('user/destory', 'User\UsersController@destory')->name('users.destory');
+Route::post('user/status', 'User\UsersController@status')->name('users.status');
+Route::post('user/update', 'User\UsersController@update')->name('users.update'); */
 
 //Backend setting
 Route::get('backend-setting', 'Setting\BusinessSettingsController@backend_setting')->name('backend.setting');
