@@ -1,8 +1,11 @@
 /node_modules
+/public
 /public/build
 /public/hot
 /public/storage
-/storage/*.key
+/bootstrap
+/storage
+/db
 /vendor
 .env
 .env.backup
