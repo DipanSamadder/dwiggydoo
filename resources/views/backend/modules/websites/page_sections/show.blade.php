@@ -3,6 +3,7 @@
 @section('header')
 <style>
     .table tbody td, .table tbody th {padding: 0.25rem 0.55rem;}
+    section.content {background: #ffe4e4;}
 </style>
 
 
@@ -15,13 +16,13 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-                <h2><strong>All</strong> Users </h2>
+                <h2><strong>All</strong> Sections </h2>
 
             </div>
             <div class="body">
                 <div class="row">
                 <div class="col-lg-6">
-                    @if(dsld_check_permission(['add user']))
+                    @if(dsld_have_user_permission('sections_add') == 1)
                     <button class="btn btn-success btn-round mb-4" title="Add New" onclick="add_new_lg_modal_form()"><i class="zmdi zmdi-hc-fw"></i> Add New</button>
                     @endif
                     <button class="btn btn-info btn-round mb-4" onclick="get_pages();"><i class="zmdi zmdi-hc-fw"></i> Reload</button>
@@ -37,8 +38,6 @@
                                 <option value="oldest">Old to New</option>
                                 <option value="active">Active</option>
                                 <option value="deactive">Deactive</option>
-                                <option value="admin">Admin</option>
-                                <option value="customer">Customer</option>
                             </select>
                         </div>
                         <div class="col-lg-6 form-group">                                    
@@ -57,13 +56,91 @@
 @endsection
 
 @section('footer')
-    @include('backend.modules.users.add')
+    @include('backend.modules.websites.page_sections.add')
+        
+    <!--Edit Section-->
+    <div class="modal fade" id="edit_larger_modals" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title" id="edit_larger_modals_title"></h4>
+                </div>
+                <form id="update_form" action="{{ route('pages_section.update') }}" method="POST" enctype="multipart/form-data" >
+                @csrf 
+                <div class="modal-body">
+                    <div id="edit_larger_modals_body">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-round waves-effect" data-dismiss="modal">CLOSE</button>
+                    <div class="swal-button-container">
+                        <button type="submit" class="btn btn-success btn-round waves-effect dsld-btn-loader">UPDATE</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--Edit Section-->
+
+
     <input type="hidden" name="page_no" id="page_no" value="1">
 <script>
     function add_new_lg_modal_form(){
         $('#add_new_larger_modals').modal('show');
-        $('#add_new_larger_modals_tile').text('Add New User');
+        $('#add_new_larger_modals_tile').text('Add New Section');
     }
+
+    function edit_lg_modal_form(id){
+        $('#edit_larger_modals_body').html('');
+        $('#edit_larger_modals').modal('show');
+        $('#edit_larger_modals_title').text('Edit Section');
+        $.ajax({
+            url: "{{ route('pages_section.edit') }}",
+            type: "post",
+            cache : false,
+            data: {
+                    '_token':'{{ csrf_token() }}',
+                    'user_id':'{{ Auth::user()->id }}',
+                    'section_id': id,
+                },
+            success: function(d) {
+                $('#edit_larger_modals_body').html(d);
+            }
+        });
+    }
+
+
+    $(document).ready(function(){
+        $('#update_form').on('submit', function(event){
+        event.preventDefault();
+            $('.dsld-btn-loader').addClass('btnloading');
+            var Loader = ".btnloading";
+            DSLDButtonLoader(Loader, "start");
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                cache : false,
+                data: {
+                    '_token':'{{ csrf_token() }}', 
+                    'user_id':'{{ Auth::user()->id }}',
+                    'title': $('#edit_title').val(),
+                    'order': $('#edit_order').val(),
+                    'page_id': $('#edit_page_id').val(),
+                    'section_id': $('#edit_section_id').val(),
+                    'status': $('#edit_status').val(),
+                },
+                success: function(data) {
+                    DSLDButtonLoader(Loader, "");
+                    dsldFlashNotification(data['status'], data['message']);
+                    if(data['status'] =='success'){
+                        get_pages();
+                    }
+                    
+                }
+            });
+        });
+    });
 
     $(document).ready(function(){
         $('#add_new_form').on('submit', function(event){
@@ -78,17 +155,14 @@
                 data: {
                     '_token':'{{ csrf_token() }}', 
                     'user_id':'{{ Auth::user()->id }}',
-                    'name': $('#name').val(),
-                    'email': $('#email').val(),
-                    'phone': $('#phone').val(),
-                    'password': $('#password').val(),
-                    'avatar_original': $('#avatar_original').val(),
-                    'user_type': $('#user_type').val()
+                    'title': $('#title').val(),
+                    'order': $('#order').val(),
+                    'page_id': $('#page_id').val(),
+                    'status': $('#status').val(),
                 },
                 success: function(data) {
                     if(data['status'] =='success'){
-                        $('#add_new_form')[0].reset(); 
-                        $("#content").html('');   
+                        $('#add_new_form')[0].reset();   
                         get_pages();
                         $('#add_new_larger_modals').modal('hide'); 
                     }
@@ -109,7 +183,7 @@
         $('#data_table').html('<center><img src="{{ dsld_static_asset('backend/assets/images/circle-loading.gif') }}" style="max-width:100px" ></center>');
 
         $.ajax({
-            url: "{{ route('ajax_users') }}",
+            url: "{{ route('ajax_page_sections') }}",
             type: "post",
             cache : false,
             data: {

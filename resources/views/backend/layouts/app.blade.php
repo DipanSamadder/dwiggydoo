@@ -24,34 +24,6 @@
         @yield('header')
 
         <style>
-            .theme-dark section.content{
-                background: #ffffff;
-            }
-            .theme-dark .form-control, .theme-dark .input-group .input-group-append .btn-outline-secondary, .theme-dark .input-group .input-group-prepend .btn-outline-secondary, .theme-dark .input-group-text, .theme-dark .bootstrap-select>.dropdown-toggle {
-                border-color: #e9e9e9 !important;
-                background: transparent;
-            }
-            .theme-dark .btn-default, .theme-dark .btn-group .btn {
-                background: #ffffff00 !important;
-                background-color: #ffffff00 !important;
-                color: #707070 !important;
-            }
-
-            .theme-dark section .card .body{background:#f9f9f9}
-           
-                        .theme-dark .btn-default, .theme-dark .btn-group .btn {
-            background: #ffffff;
-            background-color: #ffffff;
-            color: #3a3939;
-        }
-        .theme-dark .table td, .theme-dark .table th {
-            border-color: #dbdbdb;
-        }
-        .theme-dark .btn-default, .theme-dark .btn-group .btn {
-            background: #ffffff;
-            background-color: #ffffff;
-            color: #ffffff;
-        }
             .sidebar .menu .list .ml-menu li a, .card .body, .card .header h2, .modal-content .modal-header .title, .modal-content .modal-footer button, .bootstrap-select>.dropdown-toggle, .form-control{font-size: 12px;}
             .block-header h2 { font-size: 19px;}
             .table-responsive .btn-sm {padding: 3px 7px;}

@@ -54,6 +54,12 @@ class UsersController extends Controller
                 case 'deactive':
                     $data->where('banned', 1);
                     break;
+                case 'admin':
+                    $data->where('user_type', 'admin');
+                    break;
+                case 'customer':
+                    $data->where('user_type', 'customer');
+                    break;
                 default:
                     $data->orderBy('created_at', 'desc');
                     break;

@@ -87,3 +87,83 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show permis
 	Route::post('permissions/destory', 'Setting\PermissionsController@destory')->name('permission.destory');
 	Route::post('permissions/update', 'Setting\PermissionsController@update')->name('permission.update');
 }); 
+
+
+ //Dogs
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show dogs']], function () {
+	Route::resource('dogs', 'Dogs\DogsController');
+	Route::post('get-all-dogs', 'Dogs\DogsController@get_ajax_dogs')->name('ajax_dogs');
+	Route::post('dogs/destory', 'Dogs\DogsController@destory')->name('dogs.destory');
+	Route::get('dogs/edit/{id}', 'Dogs\DogsController@edit')->name('dogs.edit');
+	Route::post('dogs/update', 'Dogs\DogsController@update')->name('dogs.update');
+	Route::post('dogs/status', 'Dogs\DogsController@status')->name('dogs.status');
+}); 
+
+
+ //Breed
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show breeds']], function () {
+	Route::resource('breeds', 'Dogs\BreedsController');
+	Route::post('get-all-breeds', 'Dogs\BreedsController@get_ajax_breeds')->name('ajax_breeds');
+	Route::post('breed/status', 'Dogs\BreedsController@status')->name('breeds.status');
+
+	Route::post('breed/edit', 'Dogs\BreedsController@edit')->name('breeds.edit');
+	Route::post('breed/store', 'Dogs\BreedsController@store')->name('breeds.store');
+	Route::post('breed/destory', 'Dogs\BreedsController@destory')->name('breeds.destory');
+	Route::post('breed/update', 'Dogs\BreedsController@update')->name('breeds.update');
+}); 
+
+
+ //GoodGenes
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show genes']], function () {
+	Route::resource('genes', 'Dogs\GenesController');
+	Route::post('get-all-genes', 'Dogs\GenesController@get_ajax_genes')->name('ajax_genes');
+	Route::post('genes/status', 'Dogs\GenesController@status')->name('genes.status');
+
+	Route::post('genes/edit', 'Dogs\GenesController@edit')->name('genes.edit');
+	Route::post('genes/store', 'Dogs\GenesController@store')->name('genes.store');
+	Route::post('genes/destory', 'Dogs\GenesController@destory')->name('genes.destory');
+	Route::post('genes/update', 'Dogs\GenesController@update')->name('genes.update');
+}); 
+
+ //Questions
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show questions']], function () {
+	Route::resource('questions','Questions\QuestionController');
+	Route::post('get-all-questions', 'Questions\QuestionController@get_ajax_questions')->name('ajax_questions');
+	Route::post('questions/status', 'Questions\QuestionController@status')->name('questions.status');
+	Route::post('questions/update', 'Questions\QuestionController@update')->name('questions.update');
+	Route::post('questions/edit', 'Questions\QuestionController@edit')->name('questions.edit');
+	Route::post('questions/destory', 'Questions\QuestionController@destory')->name('questions.destory');
+	Route::post('questions/store', 'Questions\QuestionController@stores')->name('questions.store');
+	Route::post('questions-type', 'Questions\QuestionController@questions_type')->name('questions.type');
+
+	Route::get('task-approve', 'Questions\QuestionController@task_approve')->name('task.approve');
+	Route::post('get-all-tasks', 'Questions\QuestionController@get_all_tasks')->name('get.tasks');
+	Route::post('task-approve/approved', 'Questions\QuestionController@task_approved')->name('task.approved');
+});
+
+ //NotPetQuestions
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show not pet questions']], function () {
+	Route::resource('not-pet-questions','Questions\NotPetQuestionController', ['names' => [
+		'index' => 'not_pet_questions.index'
+		]]);
+	Route::post('get-all-not-questions', 'Questions\NotPetQuestionController@get_ajax_not_questions')->name('ajax_not_questions');
+	Route::post('not-pet-questions/status', 'Questions\NotPetQuestionController@status')->name('not_pet_questions.status');
+	Route::post('not-pet-questions/update', 'Questions\NotPetQuestionController@update')->name('not_pet_questions.update');
+	Route::post('not-pet-questions/edit', 'Questions\NotPetQuestionController@edit')->name('not_pet_questions.edit');
+	Route::post('not-pet-questions/destory', 'Questions\NotPetQuestionController@destory')->name('not_pet_questions.destory');
+	Route::post('not-pet-questions/store', 'Questions\NotPetQuestionController@stores')->name('not_pet_questions.store');
+});
+
+
+Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show not pet questions']], function () {
+
+	Route::resource('pages','Pages\PageController', ['names' => [
+		'index' => 'pages.index',
+		'stores' => 'pages.store',
+		'update' => 'pages.update',
+		]]);
+	Route::post('get-ajax-pages', 'Questions\NotPetQuestionController@get_ajax_pages')->name('get_ajax_pages');
+	Route::resource('pages', 'PageController');
+	Route::get('pages/edit/{id}', 'PageController@edit')->name('pages.edit');
+	Route::get('pages/destroy/{id}', 'PageController@destroy')->name('pages.destroy');
+});

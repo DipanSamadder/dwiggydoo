@@ -9,39 +9,50 @@
 @endsection
 
 @section('content')
+@php
+$name = 'page';
+if(isset($page) && !empty($page['name'])){
+    $name = $page['name'];
+}
+@endphp
  <!-- Exportable Table -->
  <div class="row clearfix">
     
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-                <h2><strong>All</strong> Users </h2>
+                <h2><strong>All</strong> {{ $name }}s </h2>
 
             </div>
             <div class="body">
                 <div class="row">
-                <div class="col-lg-6">
-                    @if(dsld_check_permission(['add user']))
+                <div class="col-lg-4">
+                    @if(dsld_have_user_permission('posts_add') == 1)
                     <button class="btn btn-success btn-round mb-4" title="Add New" onclick="add_new_lg_modal_form()"><i class="zmdi zmdi-hc-fw"></i> Add New</button>
                     @endif
                     <button class="btn btn-info btn-round mb-4" onclick="get_pages();"><i class="zmdi zmdi-hc-fw"></i> Reload</button>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <form class="form-inline" id="search_media">
                         <!-- <div class="form-group">                                
                             <input type="date" class="form-control ms  mr-2" name="get_date" onchange="filter()">
                         </div> -->
-                        <div class="col-lg-6 form-group">                                
+                        <div class="col-lg-4 form-group">                                
+                            <select class="form-control" name="temp" onchange="filter()">
+                                <option value="all" selected>All</option>
+                                <option value="program_school_details">Single</option>
+                                <option value="program_school_lists">Listing</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-4 form-group">                                
                             <select class="form-control" name="sort" onchange="filter()">
                                 <option value="newest">New to Old</option>
                                 <option value="oldest">Old to New</option>
                                 <option value="active">Active</option>
                                 <option value="deactive">Deactive</option>
-                                <option value="admin">Admin</option>
-                                <option value="customer">Customer</option>
                             </select>
                         </div>
-                        <div class="col-lg-6 form-group">                                    
+                        <div class="col-lg-4 form-group">                                    
                             <input type="text" class="form-control w-100" name="search" onblur="filter()" placeholder="Search..">
                         </div>
                     </form>
@@ -57,12 +68,12 @@
 @endsection
 
 @section('footer')
-    @include('backend.modules.users.add')
+    @include('backend.modules.dogs.add')
     <input type="hidden" name="page_no" id="page_no" value="1">
 <script>
     function add_new_lg_modal_form(){
         $('#add_new_larger_modals').modal('show');
-        $('#add_new_larger_modals_tile').text('Add New User');
+        $('#add_new_larger_modals_tile').text('Add New {{ $name }}');
     }
 
     $(document).ready(function(){
@@ -71,20 +82,12 @@
             $('.dsld-btn-loader').addClass('btnloading');
             var Loader = ".btnloading";
             DSLDButtonLoader(Loader, "start");
+            var content =  $("#content").summernote('code');
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
                 cache : false,
-                data: {
-                    '_token':'{{ csrf_token() }}', 
-                    'user_id':'{{ Auth::user()->id }}',
-                    'name': $('#name').val(),
-                    'email': $('#email').val(),
-                    'phone': $('#phone').val(),
-                    'password': $('#password').val(),
-                    'avatar_original': $('#avatar_original').val(),
-                    'user_type': $('#user_type').val()
-                },
+                data: $(this).serialize(),
                 success: function(data) {
                     if(data['status'] =='success'){
                         $('#add_new_form')[0].reset(); 
@@ -98,18 +101,16 @@
             });
         });
     });
-   
-
-    
 
     function get_pages(){
         var search = $('input[name=search]').val();
         var sort = $('select[name=sort]').val();
+        var temp = $('select[name=temp]').val();
         var page = $('#page_no').val();
         $('#data_table').html('<center><img src="{{ dsld_static_asset('backend/assets/images/circle-loading.gif') }}" style="max-width:100px" ></center>');
 
         $.ajax({
-            url: "{{ route('ajax_users') }}",
+            url: "{{ route('ajax_dogs') }}",
             type: "post",
             cache : false,
             data: {
@@ -117,7 +118,8 @@
                     'user_id':'{{ Auth::user()->id }}',
                     'search': search,
                     'page': page,
-                    'sort': sort
+                    'sort': sort,
+                    'temp': temp
                 },
             success: function(d) {
                 $('#data_table').html(d);

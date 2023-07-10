@@ -15,13 +15,24 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="header">
-                <h2><strong>All</strong> Users </h2>
-
+                <h2><strong>All</strong> Pages </h2>
+                <!-- <ul class="header-dropdown">
+                    <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                        <ul class="dropdown-menu dropdown-menu-right slideUp">
+                            <li><a href="javascript:void(0);">Action</a></li>
+                            <li><a href="javascript:void(0);">Another action</a></li>
+                            <li><a href="javascript:void(0);">Something else</a></li>
+                        </ul>
+                    </li>
+                    <li class="remove">
+                        <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                    </li>
+                </ul> -->
             </div>
             <div class="body">
                 <div class="row">
                 <div class="col-lg-6">
-                    @if(dsld_check_permission(['add user']))
+                    @if(dsld_have_user_permission('pages_add') == 1)
                     <button class="btn btn-success btn-round mb-4" title="Add New" onclick="add_new_lg_modal_form()"><i class="zmdi zmdi-hc-fw"></i> Add New</button>
                     @endif
                     <button class="btn btn-info btn-round mb-4" onclick="get_pages();"><i class="zmdi zmdi-hc-fw"></i> Reload</button>
@@ -37,8 +48,6 @@
                                 <option value="oldest">Old to New</option>
                                 <option value="active">Active</option>
                                 <option value="deactive">Deactive</option>
-                                <option value="admin">Admin</option>
-                                <option value="customer">Customer</option>
                             </select>
                         </div>
                         <div class="col-lg-6 form-group">                                    
@@ -57,12 +66,12 @@
 @endsection
 
 @section('footer')
-    @include('backend.modules.users.add')
+    @include('backend.modules.websites.pages.add')
     <input type="hidden" name="page_no" id="page_no" value="1">
 <script>
     function add_new_lg_modal_form(){
         $('#add_new_larger_modals').modal('show');
-        $('#add_new_larger_modals_tile').text('Add New User');
+        $('#add_new_larger_modals_tile').text('Add New Page');
     }
 
     $(document).ready(function(){
@@ -71,6 +80,7 @@
             $('.dsld-btn-loader').addClass('btnloading');
             var Loader = ".btnloading";
             DSLDButtonLoader(Loader, "start");
+            var content =  $("#content").summernote('code');
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
@@ -78,12 +88,11 @@
                 data: {
                     '_token':'{{ csrf_token() }}', 
                     'user_id':'{{ Auth::user()->id }}',
-                    'name': $('#name').val(),
-                    'email': $('#email').val(),
-                    'phone': $('#phone').val(),
-                    'password': $('#password').val(),
-                    'avatar_original': $('#avatar_original').val(),
-                    'user_type': $('#user_type').val()
+                    'title': $('#title').val(),
+                    'banner': $('#banner').val(),
+                    'type': $('#type').val(),
+                    'status': $('#status').val(),
+                    'content': content,
                 },
                 success: function(data) {
                     if(data['status'] =='success'){
@@ -109,7 +118,7 @@
         $('#data_table').html('<center><img src="{{ dsld_static_asset('backend/assets/images/circle-loading.gif') }}" style="max-width:100px" ></center>');
 
         $.ajax({
-            url: "{{ route('ajax_users') }}",
+            url: "{{ route('ajax_pages') }}",
             type: "post",
             cache : false,
             data: {

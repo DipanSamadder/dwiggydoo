@@ -36,7 +36,7 @@
         @if(is_array($data) || count($data) > 0 )
             @foreach($data as $key => $value)
             @php $key++; @endphp
-                <tr>
+                <tr @if($value->user_type == 'admin') style="background:#ffe9e9;" @endif>
                     <th scope="row">{{ $key }}</th>
                     <td>
                         @if($value->avatar_original > 0)<img src="{{ dsld_uploaded_asset($value->avatar_original) }}" alt="{{ dsld_upload_file_title($value->avatar_original) }}" class="page_banner_icon">
@@ -58,8 +58,8 @@
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="{{$value->banned }}" onchange="DSLDStatusUpdate('{{ $value->id }}','{{ $value->banned == 0 ? 1 : 0  }}', '{{ route('users.status') }}','{{ csrf_token() }}')" @if($value->banned == 0) checked @endif >
                             <label class="custom-control-label" for="{{$value->banned }}"></label>
-                        </div>
-
+                        </div> 
+                        
                     </td>
                     @endif
                     
@@ -67,10 +67,12 @@
 
                     <td>
                         <p class="text-center mb-0 action_items">
+                            @if($value->user_type == 'admin')
                             @if(dsld_check_permission(['edit user']))
                             <a href="{{ route('users.edit', [$value->id]) }}" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
                                     <i class="zmdi zmdi-edit"></i>
                                 </a>
+                            @endif
                             @endif
                             @if(dsld_check_permission(['delete user']))
                             <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-danger" onclick="DSLDDeleteAlert('{{ $value->id }}','{{ route('users.destory') }}','{{ csrf_token() }}')">

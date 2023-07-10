@@ -22,7 +22,7 @@
     $(document).ready(function(){
         $('#update_form').on('submit', function(event){
         event.preventDefault();
-            $('.dsld-btn-loader').addClass('btnloading');
+            $('#update_form .dsld-btn-loader').addClass('btnloading');
             var Loader = ".btnloading";
 
             DSLDButtonLoader(Loader, "start");
@@ -34,6 +34,8 @@
                 success: function(data) {
                     DSLDButtonLoader(Loader, "");
                     dsldFlashNotification(data['status'], data['message']);
+                    
+                    $('#update_form .dsld-btn-loader').removeClass('btnloading');
                     if(data['status'] =='success'){
                         get_pages();
                         $('#edit_larger_modals').modal('hide');
@@ -46,7 +48,7 @@
     $(document).ready(function(){
         $('#add_new_form').on('submit', function(event){
         event.preventDefault();
-            $('.dsld-btn-loader').addClass('btnloading');
+            $('#add_new_form .dsld-btn-loader').addClass('btnloading');
             var Loader = ".btnloading";
             DSLDButtonLoader(Loader, "start");
             $.ajax({
@@ -59,6 +61,8 @@
                         $('#add_new_form')[0].reset();   
                         get_pages();
                     }
+                    
+                    $('#add_new_form .dsld-btn-loader').removeClass('btnloading');
                     dsldFlashNotification(data['status'], data['message']);
                     DSLDButtonLoader(Loader, "");
                 }

@@ -58,11 +58,47 @@
            
             <li class="{{ dsld_is_route_active(['media.library.admin'], 'active open') }}"><a href="{{ route('media.library.admin') }}"><i class="zmdi zmdi-folder"></i><span>Media</span></a></li>
               
+
+            @if(dsld_check_permission(['show dogs','show breeds'])) 
+            <li  class="{{ dsld_is_route_active(['dogs.index', 'dogs.edit', 'dogs.store', 'breeds.index', 'breeds.edit', 'breeds.store','genes.index', 'genes.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i> <span><span>Dogs</span></a>
+                <ul class="ml-menu">
+                    @if(dsld_check_permission(['show dogs']))
+                    <li class="{{ dsld_is_route_active(['dogs.index', 'dogs.edit']) }}"><a href="{{ route('dogs.index') }}">Dogs</a></li>
+                     @endif
+
+                    @if(dsld_check_permission(['show breeds']))
+                    <li class="{{ dsld_is_route_active(['breeds.index', 'breeds.edit']) }}"><a href="{{ route('breeds.index') }}">Breeds</a></li>
+                    @endif
+
+                    @if(dsld_check_permission(['show genes']))
+                    <li class="{{ dsld_is_route_active(['genes.index', 'genes.edit']) }}"><a href="{{ route('genes.index') }}">Genes</a></li>
+                    @endif
+
+                </ul>
+            </li> 
+            @endif 
+
+            @if(dsld_check_permission(['show questions','show questions'])) 
+            <li  class="{{ dsld_is_route_active(['questions.index', 'questions.edit','not_pet_questions.index', 'not_pet_questions.edit','task.approve'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>QuiZ</span></a>
+                <ul class="ml-menu">
+                    @if(dsld_check_permission(['show questions']))
+                    <li class="{{ dsld_is_route_active(['questions.index', 'questions.edit']) }}"><a href="{{ route('questions.index') }}">Questions</a></li>
+                     @endif
+                    @if(dsld_check_permission(['show not pet questions']))
+                    <li class="{{ dsld_is_route_active(['not_pet_questions.index', 'not_pet_questions.edit']) }}"><a href="{{ route('not_pet_questions.index') }}">Not pet Questions</a></li>
+                     @endif
+                    @if(dsld_check_permission(['show task approved']))
+                    <li class="{{ dsld_is_route_active(['task.approve']) }}"><a href="{{ route('task.approve') }}">Task Submitted</a></li>
+                     @endif
+                </ul>
+            </li> 
+            @endif 
             @if(dsld_check_permission(['show user'])) 
             <li class="{{ dsld_is_route_active(['users.index', 'users.edit', 'users.store'], 'active open') }}">
                 <a href="{{ route('users.index') }}"><i class="zmdi zmdi-hc-fw"></i><span>Users</span></a>
             </li>
-            @endif 
+            @endif
+
              @if(dsld_check_permission(['show roles','show permissions'])) 
             <li  class="{{ dsld_is_route_active(['roles.index', 'role.edit', 'role.store', 'permissions.index', 'permission.edit', 'permission.store'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Roles</span></a>
                 <ul class="ml-menu">
