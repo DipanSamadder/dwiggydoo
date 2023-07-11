@@ -6,7 +6,7 @@
         <div class="col-sm-6">
             <div class="form-group">
                 <label class="form-label">Name <small class="text-danger">*</small></label>                                 
-                <input type="text" name="name" class="form-control" placeholder="Name" @if($data->name) value="{{ $data->name }}" @endif  />                                   
+                <input type="text" name="name" class="form-control" placeholder="Name" @if($data->title) value="{{ $data->title }}" @endif  />                                   
             </div>
         </div>
         <div class="col-sm-4">

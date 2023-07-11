@@ -18,8 +18,7 @@ if(isset($page) && !empty($page['name'])){
 @endphp
  <!-- Exportable Table -->
  <div class="row clearfix">
-    
-    @if(dsld_have_user_permission('testimonials_add') == 1)
+    @if(dsld_check_permission(['add-languages']))
     <div class="col-lg-8">
     @else
     <div class="col-lg-12">
@@ -34,7 +33,7 @@ if(isset($page) && !empty($page['name'])){
                         <button class="btn btn-info btn-round mb-4" onclick="get_pages();"><i class="zmdi zmdi-hc-fw"></i> Reload</button>
                     </div>
                     <div class="col-lg-8">
-                        <form class="form-inline">
+                        <form class="form-inline" id="search_media">
                             <div class="col-lg-6 form-group">                                
                                 <select class="form-control" name="sort" onchange="filter()">
                                     <option value="newest">New to Old</option>
@@ -56,7 +55,7 @@ if(isset($page) && !empty($page['name'])){
         </div>
     </div>
     <div class="col-lg-4">
-        @if(dsld_have_user_permission('testimonials_add') == 1)
+        @if(dsld_check_permission(['add-languages']))
         <div class="card">
             <div class="header">
                 <h2><strong>Add New</strong> {{ $name }}s </h2>
@@ -64,61 +63,26 @@ if(isset($page) && !empty($page['name'])){
             <div class="body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form id="add_new_form" action="{{ route('testimonials.store') }}" method="POST" enctype="multipart/form-data" >
+                        <form id="add_new_form" action="{{ route('languages.store') }}" method="POST" enctype="multipart/form-data" >
                             <input type="hidden" name="created_by" value="{{ Auth::user()->id }}">
                             @csrf 
                             <div class="modal-body">
                                 <div class="row clearfix">
+
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <label class="form-label">Name <small class="text-danger">*</small></label>                                 
-                                            <input type="text" name="title" class="form-control" placeholder="Name" />                                   
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label class="form-label">Package <small class="text-danger">*</small></label>                                 
-                                            <input type="text" name="package" class="form-control" placeholder="Package" />                                   
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label class="form-label">Company <small class="text-danger">*</small></label>                                 
-                                            <input type="text" name="company" class="form-control" placeholder="Company" />                                   
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label class="form-label">Photo </label>  
-                                            <a class="btn btn-primary text-white" onclick="media_file_get('{{ @$data->banner }}','put_image', 0)"><i class="zmdi zmdi-collection-image"></i></a><div class="put_image">@if(isset($data->banner))<strong>Selected Image:</strong><i> {{ @$data->banner }}</i>@endif</div>
-                        
-                                            <input type="hidden" class="put_image" name="banner" id="banner" value="{{ @$data->banner }}" onchange="is_edited()">                                                               
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <label class="form-label">Content <small class="text-danger">*</small></label>   
-                                            <textarea name="content" class="form-control" placeholder="Content"></textarea>                                  
+                                            <input type="text" name="name" class="form-control" placeholder="Name" />                                   
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <div class="form-group">
-                                            <label class="form-label">Order</label>                                 
-                                            <input type="text" name="order" class="form-control" placeholder="Order" value="10" />                                   
+                                            <label class="form-label">Code <small class="text-danger">*</small></label>                                 
+                                            <input type="text" name="code" class="form-control" placeholder="Code" />     
                                         </div>
                                     </div>
-                                    
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Status <small class="text-danger">*</small></label>                                 
-                                            <select class="form-control w-100  ms select2 mr-2" name="status" id="status">
-                                                <option value="">-- Please select --</option>
-                                                <option value="1" selected>Active</option>
-                                                <option value="0">Deactive</option>
-                                            </select>                             
-                                        </div>
-                                    </div>
+
                                     <div class="col-sm-12">
                                         <div class="swal-button-container">
                                             <button type="submit" class="btn btn-success btn-round waves-effect dsld-btn-loader">SUBMIT</button>
@@ -132,19 +96,50 @@ if(isset($page) && !empty($page['name'])){
             </div>
         </div>
         @endif
+        <div class="card">
+            <div class="header">
+                <h2><strong>Default Language</strong></h2>
+            </div>
+            <div class="body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form class="form-horizontal" action="{{ route('env_key_update.update') }}" method="POST">
+                            @csrf
+                            <div class="form-group row">
+                                <div class="col-lg-3">
+                                    <label class="col-from-label">Default Language</label>
+                                </div>
+                                <input type="hidden" name="types[]" value="DEFAULT_LANGUAGE">
+                                <div class="col-lg-6">
+                                    <select class="form-control demo-select2-placeholder" name="DEFAULT_LANGUAGE">
+                                        @foreach (\App\Models\Language::all() as $key => $language)
+                                            <option value="{{ $language->code }}" <?php if(env('DEFAULT_LANGUAGE') == $language->code) echo 'selected'?> >{{ $language->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button type="submit" class="btn btn-info">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
 
 @section('footer')
     <!--Edit Section-->
-    <div class="modal fade" id="edit_larger_modals" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
-        <div class="modal-dialog modal-lg" role="document">
+    <div class="modal fade" id="edit_larger_modals" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="title" id="edit_larger_modals_title"></h4>
+                    <button type="button" class="btn btn-danger waves-effect" style="padding: 5px 10px; border-radius: 25px;" data-dismiss="modal">X</button>
                 </div>
-                <form id="update_form" action="{{ route('testimonials.update') }}" method="POST" enctype="multipart/form-data" >
+                <form id="update_form" action="{{ route('languages.update') }}" method="POST" enctype="multipart/form-data" >
                 @csrf 
                 <div class="modal-body">
                     <div id="edit_larger_modals_body">
@@ -164,10 +159,6 @@ if(isset($page) && !empty($page['name'])){
 
 
     <input type="hidden" name="page_no" id="page_no" value="1">
-    <input type="hidden" name="get_pages" id="get_pages" value="{{ route('testimonials.get_ajax_files') }}">
+    <input type="hidden" name="get_pages" id="get_pages" value="{{ route('ajax_languages') }}">
     @include('backend.inc.crul_ajax')
-
-<script type="text/javascript">
-  //  $('#edit_larger_modals').modal({backdrop: 'static', keyboard: false}) 
-</script>
-@endsection  
+@endsection

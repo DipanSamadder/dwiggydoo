@@ -59,54 +59,66 @@
             <li class="{{ dsld_is_route_active(['media.library.admin'], 'active open') }}"><a href="{{ route('media.library.admin') }}"><i class="zmdi zmdi-folder"></i><span>Media</span></a></li>
               
 
-            @if(dsld_check_permission(['show dogs','show breeds'])) 
-            <li  class="{{ dsld_is_route_active(['dogs.index', 'dogs.edit', 'dogs.store', 'breeds.index', 'breeds.edit', 'breeds.store','genes.index', 'genes.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i> <span><span>Dogs</span></a>
+            @if(dsld_check_permission(['show-dogs','show-breeds'])) 
+            <li  class="{{ dsld_is_route_active(['dogs.index', 'dogs.edit', 'dogs.store', 'breeds.index', 'breeds.edit', 'breeds.store','genes.index', 'genes.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Dogs</span></a>
                 <ul class="ml-menu">
-                    @if(dsld_check_permission(['show dogs']))
+                    @if(dsld_check_permission(['show-dogs']))
                     <li class="{{ dsld_is_route_active(['dogs.index', 'dogs.edit']) }}"><a href="{{ route('dogs.index') }}">Dogs</a></li>
                      @endif
 
-                    @if(dsld_check_permission(['show breeds']))
+                    @if(dsld_check_permission(['show-breeds']))
                     <li class="{{ dsld_is_route_active(['breeds.index', 'breeds.edit']) }}"><a href="{{ route('breeds.index') }}">Breeds</a></li>
                     @endif
 
-                    @if(dsld_check_permission(['show genes']))
+                    @if(dsld_check_permission(['show-genes']))
                     <li class="{{ dsld_is_route_active(['genes.index', 'genes.edit']) }}"><a href="{{ route('genes.index') }}">Genes</a></li>
                     @endif
 
                 </ul>
             </li> 
             @endif 
+              
 
-            @if(dsld_check_permission(['show questions','show questions'])) 
+            @if(dsld_check_permission(['show-posts','show-posts'])) 
+            <li  class="{{ dsld_is_route_active(['pages.index', 'pages.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-assignment"></i><span>Website</span></a>
+                <ul class="ml-menu">
+                    @if(dsld_check_permission(['show-posts']))
+                    <li class="{{ dsld_is_route_active(['pages.index', 'pages.edit']) }}"><a href="{{ route('pages.index') }}">Pages</a></li>
+                     @endif
+
+                </ul>
+            </li> 
+            @endif 
+
+            @if(dsld_check_permission(['show-questions','show-questions'])) 
             <li  class="{{ dsld_is_route_active(['questions.index', 'questions.edit','not_pet_questions.index', 'not_pet_questions.edit','task.approve'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>QuiZ</span></a>
                 <ul class="ml-menu">
-                    @if(dsld_check_permission(['show questions']))
+                    @if(dsld_check_permission(['show-questions']))
                     <li class="{{ dsld_is_route_active(['questions.index', 'questions.edit']) }}"><a href="{{ route('questions.index') }}">Questions</a></li>
                      @endif
-                    @if(dsld_check_permission(['show not pet questions']))
+                    @if(dsld_check_permission(['show-not pet questions']))
                     <li class="{{ dsld_is_route_active(['not_pet_questions.index', 'not_pet_questions.edit']) }}"><a href="{{ route('not_pet_questions.index') }}">Not pet Questions</a></li>
                      @endif
-                    @if(dsld_check_permission(['show task approved']))
+                    @if(dsld_check_permission(['show-task approved']))
                     <li class="{{ dsld_is_route_active(['task.approve']) }}"><a href="{{ route('task.approve') }}">Task Submitted</a></li>
                      @endif
                 </ul>
             </li> 
             @endif 
-            @if(dsld_check_permission(['show user'])) 
+            @if(dsld_check_permission(['show-user'])) 
             <li class="{{ dsld_is_route_active(['users.index', 'users.edit', 'users.store'], 'active open') }}">
                 <a href="{{ route('users.index') }}"><i class="zmdi zmdi-hc-fw"></i><span>Users</span></a>
             </li>
             @endif
 
-             @if(dsld_check_permission(['show roles','show permissions'])) 
+             @if(dsld_check_permission(['show-roles','show-permissions'])) 
             <li  class="{{ dsld_is_route_active(['roles.index', 'role.edit', 'role.store', 'permissions.index', 'permission.edit', 'permission.store'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Roles</span></a>
                 <ul class="ml-menu">
-                    @if(dsld_check_permission(['show roles']))
+                    @if(dsld_check_permission(['show-roles']))
                     <li class="{{ dsld_is_route_active(['roles.index', 'role.edit']) }}"><a href="{{ route('roles.index') }}">All Roles</a></li>
                      @endif
 
-                    @if(dsld_check_permission(['show permissions']))
+                    @if(dsld_check_permission(['show-permissions']))
                     <li class="{{ dsld_is_route_active(['permissions.index', 'permissions.edit']) }}"><a href="{{ route('permissions.index') }}">All Permissions</a></li>
                     @endif
 
@@ -114,24 +126,39 @@
             </li> 
             @endif
 
-            @if(dsld_check_permission(['show backend setting','show frontend setting','show terminal']))
-            <li class="{{ dsld_is_route_active(['backend.setting', 'backend.header', 'backend.footer', 'frontend.setting'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Settings</span></a>
+            @if(dsld_check_permission(['show-backend setting','show-frontend setting','show-terminal']))
+            <li class="{{ dsld_is_route_active(['backend.setting', 'backend.header', 'backend.footer', 'frontend.setting', 'languages.index', 'pages_section.index'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Settings</span></a>
                 <ul class="ml-menu">
                     
-                    @if(dsld_check_permission(['show backend setting']))
-                    <!-- Show Backend Setting-->
+                    @if(dsld_check_permission(['show-backend setting']))
+                    <!-- Show-Backend Setting-->
                     <li class="{{ dsld_is_route_active(['backend.setting']) }}"><a href="{{ route('backend.setting') }}">Backend</a></li>
                     @endif
 
 
-                    @if(dsld_check_permission(['show frontend setting']))
-                    <!-- Show Frontend Setting-->
+                    @if(dsld_check_permission(['show-frontend setting']))
+                    <!-- Show-Frontend Setting-->
                     <li class="{{ dsld_is_route_active(['frontend.setting']) }}"><a href="{{ route('frontend.setting') }}">Frontend</a></li>
                     @endif
 
-                    @if(dsld_check_permission(['show terminal']))
-                    <!-- Show Terminal-->
+                    @if(dsld_check_permission(['show-terminal']))
+                    <!-- Show-Terminal-->
                     <li class="{{ dsld_is_route_active(['terminal.index']) }}"><a href="{{ route('terminal.index') }}" target="blank">Terminal</a></li>
+                    @endif
+
+                    @if(dsld_check_permission(['sections']))
+                    <!-- Show-Terminal-->
+                    <li class="{{ dsld_is_route_active(['pages_section.index']) }}"><a href="{{ route('pages_section.index') }}">Section</a></li>
+                    @endif
+
+                    @if(dsld_check_permission(['show-terminal']))
+                    <!-- Show-Terminal-->
+                    <li class="{{ dsld_is_route_active(['terminal.index']) }}"><a href="{{ route('terminal.index') }}" target="blank">Terminal</a></li>
+                    @endif
+
+                    @if(dsld_check_permission(['languages']))
+                    <!-- Show-Terminal-->
+                    <li class="{{ dsld_is_route_active(['languages.index']) }}"><a href="{{ route('languages.index') }}">Language</a></li>
                     @endif
                  
                 </ul>

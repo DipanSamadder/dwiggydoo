@@ -5,11 +5,11 @@
                 <th>Sr</th>
                 <th>Name</th>
 
-                @if(dsld_check_permission(['edit permissions']))
+                @if(dsld_check_permission(['edit-permissions']))
                 <th>Status</th>
                 @endif
 
-                @if(dsld_check_permission(['edit permissions', 'delete permissions']))
+                @if(dsld_check_permission(['edit-permissions', 'delete-permissions']))
                 <th>Action</th>
                 @endif
             </tr>
@@ -18,11 +18,11 @@
             <tr class="text-center">
                 <th>Sr</th>
                 <th>Name</th>
-                @if(dsld_check_permission(['edit permissions']))
+                @if(dsld_check_permission(['edit-permissions']))
                 <th>Status</th>
                 @endif
 
-                @if(dsld_check_permission(['edit permissions', 'delete permissions']))
+                @if(dsld_check_permission(['edit-permissions', 'delete-permissions']))
                 <th>Action</th>
                 @endif
             </tr>
@@ -33,8 +33,8 @@
         
                 <tr>
                     <th scope="row">{{ $key+1 }}</th>
-                    <td>{{ $value->name }}</td>
-                    @if(dsld_check_permission(['edit permissions']))
+                    <td>{{ $value->title }}<br><small> {{ $value->name }}</small></td>
+                    @if(dsld_check_permission(['edit-permissions']))
                     <td>
 
                     <div class="custom-control custom-switch">
@@ -45,14 +45,14 @@
                     </td>
                     @endif
 
-                    @if(dsld_check_permission(['edit permissions', 'delete permissions']))
+                    @if(dsld_check_permission(['edit-permissions', 'delete-permissions']))
                     <td>
-                            @if(dsld_check_permission(['edit permissions']))
+                            @if(dsld_check_permission(['edit-permissions']))
                             <a href="javascript:void(0)"  onclick="edit_lg_modal_form({{ $value->id }}, '{{ route('permission.edit') }}', 'Permission');" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
                                 <i class="zmdi zmdi-edit"></i>
                             </a>
                             @endif
-                            @if(dsld_check_permission(['delete permissions']))
+                            @if(dsld_check_permission(['delete-permissions']))
                             <a href="javascript:void(0);" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-danger" onclick="DSLDDeleteAlert('{{ $value->id }}','{{ route('permission.destory') }}','{{ csrf_token() }}')">
                                     <i class="zmdi zmdi-delete"></i>
                             </a>

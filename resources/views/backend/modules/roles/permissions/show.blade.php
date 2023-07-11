@@ -18,7 +18,7 @@ if(isset($page) && !empty($page['name'])){
 @endphp
  <!-- Exportable Table -->
  <div class="row clearfix">
-    @if(dsld_check_permission(['add permissions']))
+    @if(dsld_check_permission(['add-permissions']))
     <div class="col-lg-8">
     @else
     <div class="col-lg-12">
@@ -55,7 +55,7 @@ if(isset($page) && !empty($page['name'])){
         </div>
     </div>
     <div class="col-lg-4">
-        @if(dsld_check_permission(['add permissions']))
+        @if(dsld_check_permission(['add-permissions']))
         <div class="card">
             <div class="header">
                 <h2><strong>Add New</strong> {{ $name }}s </h2>

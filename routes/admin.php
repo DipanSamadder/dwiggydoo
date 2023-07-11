@@ -40,7 +40,7 @@ Route::post('media/update', 'UploadsMediaController@update')->name('media.update
 Route::post('media/edit', 'UploadsMediaController@edit')->name('media.edit');
 
  //Users
- Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show user']], function () {
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-user']], function () {
     Route::get('users', 'User\UsersController@index')->name('users.index');
     Route::get('user/edit/{id}', 'User\UsersController@edit')->name('users.edit');
 	Route::post('user/store', 'User\UsersController@store')->name('users.store');
@@ -62,11 +62,11 @@ Route::get('frontend-setting', 'Setting\BusinessSettingsController@frontend_sett
 Route::get('backend-header', 'Setting\BusinessSettingsController@backend_header')->name('backend.header');
 Route::get('backend-footer', 'Setting\BusinessSettingsController@backend_footer')->name('backend.footer');
 Route::post('business-setting-update', 'Setting\BusinessSettingsController@update')->name('business.setting.update');
-
+Route::post('/env_key_update', 'Setting\BusinessSettingsController@env_key_update')->name('env_key_update.update');
 
 
  //Roles
-Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show roles']], function () {
+Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-roles']], function () {
 	Route::resource('roles', 'Setting\RolesController');
 	Route::post('get-all-roles', 'Setting\RolesController@get_ajax_roles')->name('ajax_roles');
 	Route::post('role/destory', 'Setting\RolesController@destory')->name('role.destory');
@@ -77,7 +77,7 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show roles'
 }); 
 
  //Permissions
-Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show permissions']], function () {
+Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-permissions']], function () {
 	Route::resource('permissions', 'Setting\PermissionsController');
 	Route::post('get-all-permissions', 'Setting\PermissionsController@get_ajax_permissions')->name('ajax_permissions');
 	Route::post('permissions/status', 'Setting\PermissionsController@status')->name('permission.status');
@@ -90,7 +90,7 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show permis
 
 
  //Dogs
- Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show dogs']], function () {
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-dogs']], function () {
 	Route::resource('dogs', 'Dogs\DogsController');
 	Route::post('get-all-dogs', 'Dogs\DogsController@get_ajax_dogs')->name('ajax_dogs');
 	Route::post('dogs/destory', 'Dogs\DogsController@destory')->name('dogs.destory');
@@ -101,7 +101,7 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show permis
 
 
  //Breed
- Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show breeds']], function () {
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-breeds']], function () {
 	Route::resource('breeds', 'Dogs\BreedsController');
 	Route::post('get-all-breeds', 'Dogs\BreedsController@get_ajax_breeds')->name('ajax_breeds');
 	Route::post('breed/status', 'Dogs\BreedsController@status')->name('breeds.status');
@@ -114,7 +114,7 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show permis
 
 
  //GoodGenes
- Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show genes']], function () {
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-genes']], function () {
 	Route::resource('genes', 'Dogs\GenesController');
 	Route::post('get-all-genes', 'Dogs\GenesController@get_ajax_genes')->name('ajax_genes');
 	Route::post('genes/status', 'Dogs\GenesController@status')->name('genes.status');
@@ -126,7 +126,7 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show permis
 }); 
 
  //Questions
- Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show questions']], function () {
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-questions']], function () {
 	Route::resource('questions','Questions\QuestionController');
 	Route::post('get-all-questions', 'Questions\QuestionController@get_ajax_questions')->name('ajax_questions');
 	Route::post('questions/status', 'Questions\QuestionController@status')->name('questions.status');
@@ -142,7 +142,7 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show permis
 });
 
  //NotPetQuestions
- Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show not pet questions']], function () {
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-not pet questions']], function () {
 	Route::resource('not-pet-questions','Questions\NotPetQuestionController', ['names' => [
 		'index' => 'not_pet_questions.index'
 		]]);
@@ -155,15 +155,45 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show permis
 });
 
 
-Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show not pet questions']], function () {
+Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-pages']], function () {
 
-	Route::resource('pages','Pages\PageController', ['names' => [
+	Route::resource('pages','Pages\PagesController', ['names' => [
 		'index' => 'pages.index',
 		'stores' => 'pages.store',
-		'update' => 'pages.update',
 		]]);
-	Route::post('get-ajax-pages', 'Questions\NotPetQuestionController@get_ajax_pages')->name('get_ajax_pages');
-	Route::resource('pages', 'PageController');
-	Route::get('pages/edit/{id}', 'PageController@edit')->name('pages.edit');
-	Route::get('pages/destroy/{id}', 'PageController@destroy')->name('pages.destroy');
+	Route::post('get-ajax-pages', 'Pages\PagesController@get_ajax_pages')->name('ajax_pages');
+	Route::post('pages/status', 'Pages\PagesController@status')->name('pages.status');
+	Route::post('pages/update', 'Pages\PagesController@update')->name('pages.update');
+	Route::post('pages/destory', 'Pages\PagesController@destory')->name('pages.destory');
+	Route::get('pages/edit/{id}', 'Pages\PagesController@edit')->name('pages.edit');
+	Route::get('pages/destroy/{id}', 'Pages\PagesController@destroy')->name('pages.destroy');
+	Route::post('page/edit_extra', 'Pages\PagesController@edit_extra')->name('pages.edit_extra');
+    Route::post('page-extra-content/update', 'Pages\PagesController@update_extra_content')->name('pages_extra_content.update');
 });
+
+Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-page sections']], function () {
+
+    //Page Section
+	Route::resource('pages-sections','Pages\PageSectionController', ['names' => [
+		'index' => 'pages_section.index',
+		'store' => 'pages_section.store',
+		]]);
+    Route::post('page-sections/edit', 'Pages\PageSectionController@edit')->name('pages_section.edit');
+    Route::get('page-sections-fields/edit/{id}', 'Pages\PageSectionController@edit_fields')->name('pages_section_fields.edit');
+    Route::post('get-all-page-sections', 'Pages\PageSectionController@get_ajax_page_sections')->name('ajax_page_sections');
+    Route::post('page-sections/destory', 'Pages\PageSectionController@destory')->name('pages_section.destory');
+    Route::post('page-sections/status', 'Pages\PageSectionController@status')->name('pages_section.status');
+    Route::post('page-sections/update', 'Pages\PageSectionController@update')->name('pages_section.update');
+    Route::post('page-sections-fields/update', 'Pages\PageSectionController@edit_field_update')->name('pages_section_fields.update');
+});
+
+
+ //Breed
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|languages']], function () {
+	Route::resource('languages', 'Setting\LanguageController');
+	Route::post('get-all-languages', 'Setting\LanguageController@get_ajax_languages')->name('ajax_languages');
+	Route::post('languages/edit', 'Setting\LanguageController@edit')->name('languages.edit');
+	Route::post('languages/store', 'Setting\LanguageController@store')->name('languages.store');
+	Route::post('languages/destory', 'Setting\LanguageController@destory')->name('languages.destory');
+	Route::post('languages/update', 'Setting\LanguageController@update')->name('languages.update');
+}); 

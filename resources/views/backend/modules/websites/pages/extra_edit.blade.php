@@ -9,6 +9,7 @@
 
 <form id="update_form" action="{{ route('pages_extra_content.update') }}" method="POST" enctype="multipart/form-data" >
     <input type="hidden" name="page_id" value="{{ $data->id }}" />
+    <input type="hidden" name="lang" value="{{ $lang }}" />
     <input type="hidden" name="page_name" value="{{ $page_title }}" />
     <input type="hidden" name="section_name" value="{{ $name }}" />
     <input type="hidden" name="section_id" value="{{ $sec->id }}" />

@@ -9,5 +9,5 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends SatiePermission
 {
     use HasFactory;
-    protected $fillable = ['guard_name', 'name', 'status'];
+    protected $fillable = ['guard_name', 'name', 'title', 'status'];
 }

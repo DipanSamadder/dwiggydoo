@@ -28,7 +28,7 @@
                                     <label class="form-label">Page <small class="text-danger">*</small></label>                                 
                                     <select class="form-control show-tick ms select2" name="page_id" id="page_id" onchange="is_edited()">
                                         <option value="">-- Please select --</option>
-                                        @foreach(App\Models\Page::orderBy('title', 'ASC')->where('status', '1')->get() as $key => $value)
+                                        @foreach(App\Models\Post::where('type', '!=', 'blade_template')->where('status', '1')->orderBy('title', 'ASC')->get() as $key => $value)
                                             <option value="{{ $value->id }}">{{ $value->title}} - ({{ $value->id }})</option>
                                         @endforeach
                                     </select>                                                                

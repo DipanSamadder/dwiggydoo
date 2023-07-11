@@ -6,6 +6,7 @@ use App\Models\BusinessSetting;
 use App\Models\Reward;
 use App\Models\Dog;
 use App\Models\Translation;
+use App\Models\PostsMeta;
 use App\Models\RolePermission;
 
 
@@ -483,6 +484,20 @@ if(!function_exists('dsld_generate_slug_by_text_with_model')){
     }
 }
 
+
+//Get Post Parent Category Nmae
+if(!function_exists('dsld_page_meta_value_by_meta_key')){
+    function dsld_page_meta_value_by_meta_key($meta_key = '', $page_id=''){
+        $data = PostsMeta::where('meta_key', $meta_key)->where('pageable_id', $page_id)->first();
+
+        if( $data != ''){
+            return $data->meta_value;
+        }else{
+            return '';
+        }
+        
+    }
+}
 
 
 if (!function_exists('dsld_static_asset')) {

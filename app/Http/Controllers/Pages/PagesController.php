@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Page;
+namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Page;
-use App\Models\PostSection;
-use App\Models\PostMeta;
-
+use App\Models\Post;
+use App\Models\PostsSection;
+use App\Models\PostsMeta;
+use App\Models\PostTranslation;
 use Validator;
-
 
 class PagesController extends Controller
 {
@@ -26,6 +25,7 @@ class PagesController extends Controller
         $page['title'] = 'Show all pages';
         return view('backend.modules.websites.pages.show', compact('page'));
     }
+
     public function get_ajax_pages(Request $request){
 
         if($request->page != 1){$start = $request->page * 15;}else{$start = 0;}
@@ -59,11 +59,9 @@ class PagesController extends Controller
         $data = $data->skip($start)->paginate(15);
         return view('backend.modules.websites.pages.ajax_pages', compact('data'));
     }
+
+
     public function store(Request $request){
-        if(dsld_have_user_permission('pages_add') == 0){
-            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
-        }
-        $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->title));
 
 
         $validator = Validator::make($request->all(), [
@@ -76,69 +74,64 @@ class PagesController extends Controller
             return response()->json(['status' => 'error', 'message' => $validator->errors()->all()]);
         }
 
+        
+        $slug = dsld_generate_slug_by_text_with_model('App\Models\Post', $request->title, 'slug');
         if(isset($request->parent)){
             $parent_slug = $this->parent_slug($request->parent);
-            if($request->type =='program_page' || $request->type =='department_page'){
-                $slug = $parent_slug.'/'.strtolower($slug);
-            }
+                $slug = $parent_slug.'/'.$slug;
         }
         
-        $check_d =  Post::where('slug', $slug)->where('type', $request->type)->first();
-        
-        if(empty($check_d)){
-            $page = new Page;
-            $page->title = $request->title;
-            $page->key_title = $request->title;
-            $page->meta_title = $request->title;
-            $page->meta_description =  $request->title;
-            $page->keywords =  $request->title;
-            if(isset($request->parent)){
-                $page->parent =  $request->parent;
-                $page->level =  $this->parent_level($request->parent);
-            }else{
-                $page->parent =  0;
-                $page->level =  1;
-            }
-
-            if(isset($request->short_content)){
-                $page->short_content =  $request->short_content;
-            }
-
-            $page->slug = $slug;
-            $page->type = $request->type;
-            $page->template = 'default';
-            $page->is_meta = 0;
-            $page->banner = $request->banner;
-            $page->status = $request->status;
-            $page->content = $request->content;
-            
-            if($page->save()){
-                return response()->json(['status' => 'success', 'message'=> 'Data insert success.']);
-            }else{
-                return response()->json(['status' => 'error', 'message'=> 'Data insert failed.']);
-            }
+ 
+        $page = new Post;
+        $page->title = $request->title;
+        $page->key_title = $request->title;
+        $page->meta_title = $request->title;
+        $page->meta_description =  $request->title;
+        $page->keywords =  $request->title;
+        if(isset($request->parent)){
+            $page->parent =  $request->parent;
+            $page->level =  $this->parent_level($request->parent);
         }else{
-            return response()->json(['status' => 'warning', 'message'=> 'Page & slug already exist! please try agin.']);
+            $page->parent =  0;
+            $page->level =  1;
         }
+
+        if(isset($request->short_content)){
+            $page->short_content =  $request->short_content;
+        }
+
+        $page->slug = $slug;
+        $page->type = $request->type;
+        $page->template = 'default';
+        $page->is_meta = 0;
+        $page->banner = $request->banner;
+        $page->status = $request->status;
+        $page->content = $request->content;
+        
+        if($page->save()){
+            $page->translations()->create(['lang' => env('DEFAULT_LANGUAGE'), 'short_content' => $request->content,'title' => $request->title, 'content' => $request->content]);
+            return response()->json(['status' => 'success', 'message'=> 'Data insert success.']);
+        }else{
+            return response()->json(['status' => 'error', 'message'=> 'Data insert failed.']);
+        }
+       
     }
-    public function edit($id){
-        if(dsld_have_user_permission('pages_edit') == 0){
-            return redirect()->route('backend.admin')->with('error', 'You have no permission');
-        }
+
+    public function edit(Request $request, $id){
+        $lang = $request->lang;
+        
         $data = Post::where('id', $id)->first();
-        $section = PostSection::where('page_id', $id)->orderBy('order', 'asc')->where('status', 1)->get();
+        $section = $data->sections()->orderBy('order', 'asc')->where('status', 1)->get();
         $page['title'] = 'Edit Data';
-        return view('backend.modules.websites.pages.edit', compact('data', 'page', 'section'));
+        return view('backend.modules.websites.pages.edit', compact('data', 'page', 'section', 'lang'));
     }
 
 
     public function edit_extra(Request $request){
-        if(dsld_have_user_permission('pages_edit') == 0){
-            return redirect()->route('backend.admin')->with('error', 'You have no permission');
-        }
+        $lang = $request->lang;
         $data = Post::where('id', $request->id)->first();
-        $sec = PostSection::where('id', $request->section_id)->where('page_id', $request->id)->orderBy('order', 'asc')->where('status', 1)->first();
-        return view('backend.modules.websites.pages.extra_edit', compact('sec','data'));
+        $sec = $data->sections()->where('id', $request->section_id)->orderBy('order', 'asc')->where('status', 1)->first();
+        return view('backend.modules.websites.pages.extra_edit', compact('sec','data', 'lang'));
     }
 
     
@@ -185,11 +178,6 @@ class PagesController extends Controller
         }
     }
     public function update(Request $request){
-        if(dsld_have_user_permission('pages_edit') == 0){
-            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
-        }
-        $slug = preg_replace('[^A-Za-z0-9\-]', '', str_replace(' ', '-', $request->slug));
-
 
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:350',
@@ -201,21 +189,24 @@ class PagesController extends Controller
             return response()->json(['status' => 'error', 'message' => $validator->errors()->all()]);
         }
 
-      
         if(is_array($request->setting) && count($request->setting) > 0){
             foreach($request->setting as $key => $value){
-                $setting = PostMeta::where('meta_key', $value)->where('page_id', $request->id)->first();
+                $setting = PostsMeta::where('meta_key', $value)->where('pageable_id', $request->id)->first();
                 if($setting != ''){
                     if($request[$value] !='' || $request[$value] !='null'){
                         $setting->meta_value = $request[$value];
+                        $setting->lang = 'en';
+                        $setting->pageable_type = 'App\Models\Post';
                         $setting->save();
                     }
                 }else{
                     if($request[$value] !='' || $request[$value] !='null'){
-                        $setting = new PostMeta;
+                        $setting = new PostsMeta;
                         $setting->meta_key = $value;
                         $setting->meta_value = $request[$value];
-                        $setting->page_id = $request->id;
+                        $setting->lang = 'en';
+                        $setting->pageable_id = $request->id;
+                        $setting->pageable_type = 'App\Models\Post';
                         $setting->save();
                     }
                 } 
@@ -226,93 +217,120 @@ class PagesController extends Controller
 
             foreach($request->setting_slider as $key => $value){
                 if($value !=''){
-                    $setting2 = PostMeta::where('meta_key', $value)->where('page_id', $request->id)->first();
+                    $setting2 = PostsMeta::where('meta_key', $value)->where('pageable_id', $request->id)->first();
                     if($setting2 != ''){
                         if($request[$value] !='' || $request[$value] !='null'){
                             $setting2->meta_value = json_encode($request[$value]);
+                            $setting2->lang = 'en';
+                            $setting2->pageable_type = 'App\Models\Post';
                             $setting2->save();
                         }                        
                     }else{
                         if($request[$value] !='' || $request[$value] !='null'){
-                            $setting2 = new PostMeta;
+                            $setting2 = new PostsMeta;
                             $setting2->meta_key = $value;
                             $setting2->meta_value = json_encode($request[$value]);
-                            $setting2->page_id = $request->id;
+                            $setting2->lang = 'en';
+                            $setting2->pageable_id = $request->id;
+                            $setting2->pageable_type = 'App\Models\Post';
                             $setting2->save();
                         } 
                     }
                 }
             }
         }
+
+        $page =  Post::findOrFail($request->id);
+
+        if($request->lang == env("DEFAULT_LANGUAGE")){
+            $page->title          = $request->title;
+            $page->content        = $request->content;
+            $page->short_content        = $request->short_content;
+        }
+
+        $page->meta_title = $request->meta_title;
+        $page->meta_description =  $request->meta_description;
+        $page->keywords =  $request->keywords;
+        $page->parent =  $request->parent;
+        $page->level =  $this->parent_level($request->parent);
+        $page->type = $request->type;
+        $page->template = $request->template;
+        $page->is_meta = 0;
+        $page->order = $request->order;
+        $page->banner = $request->banner;
+        $page->thumbnail = $request->thumbnail !='' ? $request->thumbnail : '' ;
+        $page->status = $request->status;
+        $page->updated_at = $request->date;
+
+        $slug = preg_replace('/[^A-Za-z0-9\-]/', '', str_replace(' ', '-', $request->slug));
+        
+        
+        if($page->slug != $slug){
+            $slug = dsld_generate_slug_by_text_with_model('App\Models\Post', $request->slug, 'slug');
+            if(isset($request->parent) != 0 && $page->parent != $request->parent){
+                $parent_slug = $this->parent_slug($request->parent);
+                    $slug = $parent_slug.'/'.$slug;
+            }
+            $page->slug = $slug;
+        }
         
 
-        if(Post::whereNotIn('id', [$request->id])->where('slug', strtolower($slug))->first() == null){
-            $page =  Post::findOrFail($request->id);
-            $page->title = $request->title;
-            $page->meta_title = $request->meta_title;
-            $page->meta_description =  $request->meta_description;
-            $page->keywords =  $request->keywords;
-            $page->parent =  $request->parent;
-            $page->level =  $this->parent_level($request->parent);
-            $page->type = $request->type;
-            $page->template = $request->template;
-            $page->is_meta = 0;
-            $page->order = $request->order;
-            $page->banner = $request->banner;
-            $page->thumbnail = $request->thumbnail !='' ? $request->thumbnail : '' ;
-            $page->status = $request->status;
-            $page->updated_at = $request->date;
-            $page->content = $request->content;
-            $page->slug = strtolower($slug);
-            
-            if(isset($request->short_content)){
-                $page->short_content =  $request->short_content;
+        if($page->save()){
+            $trans = $page->translations()->where('lang', $request->lang)->first();
+            if(!is_null($trans)){
+                $trans->update(['title' => $request->title, 'content' => $request->content]);
+            }else{
+                $page->translations()->create([
+                    'title' => $request->title,
+                    'content' => $request->content,
+                    'lang' => $request->lang
+                ]);
             }
 
-            if($page->save()){
-                return response()->json(['status' => 'success', 'message'=> 'Data update success.']);
-            }else{
-                return response()->json(['status' => 'error', 'message'=> 'Data update failed.']);
-            }
+            return response()->json(['status' => 'success', 'message'=> 'Data update success.']);
         }else{
-            return response()->json(['status' => 'warning', 'message'=> 'Page & slug already exist! please try agin.']);
+            return response()->json(['status' => 'error', 'message'=> 'Data update failed.']);
         }
+       
 
     }
     public function update_extra_content(Request $request){
-        if(dsld_have_user_permission('pages_edit') == 0){
-            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
-        }
+
         // echo '<pre>';
         // print_r($request->all());
          foreach($request->type as $key => $type){
-           
-             $meta_data = PostMeta::where('meta_key', $type)->where('page_id', $request->page_id)->first();
-          
+            
+             $post = Post::find($request->page_id); 
+             $meta_data = $post->page_metas()->where('meta_key', $type)->where('lang', $request->lang)->first();
              if($meta_data == ''){
                  if(gettype($request[$type]) == 'array'){
-                     $new_data = new PostMeta;
-                     $new_data->meta_key = $type;
-                     $new_data->meta_value = json_encode($request[$type]);
-                     $new_data->page_id = $request->page_id;
-                     $new_data->section_id = $request->section_id;
-                     $new_data->save();
+                    
+                    
+                    $post->page_metas()->create([
+                        'meta_key' => $type,
+                        'meta_value' => json_encode($request[$type]),
+                        'lang' => $request->lang,
+                        'section_id' => $request->section_id,
+                    ]);
+
                  }else{
-                     $new_data = new PostMeta;
-                     $new_data->meta_key = $type;
-                     $new_data->meta_value = $request[$type];
-                     $new_data->page_id = $request->page_id;
-                     $new_data->section_id = $request->section_id;
-                     $new_data->save();
+                    $post->page_metas()->create([
+                        'meta_key' => $type,
+                        'meta_value' => $request[$type],
+                        'lang' => $request->lang,
+                        'section_id' => $request->section_id,
+                    ]);
                  }
              }else{
                  
                  if(gettype($request[$type]) == 'array'){
-                     $meta_data->meta_value =  json_encode($request[$type]);
-                     $meta_data->save();
+                    $post->page_metas()->update([
+                        'meta_value' => json_encode($request[$type]),
+                    ]);
                  }else{
-                     $meta_data->meta_value =  $request[$type];
-                     $meta_data->save();
+                    $post->page_metas()->update([
+                        'meta_value' => $request[$type]
+                    ]);
                  }
                  
              }
@@ -323,9 +341,7 @@ class PagesController extends Controller
  
      }
     public function destory(Request $request){
-        if(dsld_have_user_permission('pages_delete') == 0 || dsld_have_user_permission('leaderships_delete') == 0 ||dsld_have_user_permission('newsevents_delete') == 0 || dsld_have_user_permission('testimonials_delete') == 0  || dsld_have_user_permission('clubs_delete') == 0 ){ 
-            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
-        }
+
         $page = Post::findOrFail($request->id);
         if($page != ''){
             if($page->delete()){
@@ -339,10 +355,7 @@ class PagesController extends Controller
        
     }
     public function status(Request $request){
-        if(dsld_have_user_permission('pages_edit') == 0){
-            return response()->json(['status' => 'error', 'message'=> "You have no permission."]);
-        }
-        
+
         $page = Post::findOrFail($request->id);
         if($page != ''){
             if($page->status != $request->status){

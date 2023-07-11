@@ -23,9 +23,6 @@
                                     <label class="form-label">Banner</label>                                 
                                     <select class="form-control show-tick ms select2" name="banner" id="banner" onchange="is_edited()">
                                         <option value="">-- Please select --</option>
-                                        @foreach(App\Models\Upload::where('user_id', Auth::user()->id)->where('type', 'image')->get() as $key => $value)
-                                            <option value="{{ $value->id }}">({{ $value->id }}) - {{ $value->file_title}} </option>
-                                        @endforeach
                                     </select>                                                                
                                 </div>
                             </div>

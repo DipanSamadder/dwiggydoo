@@ -11,15 +11,14 @@ class PermissionsController extends Controller
 {
     function __construct(){
        
-        $this->middleware('permission:show permissions|add permissions|edit permissions|delete permissions', ['only' => ['index','get_ajax_permissions']]);
-        $this->middleware('permission:add permissions', ['only' => ['create','store']]);
-        $this->middleware('permission:edit permissions', ['only' => ['edit','update']]);
-        $this->middleware('permission:delete permissions', ['only' => ['destroy']]);
+        $this->middleware('permission:show-permissions|add-permissions|edit-permissions|delete-permissions', ['only' => ['index','get_ajax_permissions']]);
+        $this->middleware('permission:add-permissions', ['only' => ['create','store']]);
+        $this->middleware('permission:edit-permissions', ['only' => ['edit','update']]);
+        $this->middleware('permission:delete-permissions', ['only' => ['destroy']]);
         
     }
 
     public function index(){
-
         $page['title'] = 'Show all permissions';
         return view('backend.modules.roles.permissions.show', compact('page'));
     }
@@ -69,17 +68,20 @@ class PermissionsController extends Controller
             return response()->json(['status' => 'error', 'message' => $validator->errors()->all()]);
         }
 
-     
-        if(Permission::where('name', 'like', '%'.$request->name)->first() == null){
+        $slug_name = preg_replace('[^A-Za-z0-9\-]', '', str_replace(' ', '-', $request->name));
+
+        if(Permission::where('name', $slug_name)->first() == null){
             $permission =  new Permission;
-            $permission->name = strtolower('Show '.$request->name);
+            $permission->name = dsld_generate_slug_by_text_with_model('App\Models\Permission', strtolower($request->name), 'name');
+            $permission->title = 'Show '.$request->name;
             $permission->guard_name = strtolower($request->guard_name);
             $permission->status = 1;
             if($permission->save()){
                 $arr = array('Add', 'Edit', 'Delete');
                 foreach($arr as $value){
                     $permissions =  new Permission;
-                    $permissions->name = strtolower($value.' '.$request->name);
+                    $permissions->name = dsld_generate_slug_by_text_with_model('App\Models\Permission', strtolower($value.' '.$request->name), 'name');
+                    $permissions->title = $value.' '.$request->name;
                     $permissions->guard_name = strtolower($request->guard_name);
                     $permissions->status = 1;
                     $permissions->save();
@@ -107,19 +109,16 @@ class PermissionsController extends Controller
         if($validator->fails()) {
             return response()->json(['status' => 'error', 'message' => $validator->errors()->all()]);
         }
-     
-        if(Permission::whereNotIn('id', [$request->id])->where('name', $request->name)->first() == null){
-            $permission =  Permission::findOrFail($request->id);
-            $permission->name = strtolower($request->name);            
-            $permission->status = $request->status;            
-            if($permission->save()){
-                return response()->json(['status' => 'success', 'message'=> 'Data update success.']);
-            }else{
-                return response()->json(['status' => 'error', 'message'=> 'Data update failed.']);
-            }
-        }else{
-            return response()->json(['status' => 'warning', 'message'=> 'Details already exist! please try agin.']);
+
+        $permission =  Permission::findOrFail($request->id);
+        $permission->title = $request->name;            
+        $permission->status = $request->status;            
+        if($permission->save()){
+            return response()->json(['status' => 'success', 'message'=> 'Data update success.']);
         }
+    
+        return response()->json(['status' => 'warning', 'message'=> 'Details already exist! please try agin.']);
+        
 
     }
     public function destory(Request $request){

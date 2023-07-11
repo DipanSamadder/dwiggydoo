@@ -8,16 +8,28 @@
 @endsection
 
 @section('content')
+<ul class="nav nav-tabs nav-fill border-light">
+		@foreach (\App\Models\Language::all() as $key => $language)
+			<li class="nav-item">
+				<a class="nav-link text-reset @if ($language->code == $lang) active @else bg-soft-dark border-light border-left-0 @endif py-3" href="{{ route('pages.edit', ['id'=>$data->id, 'lang'=> $language->code] ) }}">
+					<img src="{{ dsld_static_asset('assets/img/flags/'.$language->code.'.png') }}" height="11" class="mr-1">
+					<span>{{$language->name}}</span>
+				</a>
+			</li>
+		@endforeach
+	</ul>
  <!-- Exportable Table -->
  <form id="update_form" action="{{ route('pages.update') }}" method="POST" enctype="multipart/form-data" >
     <div class="row clearfix">
         <div class="col-lg-8">
             @csrf 
+            <input type="hidden" name="_method" value="PATCH">
+		    <input type="hidden" name="lang" id="lang" value="{{ $lang }}">
             <input type="hidden" name="id" id="id" value="{{ $data->id }}" />
             <input type="hidden" name="type" id="type" value="custom_page" />
             <div class="card mb-0">
                 <div class="header">
-                    <a href="{{ route('custom-pages.show_custom_page', [$data->slug ]) }}" target="_blank">         
+                    <a href="#" target="_blank">         
                         <h2><strong> <i class="zmdi zmdi-hc-fw"></i> {{ $data->title }}</strong></h2>
                     </a>
                 </div>
@@ -28,7 +40,7 @@
                         </div>
                         <div class="col-lg-10 col-md-10 col-sm-8">
                             <div class="form-group">
-                            <input type="text" name="title" id="title" class="form-control" placeholder="Title" onchange="is_edited()" value="{{ $data->title }}" />
+                            <input type="text" name="title" id="title" class="form-control" placeholder="Title" onchange="is_edited()" value="{{ $data->getTranslation('title', $lang) }}" />
                             <small>Key : ( {{ $data->key_title }} )</small>
                             </div>
                         </div>
@@ -50,7 +62,7 @@
                     <h2><strong>Description</strong></h2>
                 </div>
                 <div class="form-group">                                
-                    <div class="summernote" id="content" onchange="is_edited()"><?php $str = $data->content; echo htmlspecialchars_decode($str); ?></div>                                   
+                    <div class="summernote" id="content" onchange="is_edited()"><?php $str = $data->getTranslation('content', $lang); echo htmlspecialchars_decode($str); ?></div>                                   
                 </div>
             </div>
             <div class="card mb-0">
@@ -114,7 +126,7 @@
                                 <input name="setting_slider[]" type="hidden" value="setting_page_slider_btn_link">  
                                 <input name="setting_slider[]" type="hidden" value="setting_page_slider_btn_link2">  
                                 <input name="setting_slider[]" type="hidden" value="setting_page_slider_image"> 
-                                @if(dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id) != 'Null' && dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id) != 'null' && dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id) != '')
+                                @if(dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id) != 'null' && dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id) != 'null' && dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id) != '')
                                 @foreach(json_decode(dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id), true) as $key => $value)
                                 <div class="row clearfix">
                                     <div class="col-sm-10">
@@ -135,7 +147,7 @@
                                                 <option value="">-- Please select --</option>
 
                                                  
-                                                @foreach(App\Models\Upload::where('type', 'image')->orderBy('id', 'desc')->limit(100)->get() as $key3 => $value)
+                                                @foreach(App\Models\Upload::orderBy('id', 'desc')->limit(100)->get() as $key3 => $value)
                                                     <option value="{{ $value->id }}" @if(json_decode(dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id), true)[$key] == $value->id) selected @endif>({{ $value->id }}) - {{ $value->file_title}} </option>
                                                 @endforeach
 
@@ -145,7 +157,7 @@
                                             </select>
                                             @if(json_decode(dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id), true)[$key] > 0)
                                             <div class="image mt-2">
-                                                <img src="{{ dsld_uploaded_asset(json_decode(dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id), true)[$key]) }}"  alt="{{ dsld_upload_file_title(json_decode(dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id), true)[$key]) }}" width="100">
+                                                <img src="{{ dsld_uploaded_file_path(json_decode(dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id), true)[$key]) }}"  alt="{{ dsld_upload_file_title(json_decode(dsld_page_meta_value_by_meta_key('setting_page_slider_image', $data->id), true)[$key]) }}" width="100">
                                             </div> 
                                             @endif                                   
                                         </div>
@@ -182,13 +194,13 @@
                                         <div class="form-group">
                                             <select class="form-control show-tick ms select2" name="setting_page_slider_image[]">
                                                 <option value="">-- Please select --</option>
-                                                @foreach(App\Models\Upload::where("user_id", Auth::user()->id)->where("type", "image")->orderBy("id", "desc")->limit(10)->get() as $key => $value)
+                                                @foreach(App\Models\Upload::orderBy("id", "desc")->limit(10)->get() as $key => $value)
                                                     <option value="{{ $value->id }}" @if($data->banner == $value->id) selected @endif>({{ $value->id }}) - {{ $value->file_title}} </option>
                                                 @endforeach
                                             </select>
                                             @if($data->banner > 0)
                                             <div class="image mt-2">
-                                                <img src="{{ dsld_uploaded_asset($data->banner) }}"  alt="{{ dsld_upload_file_title($data->banner) }}" width="100">
+                                                <img src="{{ dsld_uploaded_file_path($data->banner) }}"  alt="{{ dsld_upload_file_title($data->banner) }}" width="100">
                                             </div> 
                                             @endif                                   
                                         </div>
@@ -228,33 +240,12 @@
                         <label class="form-label">Template *</label>                                 
                         <select class="form-control" name="template" id="template" onchange="is_edited()">
                             <option value="">-- Please select --</option>
-                            <option value="default"  @if($data->template == 'default') selected @endif>Default</option>
-                            <option value="about"  @if($data->template == 'about') selected @endif>About</option>
-                            <option value="apply_now"  @if($data->template == 'apply_now') selected @endif>Apply Now</option>
-                            <option value="litral_entry_migration"  @if($data->template == 'litral_entry_migration') selected @endif>Litral Entry Migration</option>
-                            <option value="research"  @if($data->template == 'research') selected @endif>Research</option>
-                            <option value="page_with_sidebar"  @if($data->template == 'page_with_sidebar') selected @endif>Page With Sidebar</option>
-                            <option value="page_full_width"  @if($data->template == 'page_full_width') selected @endif>Page Full width</option>
-                            <option value="leadership"  @if($data->template == 'leadership') selected @endif>Leadership</option>
-                            <option value="governance"  @if($data->template == 'governance') selected @endif>Governance</option>
-                            <option value="grievances"  @if($data->template == 'grievances') selected @endif>Grievances</option>
-                            <option value="about-vission-mission"  @if($data->template == 'about-vission-mission') selected @endif>About Vission Mission</option>
-                            <option value="about-our-legacy"  @if($data->template == 'about-our-legacy') selected @endif>About Our Legacy</option>
-                            <option value="partnerships-collaborations"  @if($data->template == 'partnerships-collaborations') selected @endif>Partnerships Collaborations</option>
-                            <option value="about-accreditations"  @if($data->template == 'about-accreditations') selected @endif>About Accreditations</option>
-                            <option value="inner-testimonials"  @if($data->template == 'inner-testimonials') selected @endif>Testimonials</option>
-                            <option value="inner-placements"  @if($data->template == 'inner-placements') selected @endif> Inner Placements</option>
-                            <option value="all-school"  @if($data->template == 'all-school') selected @endif> All school list</option>
-                            
-                            <option value="ncc"  @if($data->template == 'ncc') selected @endif>NCC</option>
-                            <option value="videos_page"  @if($data->template == 'videos_page') selected @endif>Video Page</option>
-                            <option value="all-blogs"  @if($data->template == 'all-blogs') selected @endif>Blogs</option>
-                            <option value="nacc_gallery_details_sidebar"  @if($data->template == 'nacc_gallery_details_sidebar') selected @endif>Nacc Gallery</option>
-                            <option value="gallery_listing_sidebar"  @if($data->template == 'gallery_listing_sidebar') selected @endif>Album With Sidebar</option>
-                            <option value="gallery_details_sidebar"  @if($data->template == 'gallery_details_sidebar') selected @endif>Gallery With Sidebar</option>
-                            <option value="announcement"  @if($data->template == 'announcement') selected @endif>Announcement</option>
-                            <option value="exam_announcement"  @if($data->template == 'exam_announcement') selected @endif>Exam Announcement</option>
-                            
+                            @php
+                                $templates = App\Models\Post::where('type', 'blade_template')->where('level', 1)->where('status', 1)->get();
+                            @endphp
+                            @foreach($templates as $key => $value)
+                                <option value="{{ $value->template }}"  @if($value->template == $data->template) selected @endif>{{ $value->title }}</option>
+                            @endforeach
                         </select>                             
                     </div>
                     
@@ -263,23 +254,23 @@
                         <select class="form-control show-tick ms select2" name="parent" id="parent" onchange="is_edited()">
                             <option value="0">-- Please select --</option>
 
-                                @foreach(App\Models\Page::where('type', 'custom_page')->where('status', 1)->whereNotIn('id', [$data->id])->get() as $key => $value)
+                                @foreach(App\Models\Post::where('type', 'custom_page')->where('status', 1)->whereNotIn('id', [$data->id])->get() as $key => $value)
                                 
                                 <option value="{{ $value->id }}"  @if($data->parent ==  $value->id) selected @endif>{{ $value->title }}</option>
                                 @php
-                                    $child = App\Models\Page::where('parent', $value->id)->where('type', 'custom_page')->where('level', 2)->where('status', 1)->get();
+                                    $child = App\Models\Post::where('parent', $value->id)->where('type', 'custom_page')->where('level', 2)->where('status', 1)->get();
                                 @endphp
                                 @if($child != '')
                                     @foreach($child as $key => $value1)
                                         <option value="{{ $value1->id }}"  @if($data->parent ==  $value1->id) selected @endif>- {{ $value1->title }}</option>
                                         @php
-                                            $child2 = App\Models\Page::where('parent', $value1->id)->where('type', 'custom_page')->where('level', 3)->where('status', 1)->get();
+                                            $child2 = App\Models\Post::where('parent', $value1->id)->where('type', 'custom_page')->where('level', 3)->where('status', 1)->get();
                                         @endphp
                                         @if($child2 != '')
                                             @foreach($child2 as $key => $value2)
                                                 <option value="{{ $value2->id }}"  @if($data->parent ==  $value2->id) selected @endif>-- {{ $value2->title }}</option>
                                                 @php
-                                                    $child3 = App\Models\Page::where('parent', $value2->id)->where('type', 'custom_page')->where('level', 4)->where('status', 1)->get();
+                                                    $child3 = App\Models\Post::where('parent', $value2->id)->where('type', 'custom_page')->where('level', 4)->where('status', 1)->get();
                                                 @endphp
                                                 @if($child3 != '')
                                                     @foreach($child3 as $key => $value3)
@@ -307,7 +298,7 @@
                     <div class="swal-button-container">
                         <button type="submit" class="btn btn-success btn-round waves-effect dsld-btn-loader" id="submit_btn" disabled="disabled">Update</button>
                     </div>
-                    <a href="{{ route('custom-pages.show_custom_page', [$data->slug ]) }}" traget="_blank"  class="btn btn-success btn-round waves-effect">Preview</a>
+                    <a href="#" traget="_blank"  class="btn btn-success btn-round waves-effect">Preview</a>
                     <button type="button" class="btn btn-danger btn-round waves-effect" onclick="DSLDDeleteAlert('{{ $data->id }}','{{ route('pages.destory') }}','{{ csrf_token() }}')"><i class="zmdi zmdi-delete"></i></button>
                 </div>
             </div>
@@ -322,7 +313,7 @@
                         <input type="hidden" class="put_image" name="banner" id="banner" value="{{ @$data->banner }}" onchange="is_edited()">
                         @if($data->banner > 0)
                         <div class="image mt-2">
-                            <img src="{{ dsld_uploaded_asset($data->banner) }}"  alt="{{ dsld_upload_file_title($data->banner) }}" class="img-fluid">
+                            <img src="{{ dsld_uploaded_file_path($data->banner) }}"  alt="{{ dsld_upload_file_title($data->banner) }}" class="img-fluid">
                         </div> 
                         @endif  
                                                                                   
@@ -399,7 +390,7 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs p-0 mb-3 nav-tabs-success" role="tablist">
                     @foreach($section as $key => $sec)
-                        <li class="nav-item"><a class="nav-link @if($key == 0 ) active @endif" data-toggle="tab" href="#page_section-{{ $key }}-{{ $sec->id }}" onclick="edit_pages_section('{{ $sec->id }}', '{{ $data->id }}')"> {{ $sec->title }} </a></li>
+                        <li class="nav-item"><a class="nav-link @if($key == 0 ) active @endif" data-toggle="tab" href="#page_section-{{ $key }}-{{ $sec->id }}" onclick="edit_pages_section('{{ $sec->id }}', '{{ $data->id }}', '{{ $lang }}')"> {{ $sec->title }} </a></li>
                     @endforeach
                 </ul>
                 
@@ -440,7 +431,7 @@
 
 <script src="{{ dsld_static_asset('backend/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
 <script>
-    function edit_pages_section(section_id, page_id){
+    function edit_pages_section(section_id, page_id, lang){
         // $('#edit_pages_section').modal('show');
         $('#edit_pages_section_body'+section_id).html('<center><img src="{{ dsld_static_asset('backend/assets/images/circle-loading.gif') }}" style="max-width:100px" ></center>');
 
@@ -448,7 +439,7 @@
             url: "{{ route('pages.edit_extra') }}",
             type: "post",
             cache : false,
-            data: {'_token':'{{ csrf_token() }}', 'section_id':section_id, 'id':page_id},
+            data: {'_token':'{{ csrf_token() }}', 'section_id':section_id, 'id':page_id, lang:lang},
             success: function(d) {
                 $('#edit_pages_section_body'+section_id).html(d);
             }
@@ -501,6 +492,7 @@
                 data: {
                     '_token':'{{ csrf_token() }}', 
                     'user_id':'{{ Auth::user()->id }}',
+                    'lang':'{{ $lang }}',
                     'id': $('#id').val(),
                     'title': $('#title').val(),
                     'slug': $('#slug').val(),

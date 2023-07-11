@@ -42,7 +42,7 @@
                         {{ $value->title }}
                     </td>
                     <td>
-                       <small><a href="#">{{ $value->page->title }}</a></small>
+                       <small><a href="#">{{ $value->pages->title }}</a></small>
                     </td>
                     <td><small>U: {{ date('h:i:s d M, Y', strtotime($value->updated_at)) }}<br>C: {{ date('h:i:s d M, Y', strtotime($value->created_at)) }}</small></td>
                     @if(dsld_have_user_permission('sections_edit') == 1)

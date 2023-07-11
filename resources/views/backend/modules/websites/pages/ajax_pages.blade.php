@@ -35,14 +35,14 @@
                 <tr>
                     <th scope="row">{{ $key }}</th>
                     <td>
-                        @if($value->banner > 0)<img src="{{ dsld_uploaded_asset($value->banner) }}" alt="{{ dsld_upload_file_title($value->banner) }}" class="page_banner_icon">
+                        @if($value->banner > 0)<img src="{{ dsld_uploaded_file_path($value->banner) }}" alt="{{ dsld_upload_file_title($value->banner) }}" class="page_banner_icon">
                         @else
                             <img src="{{ dsld_static_asset('backend/assets/images/xs/avatar1.jpg') }}" alt="Dummy Image" class="page_banner_icon">
                         
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('custom-pages.show_custom_page', [$value->slug]) }}" target="_blank">{{ $value->title }}</a><br>
+                        <a href="#" target="_blank">{{ $value->title }}</a><br>
                         <small>{{ $value->slug }}</small>
                     </td>
                     <td><small>{{ $value->template }}</small></td>
@@ -58,11 +58,11 @@
                     @endif
                     <td>
                         <p class="text-center mb-0 action_items">
-                            <a href="{{ route('custom-pages.show_custom_page', [$value->slug]) }}" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-info">
+                            <a href="#" class="btn btn-default waves-effect waves-float btn-sm waves-red bg-info">
                                 <i class="zmdi zmdi-hc-fw"></i>
                             </a>
                             @if(dsld_have_user_permission('pages_edit') == 1)
-                            <a href="{{ route('pages.edit', [$value->id]) }}"  class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
+                            <a href="{{ route('pages.edit', ['id'=>$value->id, 'lang'=>env('DEFAULT_LANGUAGE')]) }}"  class="btn btn-default waves-effect waves-float btn-sm waves-red bg-primary">
                                 <i class="zmdi zmdi-edit"></i>
                             </a>
                             @endif
