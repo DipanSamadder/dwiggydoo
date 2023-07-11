@@ -301,7 +301,7 @@ class PagesController extends Controller
          foreach($request->type as $key => $type){
             
              $post = Post::find($request->page_id); 
-             $meta_data = $post->page_metas()->where('meta_key', $type)->where('lang', $request->lang)->first();
+             $meta_data = $post->page_metas()->where('meta_key', $type)->first();
              if($meta_data == ''){
                  if(gettype($request[$type]) == 'array'){
                     
@@ -309,7 +309,7 @@ class PagesController extends Controller
                     $post->page_metas()->create([
                         'meta_key' => $type,
                         'meta_value' => json_encode($request[$type]),
-                        'lang' => $request->lang,
+                        'lang' => env('DEFAULT_LANGUAGE'),
                         'section_id' => $request->section_id,
                     ]);
 
@@ -317,18 +317,18 @@ class PagesController extends Controller
                     $post->page_metas()->create([
                         'meta_key' => $type,
                         'meta_value' => $request[$type],
-                        'lang' => $request->lang,
+                        'lang' => env('DEFAULT_LANGUAGE'),
                         'section_id' => $request->section_id,
                     ]);
                  }
              }else{
                  
                  if(gettype($request[$type]) == 'array'){
-                    $post->page_metas()->update([
+                    $post->page_metas()->where('meta_key', $type)->update([
                         'meta_value' => json_encode($request[$type]),
                     ]);
                  }else{
-                    $post->page_metas()->update([
+                    $post->page_metas()->where('meta_key', $type)->update([
                         'meta_value' => $request[$type]
                     ]);
                  }

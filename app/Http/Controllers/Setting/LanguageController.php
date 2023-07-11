@@ -109,6 +109,102 @@ class LanguageController extends Controller
     }
 
 
+    public function translate(){
+        $page['title'] = 'Show all Translate';
+        $page['name'] = 'Translate';
+        return view('backend.modules.settings.translate.show', compact('page'));
+    }
+
+    public function get_ajax_translates(Request $request){
+   
+        if($request->page != 1){$start = $request->page * 25;}else{$start = 0;}
+        $search = $request->search;
+        $sort = $request->sort;
+
+        $data = Translation::where('lang_key','!=','');
+        if($search != ''){
+            $data->where('lang_key', 'like', '%'.$search.'%');
+        }
+       
+        if($sort != ''){
+            switch ($request->sort) {
+                case 'newest':
+                    $data->orderBy('created_at', 'desc');
+                    break;
+                case 'oldest':
+                    $data->orderBy('created_at', 'asc');
+                    break;
+                default:
+                    $data->orderBy('created_at', 'desc');
+                    break;
+            }
+        }
+        $data = $data->skip($start)->paginate(25);
+        return view('backend.modules.settings.translate.ajax_files', compact('data'));
+    }
+
+
+    public function translate_edit(Request $request){
+        $data = Translation::where('id', $request->id)->first();
+        return view('backend.modules.settings.translate.edit', compact('data'));
+    }
+
+
+    public function translate_update(Request $request){
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'lang' => 'required',
+            'lang_key' => 'required',
+            'lang_value' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => $validator->errors()->all()]);
+        }
+        $translate  = Translation::where('id', $request->id)->first();
+        if($translate != ''){
+            $translate->lang = $request->lang;
+            $translate->lang_key = $request->lang_key;
+            $translate->lang_value = $request->lang_value;
+            if($translate->save()){
+                return response()->json(['status' => 'success', 'message'=> 'Translate has been updated successfully']);
+            } 
+            return response()->json(['status' => 'error', 'message'=> 'Data updated failed.']);
+        }else{
+            return response()->json(['status' => 'error', 'message'=> 'Already updated.']);
+        }
+    }
+
+
+
+    public function translate_store(Request $request){
+        $validator = Validator::make($request->all(), [
+            'lang' => 'required',
+            'lang_key' => 'required',
+            'lang_value' => 'required',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json(['status' => 'error', 'message' => $validator->errors()->all()]);
+        }
+
+        $translate = new Translation;
+        $translate->lang = $request->lang;
+        $translate->lang_key = $request->lang_key;
+        $translate->lang_value = $request->lang_value;
+        $data = Translation::where('lang', $translate->lang)->where('lang_key', $translate->lang_key)->first();
+        if($data == ''){
+            if($translate->save()){
+                return response()->json(['status' => 'success', 'message'=> 'Translate has been inserted successfully']);
+            } 
+            return response()->json(['status' => 'error', 'message'=> 'Data insert failed.']);
+        }else{
+            return response()->json(['status' => 'error', 'message'=> 'Already Inserted.']);
+        }
+    }
+
+
+
     public function show(Request $request, $id)
     {
         $sort_search = null;
@@ -165,6 +261,15 @@ class LanguageController extends Controller
 
     public function destory(Request $request){
         if(Language::destroy($request->id)){
+            return response()->json(['status' => 'success', 'message' => 'Data deleted successully.']);   
+        }else{
+            return response()->json(['status' => 'warning', 'message' => 'Data Not found.']);
+        }
+       
+    }
+
+    public function translate_destory(Request $request){
+        if(Translation::destroy($request->id)){
             return response()->json(['status' => 'success', 'message' => 'Data deleted successully.']);   
         }else{
             return response()->json(['status' => 'warning', 'message' => 'Data Not found.']);

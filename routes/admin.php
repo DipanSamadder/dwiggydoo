@@ -188,7 +188,7 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-page s
 });
 
 
- //Breed
+ //languages
  Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|languages']], function () {
 	Route::resource('languages', 'Setting\LanguageController');
 	Route::post('get-all-languages', 'Setting\LanguageController@get_ajax_languages')->name('ajax_languages');
@@ -196,4 +196,11 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-page s
 	Route::post('languages/store', 'Setting\LanguageController@store')->name('languages.store');
 	Route::post('languages/destory', 'Setting\LanguageController@destory')->name('languages.destory');
 	Route::post('languages/update', 'Setting\LanguageController@update')->name('languages.update');
+	
+	Route::get('translate', 'Setting\LanguageController@translate')->name('translate.index');
+	Route::post('get-all-translates', 'Setting\LanguageController@get_ajax_translates')->name('ajax_translates');
+	Route::post('translate/edit', 'Setting\LanguageController@translate_edit')->name('translate.edit');
+	Route::post('translate/destory', 'Setting\LanguageController@translate_destory')->name('translate.destory');
+	Route::post('translate/update', 'Setting\LanguageController@translate_update')->name('translate.update');
+	Route::post('translate/store', 'Setting\LanguageController@translate_store')->name('translate.store');
 }); 

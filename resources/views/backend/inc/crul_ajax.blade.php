@@ -22,8 +22,7 @@
     $(document).ready(function(){
         $('#update_form').on('submit', function(event){
         event.preventDefault();
-            $('#update_form .dsld-btn-loader').addClass('btnloading');
-            var Loader = ".btnloading";
+            var Loader = "#update_form .dsld-btn-loader";
 
             DSLDButtonLoader(Loader, "start");
             $.ajax({
@@ -47,9 +46,7 @@
 
     $(document).ready(function(){
         $('#add_new_form').on('submit', function(event){
-        event.preventDefault();
-            $('#add_new_form .dsld-btn-loader').addClass('btnloading');
-            var Loader = ".btnloading";
+        event.preventDefault();var Loader = "#add_new_form .dsld-btn-loader";
             DSLDButtonLoader(Loader, "start");
             $.ajax({
                 url: $(this).attr('action'),
