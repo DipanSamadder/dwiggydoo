@@ -44,6 +44,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::prefix('v1')->group(function(){
+    Route::get('app-base-url', function(){
+        return 'https://projects.cityinnovates.in/gieo_gita/api/v1/';
+    });
+    
 	Route::get('get-all-countries-list', 'Api\CountriesController@get_all_countries_list');
     Route::get('test-code', function(){
         $code = dsld_random_code_generator();

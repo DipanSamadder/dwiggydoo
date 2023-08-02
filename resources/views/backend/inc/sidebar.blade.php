@@ -80,11 +80,21 @@
               
 
             @if(dsld_check_permission(['show-posts','show-posts'])) 
-            <li  class="{{ dsld_is_route_active(['pages.index', 'pages.edit'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-assignment"></i><span>Website</span></a>
+            <li  class="{{ dsld_is_route_active(['pages.index', 'pages.edit', 'frontend.setting','pages_section.index'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-assignment"></i><span>Website</span></a>
                 <ul class="ml-menu">
                     @if(dsld_check_permission(['show-posts']))
                     <li class="{{ dsld_is_route_active(['pages.index', 'pages.edit']) }}"><a href="{{ route('pages.index') }}">Pages</a></li>
                      @endif
+                     
+                    @if(dsld_check_permission(['show-frontend setting']))
+                    <!-- Show-Frontend Setting-->
+                    <li class="{{ dsld_is_route_active(['frontend.setting']) }}"><a href="{{ route('frontend.setting') }}">Frontend</a></li>
+                    @endif
+
+                    @if(dsld_check_permission(['sections']))
+                    <!-- Show-Terminal-->
+                    <li class="{{ dsld_is_route_active(['pages_section.index']) }}"><a href="{{ route('pages_section.index') }}">Section</a></li>
+                    @endif
                 </ul>
             </li> 
             @endif 
@@ -106,7 +116,7 @@
             @endif 
 
             @if(dsld_check_permission(['show-backend setting','show-frontend setting','show-terminal']))
-            <li class="{{ dsld_is_route_active(['backend.setting', 'backend.header', 'backend.footer', 'frontend.setting', 'languages.index', 'pages_section.index', 'translate.index'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Settings</span></a>
+            <li class="{{ dsld_is_route_active(['backend.setting', 'backend.header', 'backend.footer',  'languages.index',  'translate.index'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Settings</span></a>
                 <ul class="ml-menu">
                     
                     @if(dsld_check_permission(['show-backend setting']))
@@ -115,25 +125,11 @@
                     @endif
 
 
-                    @if(dsld_check_permission(['show-frontend setting']))
-                    <!-- Show-Frontend Setting-->
-                    <li class="{{ dsld_is_route_active(['frontend.setting']) }}"><a href="{{ route('frontend.setting') }}">Frontend</a></li>
-                    @endif
-
                     @if(dsld_check_permission(['show-terminal']))
                     <!-- Show-Terminal-->
                     <li class="{{ dsld_is_route_active(['terminal.index']) }}"><a href="{{ route('terminal.index') }}" target="blank">Terminal</a></li>
                     @endif
 
-                    @if(dsld_check_permission(['sections']))
-                    <!-- Show-Terminal-->
-                    <li class="{{ dsld_is_route_active(['pages_section.index']) }}"><a href="{{ route('pages_section.index') }}">Section</a></li>
-                    @endif
-
-                    @if(dsld_check_permission(['show-terminal']))
-                    <!-- Show-Terminal-->
-                    <li class="{{ dsld_is_route_active(['terminal.index']) }}"><a href="{{ route('terminal.index') }}" target="blank">Terminal</a></li>
-                    @endif
 
                     @if(dsld_check_permission(['languages']))
                     <!-- Show-Terminal-->

@@ -1,7 +1,7 @@
-@extends('frontend.layouts.blank')
+@extends('backend.layouts.blank')
 
 @section('content')
-{{--
+
 <div class="authentication">
     <div class="container">
         <div class="row">
@@ -54,6 +54,6 @@
         </div>
     </div>
 </div>
---}}
+
 @endsection
 

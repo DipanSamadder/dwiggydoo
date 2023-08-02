@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
- Route::get('login', 'Auth\AuthController@login');
+ Route::get('login', 'Auth\AuthController@admin_login');
  Route::get('/', 'HomeController@admin_dashboard')->middleware(['auth', 'verified', 'admin'])->name('backend.dashboard');
 
 Route::get('/optimize', function() {

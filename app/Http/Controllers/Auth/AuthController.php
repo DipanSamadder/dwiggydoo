@@ -19,6 +19,10 @@ class AuthController extends Controller
     {
         return view('auth.login');
     }
+    public function admin_login(): View
+    {
+        return view('backend.auth.login');
+    }
 
 
 
