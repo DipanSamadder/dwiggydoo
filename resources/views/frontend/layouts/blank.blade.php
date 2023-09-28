@@ -5,10 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dwiggy Do</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('frontend/images/favicon.png') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <style>
+      .activeD{position: relative;}
+      .loader-area{
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        top: 0px;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #ffffffc7;
+    }
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 3px dotted #cd280e;
+      border-style: solid solid dotted dotted;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      box-sizing: border-box;
+      animation: rotation 2s linear infinite;
+    }
+    .loader::after {
+      content: '';  
+      box-sizing: border-box;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      border: 3px dotted #f3735f;
+      border-style: solid solid dotted;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      animation: rotationBack 1s linear infinite;
+      transform-origin: center center;
+    }
+        
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    } 
+    @keyframes rotationBack {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(-360deg);
+      }
+    } 
+    .breed_card img{
+      border: 1px solid #e3e3e3;
+      padding: 10px;
+      height: 93px;
+      width: 100px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    </style>
+    @yield('header')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body>
@@ -23,38 +92,26 @@
                    <div class="img-dog img5"><img src="{{ asset('frontend/images/img-5.png') }}"></div>
                     <div class="img-dog img6"><img src="{{ asset('frontend/images/img-6.png') }}"></div>
                     <div class="heading-txt">
-                    <p>Connecting Your Pets</p>
+                    <p>Connecting Your Pets..</p>
                     <h1>Let's Get <br>Started</h1>
                 </div>
                 </div>
-                <div class="col-lg-6 login-detail text-center">
-                    <h2>Welcome Home!</h2>
-                    <p>Connect.Play.Invite.Earn Money</p>
-                    <div class="login-img"><img src="{{ asset('frontend/images/fresh__3_-removebg-preview.png') }}"></div>
-                    <button class="log-in Sign-Up-Free" type="button"><i class="far fa-smile"></i> Sign Up Free 
-                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-
-                    <button class="log-in Continue-With-Phone-Number" type="button"><i class="fas fa-mobile-alt"></i> Continue With Phone Number <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-
-                    <button class="log-in Continue-With-Facebook" type="button"><i class="fab fa-facebook" ></i> Continue With Facebook  <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-
-
-                    <button class="log-in Continue-With-Google " type="button"><i class="fab fa-google"></i> Continue With Google <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-
-                    <button class="log-in Continue-With-Apple " type="button"><i class="fab fa-apple"></i> Continue With Apple
-                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
-                    <div class="or"><p class="mb-0">or</p></div>
-
-                    <span class="owner-not">Not A Pet Owner?</span>
-
-                    <button class="log-in Feed-Dog-In-Need" type="button"><i class="fas fa-paw"></i> Feed A Dog In Need
-                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+                <div class="col-lg-6">
+                  @yield('content')
                 </div>
             </div>
+            
         </div>
     </section>
-    
 
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script src="{{ dsld_static_asset('backend/assets/plugins/bootstrap-notify/bootstrap-notify.js') }}"></script>  
+    <script src="{{ dsld_static_asset('frontend/js/dsld_custom_js.js') }}"></script>
+    @yield('footer')
   </body>
 </html>

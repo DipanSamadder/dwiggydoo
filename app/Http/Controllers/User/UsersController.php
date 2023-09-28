@@ -238,7 +238,7 @@ class UsersController extends Controller
         }
        
     }
-      public function assign_permissions(Request $request){
+    public function assign_permissions(Request $request){
 
         $user = User::find($request->status);
         if($user != ''){
@@ -256,5 +256,8 @@ class UsersController extends Controller
             return response()->json(['status' => 'warning', 'message' => 'Data Not found.']);
         }
        
+    }
+    public function setup_profile(){
+        return view('frontend.pages.users.setup');
     }
 }

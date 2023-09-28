@@ -1,59 +1,36 @@
 @extends('frontend.layouts.blank')
 
 @section('content')
-{{--
-<div class="authentication">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-sm-12">
-                <form class="card auth_form" method="POST" action="{{ route('login') }}">
-                    @csrf
-                    <div class="header">
-                        @if(dsld_get_setting('dashboard_logo') > 0)
-                            <img src="{{ dsld_uploaded_file_path(dsld_get_setting('dashboard_logo')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('dashboard_logo')) }}" class="logo">
-                        @else
-                            <img class="logo" src="{{ dsld_static_asset('backend/assets/images/logo.svg') }}" alt="">
-                        @endif
-                        <h5>{{ dsld_translation('Log in') }}</h5>
-                    </div>
-                    <div class="body">
-                        <div class="input-group mb-3">
-                            <input type="email" class="form-control" name="email"  placeholder="{{ dsld_translation('email') }}" required autofocus>
-                            <div class="input-group-append">
-                                <span class="input-group-text"><i class="zmdi zmdi-account-circle"></i></span>
-                            </div>
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="password" class="form-control" name="password" placeholder="{{ dsld_translation('Password') }}" required>
-                            <div class="input-group-append">                                
-                                <span class="input-group-text"><a href="forgot-password.html" class="forgot" title="Forgot Password"><i class="zmdi zmdi-lock"></i></a></span>
-                            </div>                            
-                        </div>
-                        <div class="checkbox">
-                            <input id="remember_me" name="remember" type="checkbox">
-                            <label for="remember_me">{{ dsld_translation('Remember Me') }}</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block waves-effect waves-light">{{ dsld_translation('SIGN IN') }}</button>                        
-                       
-                    </div>
-                </form>
-                <div class="copyright text-center">
-                    @php $str = dsld_get_setting('dashboard_copyright'); @endphp
-                    <?php echo htmlspecialchars_decode($str); ?>
-                  </div>
-            </div>
-            <div class="col-lg-8 col-sm-12">
-                <div class="card">
-                    @if(dsld_get_setting('dashboard_login_background') > 0)
-                        <img src="{{ dsld_uploaded_file_path(dsld_get_setting('dashboard_login_background')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('dashboard_login_background')) }}" class="page_banner_icon">
-                    @else
-                        <img src="{{ dsld_static_asset('backend/assets/images/signin.svg') }}" alt="Sign In"/>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="login-detail">
+<div class="text-center">
+<h2>Welcome Home!<br>
+<p>Connect.Play.Invite.Earn Money</p>
+<div class="login-img">
+    @if(dsld_get_setting('dashboard_logo') > 0)
+        <img src="{{ dsld_uploaded_file_path(dsld_get_setting('site_login_background')) }}">
+    @else
+        <img src="{{ dsld_static_asset('backend/assets/images/logo.svg') }}" alt="">
+    @endif
 </div>
---}}
+<a href="{{ route('register.email') }}"><button class="log-in Sign-Up-Free" type="button"><i class="far fa-smile"></i> Sign Up Free 
+<i class="fa fa-long-arrow-right" aria-hidden="true"></i></button></a>
+
+<a href="{{ route('register.phone') }}"><button class="log-in Continue-With-Phone-Number" type="button"><i class="fas fa-mobile-alt"></i> Continue With Phone Number <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button></a>
+
+<a href="{{ route('register.email') }}"><button class="log-in Continue-With-Facebook" type="button"><i class="fab fa-facebook" ></i> Continue With Facebook  <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button></a>
+
+
+<button class="log-in Continue-With-Google " type="button"><i class="fab fa-google"></i> Continue With Google <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+
+<button class="log-in Continue-With-Apple " type="button"><i class="fab fa-apple"></i> Continue With Apple
+<i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+<div class="or"><p class="mb-0">or</p></div>
+
+<span class="owner-not">Not A Pet Owner?</span>
+
+<button class="log-in Feed-Dog-In-Need" type="button"><i class="fas fa-paw"></i> Feed A Dog In Need
+<i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+</div>
+</div>
 @endsection
 

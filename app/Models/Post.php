@@ -28,4 +28,11 @@ class Post extends Model
     public function parents(){
         return $this->belongsTo(Post::class, 'parent', 'id');
     }
+    
+    public function tags(){
+        return $this->belongsToMany(Tag::class);
+    }
+    public function categories(){
+        return $this->belongsToMany(Category::class);
+    }
 }

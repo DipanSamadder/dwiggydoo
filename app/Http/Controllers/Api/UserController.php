@@ -16,6 +16,27 @@ class UserController extends Controller
 {
   
 
+    public function setupUserDetails(Request $request)
+    {
+        $auth =  auth('sanctum')->user();
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'age' => 'required|numeric',
+        ]
+        );
+
+        if($validator->fails()){
+            return $this->sendError($validator->messages());       
+        }
+
+        $user = User::findOrFail($auth->id);
+        $user->name  = $request->name;
+        $user->age  = $request->age;
+        $user->save();
+
+        return $this->sendResponse(new UserCollection($user), 'Profile information has been updated successfully');
+    }
+
     public function setup(Request $request)
     {
         $validator = Validator::make($request->all(), [

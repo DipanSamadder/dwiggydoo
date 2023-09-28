@@ -29,11 +29,18 @@ Route::get('/optimize', function() {
 });
 
 Route::view('medias', 'media')->name('media');
-Route::resource('user_profile', 'UserProfileController');
 
 
+Route::middleware('guest')->group(function () {
+    Route::get('register/phone', 'Auth\RegisteredUserController@signInByPhone')->name('register.phone');
+    Route::get('register/email', 'Auth\RegisteredUserController@signInByEmail')->name('register.email');
+    Route::post('register/email/submit', 'Auth\RegisteredUserController@signInByEmailSubmit')->name('register.email.submit');
+    Route::post('register/opt/submit', 'Auth\RegisteredUserController@verifyOtp')->name('register.otp.submit');
+    Route::get('singup-referral/{token}', 'Api\UserController@refferral_token');
+    Route::resource('user_profile', 'UserProfileController');
+});
 
-Route::get('singup-referral/{token}', 'Api\UserController@refferral_token');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -43,6 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('user/setup', 'User\UsersController@setup_profile')->name('user.setup');
 });
 
 require __DIR__.'/auth.php';

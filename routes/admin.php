@@ -171,9 +171,8 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-pages'
     Route::post('page-extra-content/update', 'Pages\PagesController@update_extra_content')->name('pages_extra_content.update');
 });
 
+ //Page Section
 Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-page sections']], function () {
-
-    //Page Section
 	Route::resource('pages-sections','Pages\PageSectionController', ['names' => [
 		'index' => 'pages_section.index',
 		'store' => 'pages_section.store',
@@ -203,4 +202,38 @@ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|show-page s
 	Route::post('translate/destory', 'Setting\LanguageController@translate_destory')->name('translate.destory');
 	Route::post('translate/update', 'Setting\LanguageController@translate_update')->name('translate.update');
 	Route::post('translate/store', 'Setting\LanguageController@translate_store')->name('translate.store');
+}); 
+
+
+
+ //Blog Section
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|blogs']], function () {
+	Route::resource('blogs','Blogs\BlogController', ['names' => [
+		'index' => 'blogs.index',
+	]]);
+    Route::get('blog/edit/{id}', 'Blogs\BlogController@edit')->name('blogs.edit');
+    Route::post('get-all-blog', 'Blogs\BlogController@get_ajax_blogs')->name('ajax_blogs');
+    Route::post('blog/update', 'Blogs\BlogController@update')->name('blogs.update');
+});
+
+ //Tags
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|tags']], function () {
+	Route::resource('tags', 'Blogs\TagController');
+	Route::post('get-all-tags', 'Blogs\TagController@get_ajax_tags')->name('ajax_tags');
+	Route::post('tags/edit', 'Blogs\TagController@edit')->name('blogs.tags.edit');
+	Route::post('tags/store', 'Blogs\TagController@store')->name('blogs.tags.store');
+	Route::post('tags/destory', 'Blogs\TagController@destory')->name('blogs.tags.destory');
+	Route::post('tags/update', 'Blogs\TagController@update')->name('blogs.tags.update');
+
+}); 
+
+
+ //Cateogry
+ Route::group(['middleware' => ['role_or_permission:Super-Admin|admin|categories']], function () {
+	Route::resource('categories', 'Blogs\CategoryController');
+	Route::post('get-all-categories', 'Blogs\CategoryController@get_ajax_categories')->name('ajax_categories');
+	Route::post('categories/edit', 'Blogs\CategoryController@edit')->name('blogs.categories.edit');
+	Route::post('categories/store', 'Blogs\CategoryController@store')->name('blogs.categories.store');
+	Route::post('categories/destory', 'Blogs\CategoryController@destory')->name('blogs.categories.destory');
+	Route::post('categories/update', 'Blogs\CategoryController@update')->name('blogs.categories.update');
 }); 

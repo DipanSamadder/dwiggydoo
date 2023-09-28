@@ -115,6 +115,30 @@
             </li> 
             @endif 
 
+
+            @if(dsld_check_permission(['blogs','tags','categories'])) 
+            <li  class="{{ dsld_is_route_active(['blogs.index','blogs.edit','tags.index','categories.index'], 'active open') }}">
+                <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-hc-fw"></i><span>Blog</span></a>
+                <ul class="ml-menu">
+                    @if(dsld_check_permission(['blogs']))
+                    <li class="{{ dsld_is_route_active(['blogs.index','blogs.edit']) }}">
+                        <a href="{{ route('blogs.index') }}">Blogs</a>
+                    </li>
+                    @endif
+                    @if(dsld_check_permission(['tags']))
+                    <li class="{{ dsld_is_route_active(['tags.index']) }}">
+                        <a href="{{ route('tags.index') }}">Tags</a>
+                    </li>
+                    @endif
+                    @if(dsld_check_permission(['categories']))
+                    <li class="{{ dsld_is_route_active(['categories.index']) }}">
+                        <a href="{{ route('categories.index') }}">Category</a>
+                    </li>
+                    @endif
+                </ul>
+            </li> 
+            @endif 
+
             @if(dsld_check_permission(['show-backend setting','show-frontend setting','show-terminal']))
             <li class="{{ dsld_is_route_active(['backend.setting', 'backend.header', 'backend.footer',  'languages.index',  'translate.index'], 'active open') }}"><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Settings</span></a>
                 <ul class="ml-menu">

@@ -75,36 +75,40 @@
                                             <label class="form-label">Fav Icon</label>
                                             <input type="hidden" name="types[]" value="site_fav_icon">
 
-                                            <a class="btn btn-primary text-white" onclick="media_file_get('{{ dsld_get_setting("site_fav_icon") }}','put_image1', 0)"><i class="zmdi zmdi-collection-image"></i></a><div class="put_image1">@if(!is_null(dsld_get_setting('site_fav_icon')))<strong>Selected Image:</strong><i> {{ dsld_get_setting('site_fav_icon') }}</i>@endif</div>
-                        
-                                            <input type="hidden" class="put_image1" name="site_fav_icon" id="site_fav_icon" value="{{ dsld_get_setting('site_fav_icon') }}" onchange="is_edited()">
+                                            <a class="btn btn-primary text-white" onclick="media_file_get('{{ dsld_get_setting("site_fav_icon") }}','put_image1', 0)"><i class="zmdi zmdi-collection-image"></i></a>
 
                                             @if(dsld_get_setting('site_fav_icon') > 0)
-                                            <div class="image mt-2">
+                                            <div class="image mt-2 d-inline">
                                                 <img src="{{ dsld_uploaded_asset(dsld_get_setting('site_fav_icon')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('site_fav_icon')) }}" class="page_banner_icon">
                                             </div> 
-                                            @endif                                                            
+                                            @endif 
+                                            <div class="put_image1">@if(!is_null(dsld_get_setting('site_fav_icon')))<strong>Selected Image:</strong><i> {{ dsld_get_setting('site_fav_icon') }}</i>@endif</div>
+                        
+                                            <input type="hidden" class="put_image1" name="site_fav_icon" id="site_fav_icon" value="{{ dsld_get_setting('site_fav_icon') }}" onchange="is_edited()">                                                           
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="form-group">
-                                            <label class="form-label">Login Background</label>
+                                            <label class="form-label">Login</label>
                                             <input type="hidden" name="types[]" id="types" value="site_login_background">
 
-                                            <a class="btn btn-primary text-white" onclick="media_file_get('{{ dsld_get_setting("site_login_background") }}','put_image2', 0)"><i class="zmdi zmdi-collection-image"></i></a><div class="put_image2">@if(!is_null(dsld_get_setting('site_login_background')))<strong>Selected Image:</strong><i> {{ dsld_get_setting('site_login_background') }}</i>@endif</div>
+                                            <a class="btn btn-primary text-white" onclick="media_file_get('{{ dsld_get_setting("site_login_background") }}','put_image2', 0)"><i class="zmdi zmdi-collection-image"></i></a><div class="put_image2">@if(!is_null(dsld_get_setting('site_login_background')))<strong>Selected Image:</strong><i> {{ dsld_get_setting('site_login_background') }}</i>@endif
+
+                                            @if(dsld_get_setting('site_login_background') > 0)
+                                            <div class="image mt-2 d-inline">
+                                                <img src="{{ dsld_uploaded_file_path(dsld_get_setting('site_login_background')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('site_login_background')) }}" class="page_banner_icon">
+                                            </div> 
+                                            @endif 
+                                        </div>
                         
                                             <input type="hidden" class="put_image2" name="site_login_background" id="site_login_background" value="{{ dsld_get_setting('site_login_background') }}" onchange="is_edited()">
 
-                                            @if(dsld_get_setting('site_login_background') > 0)
-                                            <div class="image mt-2">
-                                                <img src="{{ dsld_uploaded_asset(dsld_get_setting('site_login_background')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('site_login_background')) }}" class="page_banner_icon">
-                                            </div> 
-                                            @endif                                                            
+                                                                                                       
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-6">
                                         <div class="form-group">
-                                            <label class="form-label">Registration Background</label>
+                                            <label class="form-label">Registration</label>
                                             <input type="hidden" name="types[]" id="types" value="site_registration_background">
 
                                             <a class="btn btn-primary text-white" onclick="media_file_get('{{ dsld_get_setting("site_registration_background") }}','put_image3', 0)"><i class="zmdi zmdi-collection-image"></i></a><div class="put_image3">@if(!is_null(dsld_get_setting('site_registration_background')))<strong>Selected Image:</strong><i> {{ dsld_get_setting('site_registration_background') }}</i>@endif</div>

@@ -194,6 +194,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\RepositorieServices::class,
         Recca0120\Terminal\TerminalServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
 

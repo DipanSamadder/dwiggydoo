@@ -97,15 +97,19 @@
                                             <label class="form-label">Login Background</label>
                                             <input type="hidden" name="types[]" id="types" value="dashboard_login_background">
 
-                                            <a class="btn btn-primary text-white" onclick="media_file_get('{{ dsld_get_setting("dashboard_login_background") }}','put_image3', 0)"><i class="zmdi zmdi-collection-image"></i></a><div class="put_image3">@if(!is_null(dsld_get_setting('dashboard_login_background')))<strong>Selected Image:</strong><i> {{ dsld_get_setting('dashboard_login_background') }}</i>@endif</div>
-                        
-                                            <input type="hidden" class="put_image3" name="dashboard_login_background" id="dashboard_login_background" value="{{ dsld_get_setting('dashboard_login_background') }}" onchange="is_edited()">
-
+                                            <a class="btn btn-primary text-white" onclick="media_file_get('{{ dsld_get_setting("dashboard_login_background") }}','put_image3', 0)"><i class="zmdi zmdi-collection-image"></i></a>
+                                            
                                             @if(dsld_get_setting('dashboard_login_background') > 0)
                                             <div class="image mt-2">
                                                 <img src="{{ dsld_uploaded_file_path(dsld_get_setting('dashboard_login_background')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('dashboard_login_background')) }}" class="page_banner_icon">
                                             </div> 
-                                            @endif                                                            
+                                            @endif  
+                                            
+                                            <div class="put_image3">@if(!is_null(dsld_get_setting('dashboard_login_background')))<strong>Selected Image:</strong><i> {{ dsld_get_setting('dashboard_login_background') }}</i>@endif</div>
+                        
+                                            <input type="hidden" class="put_image3" name="dashboard_login_background" id="dashboard_login_background" value="{{ dsld_get_setting('dashboard_login_background') }}" onchange="is_edited()">
+
+                                                                                                     
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3">
