@@ -66,7 +66,8 @@ Route::prefix('v1')->group(function(){
 
     /**User Profile**/
     Route::post('user-setup-profile', 'Api\UserController@setup')->middleware('auth:sanctum');
-    Route::post('setup/profile/details', 'Api\UserController@setupUserDetails')->middleware('auth:sanctum');
+    Route::post('setup/profile/details/step1', 'Api\UserController@setupStep1')->middleware('auth:sanctum');
+    Route::post('setup/profile/details/step2', 'Api\UserController@setupStep2')->middleware('auth:sanctum');
     Route::get('referral-code-generator/{id}', 'Api\UserController@refferal_code_generators')->middleware('auth:sanctum');
 
 

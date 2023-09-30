@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dwiggy Do</title>
+    <meta name="api-token" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="base-url" content="{{ env('APP_URL') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('frontend/images/favicon.png') }}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -112,6 +115,8 @@
     <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="{{ dsld_static_asset('backend/assets/plugins/bootstrap-notify/bootstrap-notify.js') }}"></script>  
     <script src="{{ dsld_static_asset('frontend/js/dsld_custom_js.js') }}"></script>
+    
     @yield('footer')
+    @include('frontend.inc.custom_js')
   </body>
 </html>

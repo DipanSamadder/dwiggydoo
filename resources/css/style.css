@@ -140,11 +140,13 @@ body {
   position: relative;
 }
 .dog_breed span {
-  position: absolute;
+  /* position: absolute;
   right: 11px;
-  z-index: 3;
+  z-index: 3; */
   font-size: 12px;
-  top: 5px;
+  /* top: 5px; */
+
+  /* new changes on 28-09-23 */
 }
 .dog_breed:before {
   content: "";
@@ -202,11 +204,12 @@ body {
   border-radius: 15px;
 }
 .photos_card_wrap .photos_card:first-child {
-  width: 32%;
+  width: 40%;
   background: #ebcfcb;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 .photos_card_wrap .photos_card .sub_card {
   width: 100%;
@@ -218,6 +221,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .photos_card .sub_card_wrap {
   width: 49%;
   margin: 0px 10px;
@@ -359,364 +363,7 @@ body {
 }
 
 /* multiselect option */
-.selectMultiple {
-  width: 285px;
-  position: relative;
-}
-.selectMultiple select {
-  display: none;
-}
-.selectMultiple > div {
-  position: relative;
-  z-index: 2;
-  padding: 8px 12px 2px 12px;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 14px;
-  min-height: 44px;
-  /* -webkit-box-shadow: 0 4px 16px 0 rgba(22, 42, 90, 0.12);
-  box-shadow: 0 4px 16px 0 rgba(22, 42, 90, 0.12);
-  -webkit-transition: -webkit-box-shadow 0.3s ease;
-  transition: -webkit-box-shadow 0.3s ease;
-  -o-transition: box-shadow 0.3s ease;
-  transition: box-shadow 0.3s ease;
-  transition: box-shadow 0.3s ease, -webkit-box-shadow 0.3s ease; */
-}
 
-.selectMultiple > div .arrow {
-  right: 1px;
-  top: 0;
-  bottom: 0;
-  cursor: pointer;
-  width: 28px;
-  position: absolute;
-}
-.selectMultiple > div .arrow:before,
-.selectMultiple > div .arrow:after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 2px;
-  height: 8px;
-  border-bottom: 8px solid #99a3ba;
-  top: 43%;
-  -webkit-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
-.selectMultiple > div .arrow:before {
-  right: 12px;
-  -webkit-transform: rotate(-130deg);
-  -ms-transform: rotate(-130deg);
-  transform: rotate(-130deg);
-}
-.selectMultiple > div .arrow:after {
-  left: 9px;
-  -webkit-transform: rotate(130deg);
-  -ms-transform: rotate(130deg);
-  transform: rotate(130deg);
-}
-.selectMultiple > div span {
-  color: #99a3ba;
-  display: block;
-  position: absolute;
-  left: 12px;
-  cursor: pointer;
-  top: 8px;
-  line-height: 28px;
-  -webkit-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-}
-.selectMultiple > div span.hide {
-  opacity: 0;
-  visibility: hidden;
-  -webkit-transform: translate(-4px, 0);
-  -ms-transform: translate(-4px, 0);
-  transform: translate(-4px, 0);
-}
-.selectMultiple > div a {
-  position: relative;
-  padding: 0 24px 6px 8px;
-  line-height: 28px;
-  color: #f3735f;
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 6px 0 0;
-  text-decoration: none;
-  font-size: 10px;
-  font-weight: 600;
-}
-.selectMultiple > div a em {
-  font-style: normal;
-  display: block;
-  white-space: nowrap;
-}
-.selectMultiple > div a:before {
-  content: "";
-  left: 0;
-  top: 0;
-  bottom: 6px;
-  width: 100%;
-  position: absolute;
-  display: block;
-  background: rgba(228, 236, 250, 0.7);
-  z-index: -1;
-  border-radius: 15px;
-}
-.selectMultiple > div a i {
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 27px;
-  height: 28px;
-  display: block;
-}
-.selectMultiple > div a i:before,
-.selectMultiple > div a i:after {
-  content: "";
-  display: block;
-  width: 2px;
-  height: 10px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  background: #f16821;
-  border-radius: 1px;
-}
-.selectMultiple > div a i:before {
-  -webkit-transform: translate(-50%, -50%) rotate(45deg);
-  -ms-transform: translate(-50%, -50%) rotate(45deg);
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-.selectMultiple > div a i:after {
-  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
-  -ms-transform: translate(-50%, -50%) rotate(-45deg);
-  transform: translate(-50%, -50%) rotate(-45deg);
-}
-.selectMultiple > div a.notShown {
-  opacity: 0;
-  -webkit-transition: opacity 0.3s ease;
-  -o-transition: opacity 0.3s ease;
-  transition: opacity 0.3s ease;
-}
-.selectMultiple > div a.notShown:before {
-  width: 28px;
-  -webkit-transition: width 0.45s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0.2s;
-  -o-transition: width 0.45s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0.2s;
-  transition: width 0.45s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0.2s;
-}
-.selectMultiple > div a.notShown i {
-  opacity: 0;
-  -webkit-transition: all 0.3s ease 0.3s;
-  -o-transition: all 0.3s ease 0.3s;
-  transition: all 0.3s ease 0.3s;
-}
-.selectMultiple > div a.notShown em {
-  opacity: 0;
-  -webkit-transform: translate(-6px, 0);
-  -ms-transform: translate(-6px, 0);
-  transform: translate(-6px, 0);
-  -webkit-transition: all 0.4s ease 0.3s;
-  -o-transition: all 0.4s ease 0.3s;
-  transition: all 0.4s ease 0.3s;
-}
-.selectMultiple > div a.notShown.shown {
-  opacity: 1;
-}
-.selectMultiple > div a.notShown.shown:before {
-  width: 100%;
-}
-.selectMultiple > div a.notShown.shown i {
-  opacity: 1;
-}
-.selectMultiple > div a.notShown.shown em {
-  opacity: 1;
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
-}
-.selectMultiple > div a.remove:before {
-  width: 28px;
-  -webkit-transition: width 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0s;
-  -o-transition: width 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0s;
-  transition: width 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44) 0s;
-}
-.selectMultiple > div a.remove i {
-  opacity: 0;
-  -webkit-transition: all 0.3s ease 0s;
-  -o-transition: all 0.3s ease 0s;
-  transition: all 0.3s ease 0s;
-}
-.selectMultiple > div a.remove em {
-  opacity: 0;
-  -webkit-transform: translate(-12px, 0);
-  -ms-transform: translate(-12px, 0);
-  transform: translate(-12px, 0);
-  -webkit-transition: all 0.4s ease 0s;
-  -o-transition: all 0.4s ease 0s;
-  transition: all 0.4s ease 0s;
-}
-.selectMultiple > div a.remove.disappear {
-  opacity: 0;
-  -webkit-transition: opacity 0.5s ease 0s;
-  -o-transition: opacity 0.5s ease 0s;
-  transition: opacity 0.5s ease 0s;
-}
-.selectMultiple > ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 16px;
-  z-index: 1;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  visibility: hidden;
-  opacity: 0;
-  border-radius: 8px;
-  -webkit-transform: translate(0, 20px) scale(0.8);
-  -ms-transform: translate(0, 20px) scale(0.8);
-  transform: translate(0, 20px) scale(0.8);
-  -webkit-transform-origin: 0 0;
-  -ms-transform-origin: 0 0;
-  transform-origin: 0 0;
-  -webkit-filter: drop-shadow(0 12px 20px rgba(22, 42, 90, 0.08));
-  filter: drop-shadow(0 12px 20px rgba(22, 42, 90, 0.08));
-  -webkit-transition: all 0.4s ease,
-    -webkit-transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44),
-    -webkit-filter 0.3s ease 0.2s;
-  transition: all 0.4s ease,
-    -webkit-transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44),
-    -webkit-filter 0.3s ease 0.2s;
-  -o-transition: all 0.4s ease,
-    transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44), filter 0.3s ease 0.2s;
-  transition: all 0.4s ease,
-    transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44), filter 0.3s ease 0.2s;
-  transition: all 0.4s ease,
-    transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44), filter 0.3s ease 0.2s,
-    -webkit-transform 0.4s cubic-bezier(0.87, -0.41, 0.19, 1.44),
-    -webkit-filter 0.3s ease 0.2s;
-}
-.selectMultiple > ul li {
-  color: #000;
-  background: #fff;
-  padding: 12px 16px;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-  -webkit-transition: background 0.3s ease, color 0.3s ease,
-    opacity 0.5s ease 0.3s, border-radius 0.3s ease 0.3s,
-    -webkit-transform 0.3s ease 0.3s;
-  transition: background 0.3s ease, color 0.3s ease, opacity 0.5s ease 0.3s,
-    border-radius 0.3s ease 0.3s, -webkit-transform 0.3s ease 0.3s;
-  -o-transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease 0.3s,
-    opacity 0.5s ease 0.3s, border-radius 0.3s ease 0.3s;
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease 0.3s,
-    opacity 0.5s ease 0.3s, border-radius 0.3s ease 0.3s;
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease 0.3s,
-    opacity 0.5s ease 0.3s, border-radius 0.3s ease 0.3s,
-    -webkit-transform 0.3s ease 0.3s;
-}
-.selectMultiple > ul li:first-child {
-  border-radius: 8px 8px 0 0;
-}
-.selectMultiple > ul li:first-child:last-child {
-  border-radius: 8px;
-}
-.selectMultiple > ul li:last-child {
-  border-radius: 0 0 8px 8px;
-}
-.selectMultiple > ul li:last-child:first-child {
-  border-radius: 8px;
-}
-.selectMultiple > ul li:hover {
-  background: #f16821;
-  color: #fff;
-}
-.selectMultiple > ul li:after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  border-radius: 100%;
-  -webkit-transform: scale(1, 1) translate(-50%, -50%);
-  -ms-transform: scale(1, 1) translate(-50%, -50%);
-  transform: scale(1, 1) translate(-50%, -50%);
-  -webkit-transform-origin: 50% 50%;
-  -ms-transform-origin: 50% 50%;
-  transform-origin: 50% 50%;
-}
-.selectMultiple > ul li.beforeRemove {
-  border-radius: 0 0 8px 8px;
-}
-.selectMultiple > ul li.beforeRemove:first-child {
-  border-radius: 8px;
-}
-.selectMultiple > ul li.afterRemove {
-  border-radius: 8px 8px 0 0;
-}
-.selectMultiple > ul li.afterRemove:last-child {
-  border-radius: 8px;
-}
-.selectMultiple > ul li.remove {
-  -webkit-transform: scale(0);
-  -ms-transform: scale(0);
-  transform: scale(0);
-  opacity: 0;
-}
-.selectMultiple > ul li.remove:after {
-  -webkit-animation: ripple 0.4s ease-out;
-  animation: ripple 0.4s ease-out;
-}
-.selectMultiple > ul li.notShown {
-  display: none;
-  -webkit-transform: scale(0);
-  -ms-transform: scale(0);
-  transform: scale(0);
-  opacity: 0;
-  -webkit-transition: opacity 0.4s ease, -webkit-transform 0.35s ease;
-  transition: opacity 0.4s ease, -webkit-transform 0.35s ease;
-  -o-transition: transform 0.35s ease, opacity 0.4s ease;
-  transition: transform 0.35s ease, opacity 0.4s ease;
-  transition: transform 0.35s ease, opacity 0.4s ease,
-    -webkit-transform 0.35s ease;
-}
-.selectMultiple > ul li.notShown.show {
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-  opacity: 1;
-}
-.selectMultiple.open > div {
-  -webkit-box-shadow: 0 4px 20px -1px rgba(22, 42, 90, 0.12);
-  box-shadow: 0 4px 20px -1px rgba(22, 42, 90, 0.12);
-}
-.selectMultiple.open > div .arrow:before {
-  -webkit-transform: rotate(-50deg);
-  -ms-transform: rotate(-50deg);
-  transform: rotate(-50deg);
-}
-.selectMultiple.open > div .arrow:after {
-  -webkit-transform: rotate(50deg);
-  -ms-transform: rotate(50deg);
-  transform: rotate(50deg);
-}
-.selectMultiple.open > ul {
-  -webkit-transform: translate(0, 12px) scale(1);
-  -ms-transform: translate(0, 12px) scale(1);
-  transform: translate(0, 12px) scale(1);
-  opacity: 1;
-  visibility: visible;
-  -webkit-filter: drop-shadow(0 16px 24px rgba(22, 42, 90, 0.16));
-  filter: drop-shadow(0 16px 24px rgba(22, 42, 90, 0.16));
-}
 
 .user_wrap .form-select {
   padding: 0.375rem 1.15rem 0.375rem 0.75rem !important;
@@ -2487,4 +2134,141 @@ input#mobile_code {
   position: relative;
   background-size: contain;
   height: 330px;
+}
+
+/* dog image upload & preview */
+
+#image-preview,#image-preview_1,#image-preview_2,#image-preview_3,#image-preview_4 {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
+  color: #ecf0f1;
+  height:100%;
+  background-size:contain;
+}
+
+#image-label,#image-label_1,#image-label_2,#image-label_3,#image-label_4 {
+  opacity:0;
+
+}
+
+.wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+
+
+.box {
+  position: relative;
+  min-width: 160px;
+  height:175px;
+  border-radius: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  overflow: hidden;
+}
+
+.upload-options {
+  position: absolute;
+  overflow: hidden;
+}
+
+.small_wrapper .small_box:first-child{
+    margin-bottom:10px;
+}
+
+.box:after{
+    content:"\2b";
+    font-weight:900;
+    font-family: "Font Awesome 6 Free";
+    position:absolute;
+    left:50%;
+    top:50%;
+    z-index: 0;
+    cursor: pointer;
+}
+.small_box:after{
+    content:"\2b";
+    font-weight:900;
+    font-family: "Font Awesome 6 Free";
+    position:absolute;
+    left:40%;
+    top:40%;
+    z-index: 0;
+    cursor: pointer;
+}
+.upload-options input,.small_box .upload-options input{
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    z-index: 4;
+    width:10%;
+    left:50%;
+    top:50%;
+}
+.small_box .upload-options input{
+    top:38%;
+}
+.small_box{
+    min-width: 80px;
+    height: 80px;
+    position: relative;
+}
+.main_box{
+    margin: 10px;
+}
+.small_wrapper:last-child{
+    margin-left:10px;
+}
+.small_box .upload-options input{
+    width: 20%;
+    left: 40%;
+}
+.small_box .upload-options{
+    top:0%;
+}
+
+
+.dog_breed .select2-container {
+  width: 100% !important;
+}
+.select2-search--dropdown .select2-search__field{
+  height: 25px !important;
+    border-radius: 6px !important;
+}
+.dog_breed .select2-results__option{
+  font-size: 15px;
+}
+
+.gene input[type="checkbox"]{
+  display: none;
+}
+
+.genActive{
+  font-size: 12px !important;
+    font-weight: 500 !important;
+    color: #f3746e !important;
+    /* border: 1px solid;
+    border-radius: 20px;
+    padding: 4px; */
+}
+.multiselect_breed .gene label{
+  font-size: 12px;
+  font-weight: 500;
+  color: #272727;
+  border: 1px solid;
+  border-radius: 20px;
+  padding: 4px 7px;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-bottom: 15px;
+    padding: 5px 15px;
+  }
+.multiselect_breed  .gene.col {
+    display: initial;
+    margin-right: 10px;
 }

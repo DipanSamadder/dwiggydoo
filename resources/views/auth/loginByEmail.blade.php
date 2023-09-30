@@ -35,7 +35,7 @@
             
             <p class="mb-2">A 6 digit OTP has been sent for verification on your Email Address</p>
             <p class="edit-phone-no"><span>Edit:</span> <b id="updateEmailOnOTP"></b> </p>
-            <form class="otp-verify email_otp" name="otp-verify" id="otp-verify" action="{{ route('register.otp.submit') }}" method="post">
+            <form class="otp-verify email_otp otp-field" name="otp-verify" id="otp-verify" action="{{ route('register.otp.submit') }}" method="post">
                 @csrf
                 <input type="hidden" name="id" id="user_id" value="">
                 <input type="text" name="otp1" maxlength="1">
@@ -126,6 +126,7 @@
                 if(data.success === true){
                     sessionStorage.setItem('access_token', data.access_token);
                     sessionStorage.setItem('token_type', data.token_type);
+                    sessionStorage.setItem('user_id', id);
 
                     dsldFlashNotification('success', data.message);
                     if(data.new_user == true){
@@ -183,23 +184,39 @@
     });
 </script>
 
+
 <script>
-    var container = document.getElementsByClassName("email_otp")[0];
-        container.onkeyup = function(e) {
-            var target = e.srcElement;
-            var maxLength = parseInt(target.attributes["maxlength"].value, 10);
-            var myLength = target.value.length;
-            if (myLength >= maxLength) {
-                var next = target;
-                while (next = next.nextElementSibling) {
-                    if (next == null)
-                        break;
-                    if (next.tagName.toLowerCase() == "input") {
-                        next.focus();
-                        break;
-                    }
-                }
+        const inputs=document.querySelectorAll(".otp-field input");
+        inputs.forEach((input, index) =>{
+            input.dataset.index = index;
+            input.addEventListener("keyup", handleotp);
+            input.addEventListener("paste", handleOnPasteOtp);
+        });
+
+        function handleotp(e){
+            const input = e.target;
+            let value = input.value;
+            let isValidInput = value.match(/[0-9a-z]/gi);
+            input.value = "";
+            input.value = isValidInput ? value[0] : "";
+            let fieldIndex = input.dataset.index;
+            if (fieldIndex < inputs.length - 1 && isValidInput) {
+                input.nextElementSibling.focus();
+            }
+            if (e.key === "Backspace" && fieldIndex > 0) {
+                input.previousElementSibling.focus();
+            }
+            if (fieldIndex == inputs.length - 1 && isValidInput) {
+                submit();
             }
         }
-</script>
+        function handleOnPasteOtp(e) {
+            const data = e.clipboardData.getData("text");
+            const value = data.split("");
+            if (value.length === inputs.length) {
+                inputs.forEach((input, index) => (input.value = value[index]));
+                submit();
+            }
+        }
+    </script>
 @endsection

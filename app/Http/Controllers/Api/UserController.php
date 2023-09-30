@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\UserCollection;
+use App\Http\Resources\DogCollection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
@@ -16,7 +17,7 @@ class UserController extends Controller
 {
   
 
-    public function setupUserDetails(Request $request)
+    public function setupStep1(Request $request)
     {
         $auth =  auth('sanctum')->user();
         $validator = Validator::make($request->all(), [
@@ -32,9 +33,79 @@ class UserController extends Controller
         $user = User::findOrFail($auth->id);
         $user->name  = $request->name;
         $user->age  = $request->age;
+        $user->dob  = $request->dob;
         $user->save();
 
         return $this->sendResponse(new UserCollection($user), 'Profile information has been updated successfully');
+    }
+
+    public function setupStep2(Request $request)
+    {
+
+        $auth =  auth('sanctum')->user();
+
+        $dog = Dog::findOrFail($request->dog_id);
+
+        if(isset($request->step)){
+            switch ($request->step) {
+                case 2:
+                    if(isset($request->dog_name)){  $dog->name  = $request->dog_name; }
+                    if(isset($request->dog_age)){  $dog->age  = $request->dog_age; }
+                    if(isset($request->dog_gender)){  $dog->gender  = $request->dog_gender; }
+                    $dog->save();
+                    return $this->sendResponse(new DogCollection($dog), 'Update dog details.');
+                    break;
+                case 3:
+                    if(isset($request->dog_breed)){  $dog->breed_id  = $request->dog_breed; }
+                    $dog->save();
+                    return $this->sendResponse(new DogCollection($dog), 'Update dog details.');
+                    break;
+                case 4:
+                    $davatar_original = 0;
+                    $davatar = json_decode($dog->avatar, true);
+
+                    if($request->hasFile('davatar1')){
+                        $files = $dog->addMedia($request->file('davatar1'))->withCustomProperties(['purpose' => 'dogs'])->toMediaCollection('dogs', 'uploads_dogs');
+                        $davatar[0] = $files->id;
+                    }
+
+                    if($request->hasFile('davatar2')){
+                        $files = $dog->addMedia($request->file('davatar2'))->withCustomProperties(['purpose' => 'dogs'])->toMediaCollection('dogs', 'uploads_dogs');
+                        $davatar[1] = $files->id;
+                    }
+
+                    if($request->hasFile('davatar3')){
+                        $files = $dog->addMedia($request->file('davatar3'))->withCustomProperties(['purpose' => 'dogs'])->toMediaCollection('dogs', 'uploads_dogs');
+                        $davatar[2] = $files->id;
+                    }
+
+                    if($request->hasFile('davatar4')){
+                        $files = $dog->addMedia($request->file('davatar4'))->withCustomProperties(['purpose' => 'dogs'])->toMediaCollection('dogs', 'uploads_dogs');
+                        $davatar[3] = $files->id;
+                    }
+
+                    if($request->hasFile('davatar5')){
+                        $files = $dog->addMedia($request->file('davatar5'))->withCustomProperties(['purpose' => 'dogs'])->toMediaCollection('dogs', 'uploads_dogs');
+                        $davatar[4] = $files->id;
+                    }
+
+                    $dog->avatar  = json_encode($davatar);
+                    $dog->avatar_original  = $davatar[0];
+                    $dog->save();
+                    return $this->sendResponse(new DogCollection($dog), 'Update dog details.');
+                    break;
+                case 5:
+                    if(isset($request->good_genes)){ $dog->good_genes_id  = json_encode($request->good_genes); }
+                    $dog->save();
+                    return $this->sendResponse(new DogCollection($dog), 'Update dog details.');
+                    break;
+                default:
+                    return $this->sendError('Something Wrong. Please try again.');
+                    break;
+            }
+        }else{
+            return $this->sendError('Something Wrong. Please try again.');       
+        }
     }
 
     public function setup(Request $request)

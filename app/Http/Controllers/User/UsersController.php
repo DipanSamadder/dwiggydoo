@@ -5,10 +5,13 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Dog;
 use App\Models\Role;
 use App\Models\Permission;
 use Validator;
 use Hash;
+use Session;
+
 
 class UsersController extends Controller
 {
@@ -258,6 +261,9 @@ class UsersController extends Controller
        
     }
     public function setup_profile(){
-        return view('frontend.pages.users.setup');
+        $user_id = Session::get('userDetails.id');
+        $userDetails = User::find($user_id);
+        $dogDetailsDefault = $userDetails->dogs()->where('is_default', 1)->where('status', 1)->first();
+        return view('frontend.pages.users.setup', compact('userDetails', 'dogDetailsDefault'));
     }
 }

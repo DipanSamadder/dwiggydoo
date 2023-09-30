@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Validator;
-
+use Session;
 
 class RegisteredUserController extends Controller
 {
@@ -156,6 +156,23 @@ class RegisteredUserController extends Controller
        }
        $accessToken = $user->createToken('MyAuthApp')->plainTextToken;
 
+        $userDetails = [
+                    'id' => $user->id,
+                    'type' => $user->user_type,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'avatar' => $user->avatar,
+                    'avatar_original' => $user->avatar_original,
+                    'address' => $user->address,
+                    'country'  => $user->country,
+                    'city' => $user->city,
+                    'postal_code' => $user->postal_code,
+                    'phone' => $user->phone
+                ];
+       Session::put('userDetails', $userDetails);
+       Session::put('token_type',  'Bearer');
+       Session::put('access_token', $accessToken);    
+                    
        return response()->json(['success'=> true, 'message' => 'Login Successfull.','token_type'=> 'Bearer', 'access_token'=> $accessToken, 'new_user' => true]);
     }
 }

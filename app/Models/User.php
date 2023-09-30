@@ -68,4 +68,10 @@ class User extends Authenticatable  implements HasMedia
               ->format('webp')->blur(10);
         });
     }
+
+    public function dogs(){
+        return $this->hasMany(Dog::class, 'user_id');
+    }
+
+  
 }
