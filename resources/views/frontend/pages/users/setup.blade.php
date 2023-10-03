@@ -55,7 +55,7 @@
         </div>
 
 
-        <div class="col-lg-12 doo_right step-1 ">
+        <div class="col-lg-12 doo_right step-1 activeD">
             <form name="setup-user-profile-step1" id="setup-user-profile-step1" action="setup/profile/details/step1" method="post">
             @csrf
             <div class="col-lg-12 pb-3">
@@ -311,7 +311,7 @@
             </form>
         </div>
 
-        <div class="col-lg-12 doo_right activeD">
+        <div class="col-lg-12 doo_right">
             <form id="setup-user-profile-step6" action="setup/profile/details/step2" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="step" value="6">
@@ -321,10 +321,16 @@
                         <div id="map"></div>
                     </div>
                     <div class="col-lg-12">
-                        <input type="text" name="location" id="location" class="form-control form-control-sm" placeholder="Add your name" @if($userDetails) value="{{ $userDetails->name }}" @endif required/>
+                        <input type="text" name="location" id="location" onChange="CheckStep(['location', 'lat', 'long'], '.step6_next_btn')" class="form-control form-control-sm" placeholder="Manualy type your Location" required/>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="hidden" name="lat" id="lat" onChange="CheckStep(['location', 'lat', 'long'], '.step6_next_btn')" class="form-control form-control-sm" required/>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="hidden" name="long" id="long"  onChange="CheckStep(['location', 'lat', 'long'], '.step6_next_btn')" class="form-control form-control-sm" required/>
                     </div>
                     
-                    <div class="col-lg-12 mx-auto action_next_btn step3_next_btn txt02 text-end mt-3">
+                    <div class="col-lg-12 mx-auto action_next_btn step6_next_btn txt02 text-end mt-3">
                         <button type="submit"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
@@ -381,7 +387,8 @@ function initMap() {
         navigator.geolocation.getCurrentPosition(function (position) {
             const myLatlng = {lat: position.coords.latitude,lng: position.coords.longitude};
             const map = new google.maps.Map(document.getElementById("map"), {zoom: 20,center: myLatlng});
-
+            $('#lat').val(position.coords.latitude);
+            $('#long').val(position.coords.longitude);
             let infoWindow = new google.maps.InfoWindow({
             position: myLatlng,
             content: '<img src="'+"{{ asset('frontend/images/output-onlinegiftools.gif') }}"+'" />',
@@ -393,7 +400,8 @@ function initMap() {
             map.addListener("click", (mapsMouseEvent) => {
                 const clicklatlong = {lat: mapsMouseEvent.latLng.lat(),long: mapsMouseEvent.latLng.lng()}
                 getAddressFromLatLng(clicklatlong.lat,clicklatlong.long);
-                alert(mapsMouseEvent.latLng);
+                $('#lat').val(clicklatlong.lat);
+                $('#long').val(clicklatlong.long);
                 infoWindow.close();
                 // Create a new InfoWindow.
                 infoWindow = new google.maps.InfoWindow({
@@ -414,11 +422,10 @@ function initMap() {
         .then((response) => response.json())
         .then((data) => {
             if (data.display_name) {
-            const address = data.display_name;
-            console.log('Address:', address);
-            // You can use the address as needed in your application
+                const address = data.display_name;
+                $('#location').val(address);
             } else {
-            console.log('No address found');
+                console.log('No address found');
             }
         })
         .catch((error) => {
@@ -483,6 +490,12 @@ $(document).ready(function() {
         postAjaxSubmitStep(data, '#setup-user-profile-step4');
     });
 
+    $('#setup-user-profile-step6').submit(function(e){
+        e.preventDefault();
+        var data = new FormData(this);
+        postAjaxSubmitStep(data, '#setup-user-profile-step6');
+    });
+
     $('#setup-user-profile-step5').submit(function(e){
         e.preventDefault();
         var data = new FormData(this);
@@ -513,6 +526,9 @@ $(document).ready(function() {
             $(formName).parent().find('.loader-area').remove();
             if(data.success === true){
                 dsldFlashNotification('success', data.message);
+                if(data.message == 'Location update successful.'){
+                    window.location.href="{{route('home') }}";
+                }
                 clickToNextTab();    
             }
         },

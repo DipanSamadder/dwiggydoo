@@ -53,12 +53,12 @@ class UserController extends Controller
                     if(isset($request->dog_age)){  $dog->age  = $request->dog_age; }
                     if(isset($request->dog_gender)){  $dog->gender  = $request->dog_gender; }
                     $dog->save();
-                    return $this->sendResponse(new DogCollection($dog), 'Update dog details.');
+                    return $this->sendResponse(new DogCollection($dog), 'Dog details update successful.');
                     break;
                 case 3:
                     if(isset($request->dog_breed)){  $dog->breed_id  = $request->dog_breed; }
                     $dog->save();
-                    return $this->sendResponse(new DogCollection($dog), 'Update dog details.');
+                    return $this->sendResponse(new DogCollection($dog), 'Dog’s Breed update successful.');
                     break;
                 case 4:
                     $davatar_original = 0;
@@ -92,12 +92,48 @@ class UserController extends Controller
                     $dog->avatar  = json_encode($davatar);
                     $dog->avatar_original  = $davatar[0];
                     $dog->save();
-                    return $this->sendResponse(new DogCollection($dog), 'Update dog details.');
+                    return $this->sendResponse(new DogCollection($dog), 'Dog photos update successful.');
                     break;
                 case 5:
                     if(isset($request->good_genes)){ $dog->good_genes_id  = json_encode($request->good_genes); }
                     $dog->save();
-                    return $this->sendResponse(new DogCollection($dog), 'Update dog details.');
+                    return $this->sendResponse(new DogCollection($dog), 'Dog genes update successful.');
+                    break;
+                case 6:
+                    $address = Address::where('user_id',  $auth->id)->where('dog_id',  $request->dog_id)->first();
+
+                    if(is_null($address)){
+                        $address = new Address;
+                        $address->user_id = $auth->id;
+                        $address->dog_id = $request->dog_id;
+                    }
+
+                    $addressParts = explode(', ', $request->location);  
+                    $totalParts = count($addressParts);
+
+                    if(isset($request->location)){ $address->location_id  = $request->location; }
+                    if(isset($request->lat)){ $address->latitude  = $request->lat; }
+                    if(isset($request->long)){ $address->longitude  = $request->long; }
+                    $addrs = array();
+                    for($i = 0; $i<=$totalParts-1; $i++){
+                       
+
+                        if($totalParts-1 == $i){
+                            $address->country = $addressParts[$totalParts-1];
+                        }else if($totalParts-2 == $i){
+                            $address->postal_code = $addressParts[$totalParts-2];
+                        }else if($totalParts-3 == $i){
+                            $address->city = $addressParts[$totalParts-3];
+                        }else{
+                            array_push($addrs, $addressParts[$i]);
+                        }
+                    }
+
+
+                    $address->address  = implode(", ",$addrs);
+
+                    $address->save();
+                    return $this->sendResponse(new DogCollection($dog), 'Location update successful.');
                     break;
                 default:
                     return $this->sendError('Something Wrong. Please try again.');
@@ -158,15 +194,7 @@ class UserController extends Controller
         $user->name  = $request->name;
         $user->age  = $request->age;
 
-        $address = new Address;
-        $address->user_id  = $request->user_id;
-        $address->country  = $request->country;
-        $address->city  = $request->city;
-        $address->postal_code  = $request->postal_code;
-        $address->address  = $request->address;
-        $address->latitude  = $request->latitude;
-        $address->longitude  = $request->longitude;
-        $address->set_default  = 0;
+ 
         
 
         $dogs = new Dog;
@@ -182,6 +210,18 @@ class UserController extends Controller
        
 
         $dogs->save();
+
+        $address = new Address;
+        $address->user_id  = $request->user_id;
+        $address->dog_id  = $dogs->id;
+        $address->country  = $request->country;
+        $address->city  = $request->city;
+        $address->postal_code  = $request->postal_code;
+        $address->address  = $request->address;
+        $address->latitude  = $request->latitude;
+        $address->longitude  = $request->longitude;
+        $address->set_default  = 0;
+
 
         $davatar_original = 0;
         $davatar = array();
