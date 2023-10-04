@@ -141,4 +141,17 @@ class BreedsController extends Controller
         }
        
     }
+
+    public function all_breeds(){
+        $top_breeds = Breed::where('top', 1)->where('status', 1)->orderBy('name', 'ASC')->get();
+        $breeds = Breed::where('status', 1)->orderBy('name', 'ASC')->get();
+        return view('frontend.pages.breeds', compact('top_breeds', 'breeds'));
+    }
+
+    public function breeds_search(Request $request){
+        if(!empty($request->text)){
+            $data = Breed::where('name', 'LIKE', '%'.$request->text.'%')->where('status', 1)->limit(20)->get();
+            return view('frontend.partials.breed-search', compact('data'));
+        }
+    }
 }

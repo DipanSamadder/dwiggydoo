@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +17,7 @@ Route::get('/password', function(){
 });
 
 
-Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('send-test-mail', 'MailController@testmail')->name('testmail');
 Route::get('/optimize', function() {
     Artisan::call('optimize:clear');
@@ -47,10 +47,14 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('signout', [AuthenticatedSessionController::class, 'signout'])->name('signout');
+    Route::get('/', 'HomeController@index')->name('home');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('user/setup', 'User\UsersController@setup_profile')->name('user.setup');
+    Route::get('/breeds', 'Dogs\BreedsController@all_breeds')->name('breeds.all');
+    Route::post('/breeds-search', 'Dogs\BreedsController@breeds_search')->name('breeds.search');
 });
 
 require __DIR__.'/auth.php';

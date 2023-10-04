@@ -12,7 +12,7 @@ use App\Models\Address;
 use App\Models\Dog;
 use App\Models\UserReferralToken;
 use Hash;
-
+use Session;
 class UserController extends Controller
 {
   
@@ -44,7 +44,17 @@ class UserController extends Controller
 
         $auth =  auth('sanctum')->user();
 
-        $dog = Dog::findOrFail($request->dog_id);
+        if(isset($request->dog_id)){
+            $dog = Dog::findOrFail($request->dog_id);
+            $dog->user_id = $auth->id;
+        }elseif(Session::get('defaultDogID')){
+            $dog = Dog::findOrFail(Session::get('defaultDogID'));
+            $dog->user_id = $auth->id;
+        }else{
+            $dog = new Dog;
+            $dog->user_id = $auth->id;
+        }
+       
 
         if(isset($request->step)){
             switch ($request->step) {
@@ -52,7 +62,9 @@ class UserController extends Controller
                     if(isset($request->dog_name)){  $dog->name  = $request->dog_name; }
                     if(isset($request->dog_age)){  $dog->age  = $request->dog_age; }
                     if(isset($request->dog_gender)){  $dog->gender  = $request->dog_gender; }
+                    $dog->is_default = 1;
                     $dog->save();
+                    Session::put('defaultDogID', $dog->id);
                     return $this->sendResponse(new DogCollection($dog), 'Dog details update successful.');
                     break;
                 case 3:
@@ -100,12 +112,13 @@ class UserController extends Controller
                     return $this->sendResponse(new DogCollection($dog), 'Dog genes update successful.');
                     break;
                 case 6:
-                    $address = Address::where('user_id',  $auth->id)->where('dog_id',  $request->dog_id)->first();
+                    $dog_id = isset($request->dog_id) ? $request->dog_id :  Session::get('defaultDogID');
+                    $address = Address::where('user_id',  $auth->id)->where('dog_id',  $dog_id)->first();
 
                     if(is_null($address)){
                         $address = new Address;
                         $address->user_id = $auth->id;
-                        $address->dog_id = $request->dog_id;
+                        $address->dog_id = $dog_id;
                     }
 
                     $addressParts = explode(', ', $request->location);  
@@ -131,8 +144,26 @@ class UserController extends Controller
 
 
                     $address->address  = implode(", ",$addrs);
-
+                    $address->set_default  = 1;
                     $address->save();
+
+                    $user_id = Session::get('userDetails.id');
+                    $userDetails = User::find($user_id);
+                    $userDetails->setup = 1;
+                    $userDetails->save();
+                    
+                    $dogDetailsDefault = $userDetails->dogs()->where('is_default', 1)->where('status', 1)->first();
+                    if(is_null($dogDetailsDefault )){
+                        $dogDetailsDefault = $userDetails->dogs()->where('status', 1)->first();
+                    }
+
+                    if(!is_null($dogDetailsDefault)){
+                        Session::put('defaultDogDetails', $dogDetailsDefault);
+                    }
+                    if(!is_null($address)){
+                        Session::put('defaultAddressDetails', $address);
+                    }
+
                     return $this->sendResponse(new DogCollection($dog), 'Location update successful.');
                     break;
                 default:

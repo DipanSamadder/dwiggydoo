@@ -40,4 +40,20 @@
   .home_sidebar_sec.open .sidebar_menus {
     left: -2%;
   }
+  .home_sidebar_sec nav .container-fluid{
+    display: flex !important;
+  }
+}
+
+
+@media (min-width:1600) {
+  .home_sidebar_sec.open .sidebar_menus{
+    left: -8%;
+  }
+}
+
+@media (min-width: 1850px) and (max-width: 1920px) {
+  .home_sidebar_sec.openSrch .search_sec,.home_sidebar_sec.open .notification_sec{
+    left: 6%;
+  }
 }

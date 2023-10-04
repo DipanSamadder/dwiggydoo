@@ -9,9 +9,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        echo 'test';
-        return User::role('admin')->get();
-        //return view('frontend.index');
+        return view('frontend.index');
     }
 
      function admin_dashboard(){

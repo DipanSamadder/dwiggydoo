@@ -49,4 +49,10 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    public function signout(){
+        auth()->logout();
+        Session()->flush();
+        return redirect('login');
+    }
 }

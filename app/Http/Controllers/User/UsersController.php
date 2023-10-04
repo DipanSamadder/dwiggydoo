@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Address;
 use App\Models\Dog;
 use App\Models\Role;
 use App\Models\Permission;
@@ -261,9 +262,35 @@ class UsersController extends Controller
        
     }
     public function setup_profile(){
+
+
         $user_id = Session::get('userDetails.id');
         $userDetails = User::find($user_id);
+       
+
         $dogDetailsDefault = $userDetails->dogs()->where('is_default', 1)->where('status', 1)->first();
+        if(is_null($dogDetailsDefault )){
+            $dogDetailsDefault = $userDetails->dogs()->where('status', 1)->first();
+        }
+        
+        if(!is_null($dogDetailsDefault)){
+            
+            $address = Address::where('user_id',  $user_id)->where('dog_id',  $dogDetailsDefault->id)->where('set_default', 1)->first();
+            if(is_null($address)){
+                $address = Address::where('user_id',  $user_id)->where('dog_id',  $dogDetailsDefault->id)->first();
+            }
+
+            if(!is_null($address)){
+                Session::put('defaultAddressDetails', $address);
+            }
+            Session::put('defaultDogDetails', $dogDetailsDefault);
+        }
+        
+        
+        if($userDetails->setup == 1){
+            return redirect()->route('home');
+        }
+
         return view('frontend.pages.users.setup', compact('userDetails', 'dogDetailsDefault'));
     }
 }

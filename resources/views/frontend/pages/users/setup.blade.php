@@ -111,7 +111,7 @@
             
             <form id="setup-user-profile-step2" action="setup/profile/details/step2" method="post">
             @csrf
-                <input type="hidden" name="dog_id" value="{{ $dogDetailsDefault->id }}">
+                <input type="hidden" name="dog_id" @if(isset($dogDetailsDefault)) value="{{ $dogDetailsDefault->id }}" @endif>
                 <input type="hidden" name="step" value="2">
                 <div class="row">
                     <div class="col-lg-12 dog_name pb-3">
@@ -174,7 +174,7 @@
             <form  id="setup-user-profile-step3" action="setup/profile/details/step2" method="post">
                 @csrf
                 <input type="hidden" name="step" value="3">
-                <input type="hidden" name="dog_id" value="{{ $dogDetailsDefault->id }}">
+                <input type="hidden" name="dog_id" @if(isset($dogDetailsDefault))  value="{{ $dogDetailsDefault->id }}" @endif>
                 <div class="row">
                     <div class="col-lg-12 dog_name pb-3">
                         <label for="dog_breed" class="form-label">What’s Your Dog’s Breed?</label>
@@ -189,7 +189,7 @@
                             @endphp
                             @if(!is_array($top_breed) && count($top_breed) > 1)
                                 @foreach($top_breed as $key => $value)
-                                    <option id="breed{{ $value->id }}" value="{{ $value->id }}" @if($dogDetailsDefault->breed_id == $value->id) selected @endif>{{ $value->name }}</option>
+                                    <option id="breed{{ $value->id }}" value="{{ $value->id }}" @if(isset($dogDetailsDefault))  @if($dogDetailsDefault->breed_id == $value->id) selected @endif @endif>{{ $value->name }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -222,7 +222,7 @@
             <form  id="setup-user-profile-step4" action="setup/profile/details/step2" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="step" value="4">
-                <input type="hidden" name="dog_id" value="{{ $dogDetailsDefault->id }}">
+                <input type="hidden" name="dog_id" @if(isset($dogDetailsDefault))  value="{{ $dogDetailsDefault->id }}" @endif>
                 <div class="row">
                     <div class="col-lg-12 pb-3 dog_photo">
                         <h6>Nice To Meet You!</h6>
@@ -231,7 +231,7 @@
                     <div class="col-lg-12 photos_card_wrap">
                         <div class="wrapper">
                             <div class="box main_box">
-                                <div class="upload-options" id="image-preview" @if(count(json_decode($dogDetailsDefault->avatar)) >= 1 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[0]) }}');background-size: cover;background-position: center center;" @endif>
+                                <div class="upload-options" id="image-preview"  @if(isset($dogDetailsDefault)) @if(count(json_decode($dogDetailsDefault->avatar)) >= 1 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[0]) }}');background-size: cover;background-position: center center;" @endif @endif>
                                     <span id="image-label"></span>
                                     <input type="file" class="image-upload" name="davatar1" id="image-upload" name="davatar[]" @if(!is_null($dogDetailsDefault) && count(json_decode($dogDetailsDefault->avatar)) == 1 ) value="{{ $dogDetailsDefault->avatar_original }}" @endif accept="image/*" />
                                 </div>
@@ -239,32 +239,32 @@
 
                             <div class="small_wrapper">
                                 <div class="box small_box">
-                                    <div class="upload-options" id="image-preview_1" @if(count(json_decode($dogDetailsDefault->avatar)) >=2 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[1]) }}');background-size: cover;background-position: center center;" @endif>
+                                    <div class="upload-options" id="image-preview_1"  @if(isset($dogDetailsDefault)) @if(count(json_decode($dogDetailsDefault->avatar)) >=2 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[1]) }}');background-size: cover;background-position: center center;" @endif @endif>
                                         <span id="image-label_1"></span>
-                                        <input type="file" class="image-upload" name="davatar2" id="image-upload_1" accept="image/*" @if(!is_null($dogDetailsDefault) && count(json_decode($dogDetailsDefault->avatar)) == 2) value="{{ json_decode($dogDetailsDefault->avatar, true)[1] }}"  @endif/>
+                                        <input type="file" class="image-upload" name="davatar2" id="image-upload_1" accept="image/*" @if(isset($dogDetailsDefault)) @if(!is_null($dogDetailsDefault) && count(json_decode($dogDetailsDefault->avatar)) == 2) value="{{ json_decode($dogDetailsDefault->avatar, true)[1] }}"  @endif @endif/>
                                     </div>
                                 </div>
 
                                 <div class="box small_box">
-                                    <div class="upload-options" id="image-preview_2" @if(count(json_decode($dogDetailsDefault->avatar)) >=3 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[2]) }}');background-size: cover;background-position: center center;" @endif>
+                                    <div class="upload-options" id="image-preview_2" @if(isset($dogDetailsDefault)) @if(count(json_decode($dogDetailsDefault->avatar)) >=3 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[2]) }}');background-size: cover;background-position: center center;" @endif  @endif>
                                         <span id="image-label_2"></span>
-                                        <input type="file" class="image-upload" name="davatar3" id="image-upload_2" accept="image/*" @if(!is_null($dogDetailsDefault) && count(json_decode($dogDetailsDefault->avatar)) == 3) value="{{ json_decode($dogDetailsDefault->avatar, true)[2] }}"  @endif />
+                                        <input type="file" class="image-upload" name="davatar3" id="image-upload_2" accept="image/*" @if(isset($dogDetailsDefault)) @if(!is_null($dogDetailsDefault) && count(json_decode($dogDetailsDefault->avatar)) == 3) value="{{ json_decode($dogDetailsDefault->avatar, true)[2] }}"  @endif @endif/>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="small_wrapper">
                                 <div class="box small_box">
-                                    <div class="upload-options" id="image-preview_3" @if(count(json_decode($dogDetailsDefault->avatar)) >=4 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[3]) }}');background-size: cover;background-position: center center;" @endif>
+                                    <div class="upload-options" id="image-preview_3"  @if(isset($dogDetailsDefault)) @if(count(json_decode($dogDetailsDefault->avatar)) >=4 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[3]) }}');background-size: cover;background-position: center center;" @endif @endif>
                                         <span id="image-label_3"></span>
-                                        <input type="file" class="image-upload" name="davatar4" id="image-upload_3" accept="image/*"  @if(!is_null($dogDetailsDefault) && count(json_decode($dogDetailsDefault->avatar)) == 4) value="{{ json_decode($dogDetailsDefault->avatar, true)[3] }}"  @endif/>
+                                        <input type="file" class="image-upload" name="davatar4" id="image-upload_3" accept="image/*"  @if(isset($dogDetailsDefault)) @if(!is_null($dogDetailsDefault) && count(json_decode($dogDetailsDefault->avatar)) == 4) value="{{ json_decode($dogDetailsDefault->avatar, true)[3] }}"  @endif @endif/>
                                     </div>
                                 </div>
 
                                 <div class="box small_box">
-                                    <div class="upload-options" id="image-preview_4" @if(count(json_decode($dogDetailsDefault->avatar)) ==5 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[4]) }}');background-size: cover;background-position: center center;" @endif>
+                                    <div class="upload-options" id="image-preview_4"  @if(isset($dogDetailsDefault)) @if(count(json_decode($dogDetailsDefault->avatar)) ==5 ) style="background-image: url('{{ dsld_uploaded_file_path( json_decode($dogDetailsDefault->avatar, true)[4]) }}');background-size: cover;background-position: center center;" @endif @endif>
                                         <span id="image-label_4"></span>
-                                        <input type="file" class="image-upload" name="davatar5" id="image-upload_4" accept="image/*"  @if(!is_null($dogDetailsDefault) && count(json_decode($dogDetailsDefault->avatar)) == 5) value="{{ json_decode($dogDetailsDefault->avatar, true)[4] }}"  @endif/>
+                                        <input type="file" class="image-upload" name="davatar5" id="image-upload_4" accept="image/*"  @if(isset($dogDetailsDefault)) @if(!is_null($dogDetailsDefault) && count(json_decode($dogDetailsDefault->avatar)) == 5) value="{{ json_decode($dogDetailsDefault->avatar, true)[4] }}"  @endif @endif/>
                                     </div>
                                 </div>
                             </div>
@@ -284,7 +284,7 @@
             <form id="setup-user-profile-step5" action="setup/profile/details/step2" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="step" value="5">
-                <input type="hidden" name="dog_id" value="{{ $dogDetailsDefault->id }}">
+                <input type="hidden" name="dog_id" @if(isset($dogDetailsDefault))  value="{{ $dogDetailsDefault->id }}" @endif>
                 <div class="row">
                     <div class="col-lg-12 dog_name pb-3 mb-2">
                         <label for="" class="form-label">Select Good Genes</label>
@@ -293,16 +293,18 @@
                             @if(App\Models\GoodGene::where('status', 1)->count() > 0)
                                 @foreach(App\Models\GoodGene::where('status', 1)->get() as $key => $value)
                                     <div class="gene col text-center">
-                                        <label for="gene{{ $value->id }}" id="good_genes{{ $value->id }}" @if(in_array($value->id, json_decode($dogDetailsDefault->good_genes_id))) class="genActive" @endif  >{{ $value->name }}</label>
-                                        <input type="checkbox" value="{{ $value->id }}" name="good_genes[]" id="gene{{ $value->id }}" @if(in_array($value->id, json_decode($dogDetailsDefault->good_genes_id))) checked @endif onclick="CheckGensSelectedCount('{{ $value->id }}')"/>
+                                        <label for="gene{{ $value->id }}" id="good_genes{{ $value->id }}"  @if(isset($dogDetailsDefault)) @if(in_array($value->id, json_decode($dogDetailsDefault->good_genes_id))) class="genActive" @endif @endif >{{ $value->name }}</label>
+                                        <input type="checkbox" value="{{ $value->id }}" name="good_genes[]" id="gene{{ $value->id }}"  @if(isset($dogDetailsDefault)) @if(in_array($value->id, json_decode($dogDetailsDefault->good_genes_id))) checked @endif @endif onclick="CheckGensSelectedCount('{{ $value->id }}')"/>
                                     </div>
                                 @endforeach
                             @endif
                         </div>
                     </div>    
+                    @if(isset($dogDetailsDefault))
                     <div class="col-lg-11 dog_text">
                         <p><span id="numberSelectedGens">{{ count(json_decode($dogDetailsDefault->good_genes_id)) }}/5 Selected</span></p>
                     </div>
+                    @endif
                     <div class="col-lg-12 mx-auto action_next_btn step3_next_btn txt02 text-end mt-3">
                             <button type="submit"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
@@ -315,7 +317,7 @@
             <form id="setup-user-profile-step6" action="setup/profile/details/step2" method="post" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="step" value="6">
-                <input type="hidden" name="dog_id" value="{{ $dogDetailsDefault->id }}">
+                <input type="hidden" name="dog_id" @if(isset($dogDetailsDefault))  value="{{ $dogDetailsDefault->id }}" @endif>
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="map"></div>

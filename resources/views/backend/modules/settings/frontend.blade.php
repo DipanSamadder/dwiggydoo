@@ -65,7 +65,7 @@
 
                                             @if(dsld_get_setting('site_logo') > 0)
                                             <div class="image mt-2">
-                                                <img src="{{ dsld_uploaded_asset(dsld_get_setting('site_logo')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('site_logo')) }}" class="page_banner_icon">
+                                                <img src="{{ dsld_uploaded_file_path(dsld_get_setting('site_logo')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('site_logo')) }}" class="page_banner_icon">
                                             </div> 
                                             @endif                                                            
                                         </div>
@@ -79,7 +79,7 @@
 
                                             @if(dsld_get_setting('site_fav_icon') > 0)
                                             <div class="image mt-2 d-inline">
-                                                <img src="{{ dsld_uploaded_asset(dsld_get_setting('site_fav_icon')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('site_fav_icon')) }}" class="page_banner_icon">
+                                                <img src="{{ dsld_uploaded_file_path(dsld_get_setting('site_fav_icon')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('site_fav_icon')) }}" class="page_banner_icon">
                                             </div> 
                                             @endif 
                                             <div class="put_image1">@if(!is_null(dsld_get_setting('site_fav_icon')))<strong>Selected Image:</strong><i> {{ dsld_get_setting('site_fav_icon') }}</i>@endif</div>
@@ -117,7 +117,7 @@
 
                                             @if(dsld_get_setting('site_registration_background') > 0)
                                             <div class="image mt-2">
-                                                <img src="{{ dsld_uploaded_asset(dsld_get_setting('site_registration_background')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('site_registration_background')) }}" class="page_banner_icon">
+                                                <img src="{{ dsld_uploaded_file_path(dsld_get_setting('site_registration_background')) }}"  alt="{{ dsld_upload_file_title(dsld_get_setting('site_registration_background')) }}" class="page_banner_icon">
                                             </div> 
                                             @endif                                                            
                                         </div>
