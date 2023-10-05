@@ -2,7 +2,7 @@
 @if(!empty($data))
 <ul >
     @foreach($data as $key => $value)
-        <li>{{ $value->name }}</li>
+        <li><a href="{{ route('breeds.find.slug', ['slug' => $value->slug]) }}">{{ $value->name }} </a></li>
     @endforeach
 </ul>
 @endif

@@ -21,14 +21,15 @@ class FriendshipController extends Controller
 
     public function send_request(Request $request)
     {
+  
         $validate = Validator::make($request->all(),[
-                'sender_id' => 'required|numeric',
-                'receiver_id' => 'required|numeric',
+                'sender_id' => 'required',
+                'receiver_id' => 'required',
             ]
         );
 
         if($validate->fails()){
-            return $this->sendError($validate->messages());
+            return $this->sendError($validate->messages(), '', 201);
         }
         $dog = Dog::find($request->sender_id);
 
@@ -36,7 +37,7 @@ class FriendshipController extends Controller
 
             $exists = dsld_check_is_store_friends_table($dog->id, $request->receiver_id);
             if(!is_null($exists)){
-                return $this->sendError('You have already sent friend requiest.');
+                return $this->sendError('You have already sent friend requiest.', '',201);
             }else{
                  $dog->friendship()->create([
                     'receiver_id' => $request->receiver_id,
@@ -47,7 +48,7 @@ class FriendshipController extends Controller
             }
 
         }else{
-            return $this->sendErro([], 'Dog not found.');
+            return $this->sendError([], 'Dog not found.', 201);
         }
 
        

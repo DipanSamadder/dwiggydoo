@@ -72,6 +72,14 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        
+        'barcodes' => [
+            'driver' => 'local',
+            'root'   => public_path('uploads/barcodes'),
+            'url'    => env('APP_URL').'/uploads/barcodes',
+            'throw' => false,
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',

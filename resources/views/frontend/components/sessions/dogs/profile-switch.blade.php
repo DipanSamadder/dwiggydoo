@@ -2,7 +2,7 @@
     <ul class="ps-0 d-flex align-items-center justify-content-between">
         <li class="d-flex align-items-center">
 
-            @include('frontend.components.sessions.dogs.profile-image')
+            @include('frontend.components.sessions.dogs.profile-image', ['class'=> 'img-fluid rounded-circle', 'style' => ''])
         
         <p>Hello,  {{ Session::get('defaultDogDetails.name') }}<span>{{ Session::get('defaultAddressDetails.address') }}</span></p>
         </li>

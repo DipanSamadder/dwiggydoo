@@ -74,7 +74,7 @@
     #top-progress-bar {
     height: 4px;
     width: 0;
-    background-color: #007bff; /* Progress bar color */
+    background-color: #f3735f; /* Progress bar color */
     position: fixed;
     top: 0;
     left: 0;
@@ -86,42 +86,86 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body>
-  <div id="top-progress-bar"></div>
+    <div id="top-progress-bar"></div>
     <div class="main">
       <div class="row">
-        <div class="col-lg-3 col-12 left_top_side">
+        <div class="left_top_side col-12 col-lg-3  col-md-3 ">
             @include('frontend.partials.left-sidebar')
         </div>
-        <div class="col-lg-9 col-12 main_right">
-            <div class="home_main_sec">
-              <div class="row">
-                  <div class="col-md-8 home_main_col pb-4">
-                    <div class="home_main_pos col-lg-12">
-                        <div id="app">
-                        @yield('content')
-                        </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 top_right_side">
-                      @include('frontend.partials.right-sidebar')  
+        <div class="main_right col-12 col-lg-6 col-md-6">
+          <div class="row">
+              <div class="col-lg-12 home_main_pos">
+                  <div id="app">
+                    @yield('content')
                   </div>
               </div>
             </div>
         </div>
+        <div class="top_right_side col-12 col-lg-3  col-md-3">
+            @include('frontend.partials.right-sidebar')  
+         </div>
       </div>
-      
     </div>
 
  
 <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-
+<script src="{{ dsld_static_asset('backend/assets/plugins/bootstrap-notify/bootstrap-notify.js') }}"></script>  
+<script src="{{ dsld_static_asset('frontend/js/dsld_custom_js.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 @yield('footer')
+@include('frontend.inc.custom_js')
+@yield('modal')
 
 
 <script>
+
+  function errorResponseMessage(data){
+    var error = '';
+    if (jQuery.isPlainObject(data) == true){
+      
+      var i = 0 ;
+      $.each(data, function (key, value) {
+          if(i == 0){error = value[0]; }
+          i++;
+      });
+
+    }else{
+      error = data;
+    }
+    return error;
+  }
+
+
+
+  function downloadQRCode(id){
+    var path = $(id).attr('src');
+    var downloadLink = document.createElement('a');
+    downloadLink.href = path;
+    downloadLink.download = id+'.jpg';
+    downloadLink.click();
+  }
+  function ShareQRCode(id){
+
+    var path = $(id).attr('src');
+    var shareableLink = document.createElement('a');
+    shareableLink.href = path;
+
+    if (navigator.share) {
+        navigator.share({
+            url: shareableLink.href
+        }).then(() => {
+            console.log('Image shared successfully');
+        }).catch((error) => {
+            console.error('Error sharing image:', error);
+        });
+    } else {
+        alert('Your browser does not support image sharing.');
+    }
+
+  }
+
 // Function to show the progress bar
 function showProgressBar() {
     document.getElementById('top-progress-bar').style.width = '100%';

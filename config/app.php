@@ -197,6 +197,7 @@ return [
         App\Providers\RepositorieServices::class,
         Recca0120\Terminal\TerminalServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
 
     ],
 
@@ -212,6 +213,8 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ])->toArray(),
 
 ];

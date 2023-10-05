@@ -16,7 +16,14 @@ Route::get('/password', function(){
     App\Models\User::where('id', 1)->update(['password' => Hash::make('Admin@!!123')]);
 });
 
-
+// Route::get('/breed-slug', function(){
+//     $breeds  = App\Models\Breed::all();
+//     foreach($breeds as $key => $breed){
+//         $data  = App\Models\Breed::find($breed->id);
+//         $data->slug = dsld_generate_slug_by_text_with_model('App\Models\Breed', $breed->name, 'slug');
+//         $data->save();
+//     }
+// });
 
 Route::get('send-test-mail', 'MailController@testmail')->name('testmail');
 Route::get('/optimize', function() {
@@ -54,7 +61,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('user/setup', 'User\UsersController@setup_profile')->name('user.setup');
     Route::get('/breeds', 'Dogs\BreedsController@all_breeds')->name('breeds.all');
+    Route::get('/breeds/{slug}', 'Dogs\BreedsController@find_breeds_by_slug')->name('breeds.find.slug');
+    Route::post('/breeds/filter', 'Dogs\BreedsController@filter_breeds_by_slug')->name('breeds.filter.slug');
     Route::post('/breeds-search', 'Dogs\BreedsController@breeds_search')->name('breeds.search');
+    Route::get('/connections', 'Dogs\BreedsController@connections')->name('connections');
 });
-
+Route::get('/barcode-scanner', function () {
+    return view('frontend.barcode-scanner');
+});
 require __DIR__.'/auth.php';

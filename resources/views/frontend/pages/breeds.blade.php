@@ -13,8 +13,10 @@
                     @if(!empty($top_breeds))
                         @foreach($top_breeds as $key => $value )
                             <div class="col-lg-3 bread_card text-center pb-3">
-                                <img src="{{ $value->image }}" alt="" class="img-fluid mb-3" />
-                                <h3>{{ $value->name }}</h3>
+                                <a href="{{ route('breeds.find.slug', ['slug' => $value->slug]) }}">
+                                    <img src="{{ $value->image }}" alt="" class="img-fluid mb-3" />
+                                    <h3>{{ $value->name }}</h3>
+                                </a>
                             </div>
                         @endforeach
                     @endif
@@ -45,9 +47,13 @@
                             @endphp
                             @if(!empty($breeds_data))
                                 @foreach($breeds_data as $key => $value)
+                                    
                                     <div class=" srch_rslt">
-                                        <label for="" class="form-label">{{ $value->name }}</label>
+                                        <a href="{{ route('breeds.find.slug', ['slug' => $value->slug]) }}">
+                                            <label for="" class="form-label">{{ $value->name }}</label>
+                                        </a>
                                     </div>
+                                    
                                 @endforeach
                             @endif
                         </div>

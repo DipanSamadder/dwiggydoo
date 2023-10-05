@@ -59,12 +59,13 @@ class UserController extends Controller
         if(isset($request->step)){
             switch ($request->step) {
                 case 2:
-                    if(isset($request->dog_name)){  $dog->name  = $request->dog_name; }
+                    if(isset($request->dog_name)){  $dog->name  = $request->dog_name; $dog->slug = dsld_generate_slug_by_text_with_model('App\Models\Dog', $request->dog_name, 'slug'); }
                     if(isset($request->dog_age)){  $dog->age  = $request->dog_age; }
                     if(isset($request->dog_gender)){  $dog->gender  = $request->dog_gender; }
                     $dog->is_default = 1;
                     $dog->save();
                     Session::put('defaultDogID', $dog->id);
+                    dsld_dog_barcode_generate($dog);
                     return $this->sendResponse(new DogCollection($dog), 'Dog details update successful.');
                     break;
                 case 3:

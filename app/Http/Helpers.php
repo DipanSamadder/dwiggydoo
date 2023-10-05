@@ -5,11 +5,44 @@ use App\Models\User;
 use App\Models\BusinessSetting;
 use App\Models\Reward;
 use App\Models\Dog;
+use App\Models\GoodGene;
+use App\Models\Breed;
 use App\Models\Translation;
 use App\Models\PostsMeta;
 use App\Models\RolePermission;
 use  App\Http\Controllers\MailController;
 
+if (!function_exists('dsld_lazy_image_by_id')) {
+
+    function dsld_lazy_image_by_id($id, $class = '', $style = ''){
+        
+        $sty = '';
+        if(!is_null($style)){
+            $sty = 'style="'.$style.'"';
+        }
+
+        if(!is_null($id) || $id !='['){
+            $image = '<img class="lazy '.$class.' id-'.$id.'" alt="'.dsld_upload_file_title($id).'" 
+                        src="'.dsld_static_asset('backend/assets/images/circle-loading.gif').'"
+                        data-src="'.dsld_static_asset('backend/assets/images/circle-loading.gif').'"
+                        data-srcset="'.dsld_uploaded_file_path($id, 'full').'"
+                        srcset="'.dsld_uploaded_file_path($id, 'placeholder').'"'.$sty.'
+                    >';
+            return $image;
+        }else{
+            $image = '<img class="'.$class.'" src="'.dsld_static_asset('backend/assets/images/circle-loading.gif').'"
+                    >';
+        }
+        return $image;
+    }
+}
+
+if(!function_exists('dsld_dog_barcode_generate')){
+    function dsld_dog_barcode_generate($dog){
+        $data = "{$dog->id}, {$dog->name}";
+        file_put_contents(public_path('uploads/barcodes').'/'.$dog->id.'.jpg', base64_decode(DNS2D::getBarcodePNG($data, "QRcode", 10,10, [0, 0, 0], [255, 255, 255])));
+    }
+}
 
 //Get Post Parent Category Nmae
 if(!function_exists('dsld_formatSize')){
@@ -55,6 +88,17 @@ if(!function_exists('dsld_have_user_permission')){
  
     }
 }
+
+//Get Good Gens
+if(!function_exists('dsld_find_goodGene_by_id')){
+    function dsld_find_goodGene_by_id($id){
+        $goodGene = GoodGene::find($id);
+        if(!is_null($goodGene)){
+            return $goodGene;
+        }
+    }
+}
+
 
 //Get Post Parent Category Nmae
 if(!function_exists('dsld_check_permission')){

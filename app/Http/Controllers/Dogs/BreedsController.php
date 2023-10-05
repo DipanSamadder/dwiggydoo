@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Breed;
+use App\Models\Dog;
 use Validator;
 
 class BreedsController extends Controller
@@ -110,6 +111,7 @@ class BreedsController extends Controller
         }
 
     }
+
     public function destory(Request $request){
 
         $breed = Breed::findOrFail($request->id);
@@ -153,5 +155,44 @@ class BreedsController extends Controller
             $data = Breed::where('name', 'LIKE', '%'.$request->text.'%')->where('status', 1)->limit(20)->get();
             return view('frontend.partials.breed-search', compact('data'));
         }
+    }
+
+    public function find_breeds_by_slug($slug){
+        $breed = Breed::where('slug', $slug)->first();
+     
+        $dog = Dog::where('breed_id', $breed->id)->where('status', 1)->get();
+        return view('frontend.pages.breeds.single-breeds', compact('dog', 'breed'));
+    }
+    
+    public function filter_breeds_by_slug(Request $request){
+
+        $breed = Breed::where('id',  $request->breed_id)->first();
+        $dog = Dog::where('breed_id', $request->breed_id)->where('user_id', '!=', auth()->user()->id);
+
+         // Filter by minimum age
+        if ($request->has('age_min')) {
+            $minAge = (float)$request->input('age_min');
+            $dog =  $dog->where('age', '>=', $minAge);
+        }
+
+        // Filter by maximum age
+        if ($request->has('age_max')) {
+            $maxAge = (float)$request->input('age_max');
+            $dog =  $dog->where('age', '<=', $maxAge);
+        }
+
+        if($request->has('good_genes')){
+            if($request->good_genes != 'all'){
+                $dog = $dog->where('good_genes_id', $request->good_genes);
+            }
+        }
+        
+     
+        if($request->has('gender')){
+            $dog = $dog->where('gender', $request->gender);
+        }
+        
+        $dog = $dog->where('status', 1)->get();
+        return view('frontend.pages.breeds.single-breeds-dog-items', compact('dog', 'breed'));
     }
 }
