@@ -92,6 +92,8 @@
         <div class="left_top_side col-12 col-lg-3  col-md-3 ">
             @include('frontend.partials.left-sidebar')
         </div>
+        @yield('content')
+        {{--
         <div class="main_right col-12 col-lg-6 col-md-6">
           <div class="row">
               <div class="col-lg-12 home_main_pos">
@@ -104,6 +106,7 @@
         <div class="top_right_side col-12 col-lg-3  col-md-3">
             @include('frontend.partials.right-sidebar')  
          </div>
+         --}}
       </div>
     </div>
 

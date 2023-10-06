@@ -1,17 +1,28 @@
 @extends('frontend.layouts.app')
 @section('content')
+    <div class="main_right col-12 col-lg-6 col-md-6">
+        <div class="row">
+            <div class="col-lg-12 home_main_pos">
+                <div id="app">
+                    <div class=" bread_search bread_title mt-4">
+                        <div class="col-lg-4 bread_search_title">
+                            <h3><!--<span><i class="fa-solid fa-arrow-left"></i></span>-->&nbsp; {{ $breed->name }}</h3>
+                        </div>
+                        <div class="col-lg-4 bread_search_btn text-end">
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#filterBreed"><span><i class="fa-solid fa-filter"></i></span> filter</button>
+                        </div>
+                    </div>
+                    <div id="bogs-items">
 
-    <div class=" bread_search bread_title mt-4">
-        <div class="col-lg-4 bread_search_title">
-            <h3><!--<span><i class="fa-solid fa-arrow-left"></i></span>-->&nbsp; {{ $breed->name }}</h3>
-        </div>
-        <div class="col-lg-4 bread_search_btn text-end">
-            <button type="button" data-bs-toggle="modal" data-bs-target="#filterBreed"><span><i class="fa-solid fa-filter"></i></span> filter</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div id="bogs-items">
-
-    </div>
+    <div class="top_right_side col-12 col-lg-3  col-md-3">
+        @include('frontend.partials.right-sidebar')  
+        </div>
+    
 
 @endsection
 

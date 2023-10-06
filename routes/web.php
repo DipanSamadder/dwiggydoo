@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/breeds/{slug}', 'Dogs\BreedsController@find_breeds_by_slug')->name('breeds.find.slug');
     Route::post('/breeds/filter', 'Dogs\BreedsController@filter_breeds_by_slug')->name('breeds.filter.slug');
     Route::post('/breeds-search', 'Dogs\BreedsController@breeds_search')->name('breeds.search');
-    Route::get('/connections', 'Dogs\BreedsController@connections')->name('connections');
+    Route::get('/connections', 'Dogs\FriendshipController@connections')->name('connections');
 });
 Route::get('/barcode-scanner', function () {
     return view('frontend.barcode-scanner');

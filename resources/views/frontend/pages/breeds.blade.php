@@ -1,73 +1,84 @@
 @extends('frontend.layouts.app')
 @section('content')
 
-        <div class="row">
-            <!-- <div class="col-lg-12 bread_title">
-                <h3><span><i class="fa-solid fa-arrow-left"></i></span>&nbsp; all breads</h3>
-            </div> -->
-            <div class="col-lg-12 bread_subtitle py-3">
-                <h4>breads near you</h4>
-            </div>
-            <div class="col-lg-12">
-                <div class="row">
-                    @if(!empty($top_breeds))
-                        @foreach($top_breeds as $key => $value )
-                            <div class="col-lg-3 bread_card text-center pb-3">
-                                <a href="{{ route('breeds.find.slug', ['slug' => $value->slug]) }}">
-                                    <img src="{{ $value->image }}" alt="" class="img-fluid mb-3" />
-                                    <h3>{{ $value->name }}</h3>
-                                </a>
+        <div class="main_right col-12 col-lg-6 col-md-6">
+          <div class="row">
+              <div class="col-lg-12 home_main_pos">
+                  <div id="app">
+                    <div class="row">
+                        <!-- <div class="col-lg-12 bread_title">
+                            <h3><span><i class="fa-solid fa-arrow-left"></i></span>&nbsp; all breads</h3>
+                        </div> -->
+                        <div class="col-lg-12 bread_subtitle py-3">
+                            <h4>breads near you</h4>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                @if(!empty($top_breeds))
+                                    @foreach($top_breeds as $key => $value )
+                                        <div class="col-lg-3 bread_card text-center pb-3">
+                                            <a href="{{ route('breeds.find.slug', ['slug' => $value->slug]) }}">
+                                                <img src="{{ $value->image }}" alt="" class="img-fluid mb-3" />
+                                                <h3>{{ $value->name }}</h3>
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
-                        @endforeach
-                    @endif
-                </div>
-                <div class="row">
-                    
-                    <div class="col-lg-12 bread_search mt-4">
-                        <div class="col-lg-4 bread_search_title">
-                            <h2>all breeds</h2>
-                        </div>
-                        <div class="col-lg-4 bread_search_btn text-end">
-                            <button type="button" id="search_br"data-bs-toggle="modal" data-bs-target="#exampleModal">search</button>
-                        </div>
-                    </div>
-                    @foreach (range('A', 'D') as $letter)
-                    <div class="col-lg-12 py-3">
-                        <div class="col-lg-12 bread_search mb-2">
-                            <div class="col-lg-1 search_txt">
-                                <h4>{{ $letter }}</h4>
-                            </div>
-                            <!-- <div class="col-lg-2 txt_bk text-center">
-                                <a href="#">back</a>
-                            </div> -->
-                        </div>
-                        <div class="all_bread_row">
-                            @php 
-                                $breeds_data = App\Models\Breed::where('name', 'LIKE', $letter.'%' )->limit(7)->get();
-                            @endphp
-                            @if(!empty($breeds_data))
-                                @foreach($breeds_data as $key => $value)
-                                    
-                                    <div class=" srch_rslt">
-                                        <a href="{{ route('breeds.find.slug', ['slug' => $value->slug]) }}">
-                                            <label for="" class="form-label">{{ $value->name }}</label>
-                                        </a>
+                            <div class="row">
+                                
+                                <div class="col-lg-12 bread_search mt-4">
+                                    <div class="col-lg-4 bread_search_title">
+                                        <h2>all breeds</h2>
                                     </div>
-                                    
+                                    <div class="col-lg-4 bread_search_btn text-end">
+                                        <button type="button" id="search_br"data-bs-toggle="modal" data-bs-target="#exampleModal">search</button>
+                                    </div>
+                                </div>
+                                @foreach (range('A', 'D') as $letter)
+                                <div class="col-lg-12 py-3">
+                                    <div class="col-lg-12 bread_search mb-2">
+                                        <div class="col-lg-1 search_txt">
+                                            <h4>{{ $letter }}</h4>
+                                        </div>
+                                        <!-- <div class="col-lg-2 txt_bk text-center">
+                                            <a href="#">back</a>
+                                        </div> -->
+                                    </div>
+                                    <div class="all_bread_row">
+                                        @php 
+                                            $breeds_data = App\Models\Breed::where('name', 'LIKE', $letter.'%' )->limit(7)->get();
+                                        @endphp
+                                        @if(!empty($breeds_data))
+                                            @foreach($breeds_data as $key => $value)
+                                                
+                                                <div class=" srch_rslt">
+                                                    <a href="{{ route('breeds.find.slug', ['slug' => $value->slug]) }}">
+                                                        <label for="" class="form-label">{{ $value->name }}</label>
+                                                    </a>
+                                                </div>
+                                                
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
                                 @endforeach
-                            @endif
+                            </div>
+
+
                         </div>
                     </div>
-                    @endforeach
-                </div>
-
-
+                  </div>
+              </div>
             </div>
         </div>
- 
-
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="top_right_side col-12 col-lg-3  col-md-3">
+            @include('frontend.partials.right-sidebar')  
+         </div>
+        
+@endsection
+@section('modal')
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog filter_modal">
             <div class="modal-content">
                 <!-- <div class="modal-header">
@@ -91,9 +102,7 @@
             </div>
         </div>
     </div>
-
 @endsection
-
 @section('footer')
 <script>
     const breadInput = document.querySelector(".all_bread_srch input");

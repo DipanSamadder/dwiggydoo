@@ -716,7 +716,7 @@ body {
 }
 .right_block_sec {
   padding-top: 45px;
-  position: absolute;
+  /* position: absolute; */
   overflow: auto;
   width: 88%;
 }
@@ -2416,3 +2416,180 @@ input#mobile_code {
   left: 28%;
   top: 0px;
 }
+
+
+/* my_connection page css */
+
+.card_details{
+  background-color: #FFDED9;
+    padding: 15px 15px;
+    border-radius: 24px;
+}
+.top_connection{
+  border-bottom: 1px solid #E2E2E2;
+}
+
+.search_filter_wrap .search_icon{
+  margin-right: 5px;
+}
+.search_filter_wrap .search_icon i,.search_filter_wrap .filter_icon i{
+  font-size: 14px;
+}
+.connection_box{
+  padding: 20px 0px;
+}
+.connection_box h3{
+  font-size: 18px;
+    font-weight: 700;
+    margin: 0px;
+}
+.connection_card ul{
+  padding: 0px;
+}
+.connection_card_img img{
+  width: 50px;
+}
+.card_title h3,.card_dog_title h2{
+  font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-bottom: 4px;
+}
+.card_dog_title h2{
+  margin: 0px;
+}
+.card_title h5{
+  font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 4px;
+    text-transform: capitalize;
+}
+.card_title p,.gender label,.breed_title label,.card_good_gene label{
+  font-size: 10px;
+    font-weight: 400;
+    text-transform: capitalize;
+    margin: 0px;
+}
+.card_icons .connection_msg{
+  margin-right: 10px;
+}
+.card_icons .connection_msg i,.card_icons .connection_kebada i{
+  font-size: 14px;
+  cursor: pointer;
+}
+.connection_card li{
+  margin-bottom: 20px;
+}
+.connection_card li:last-child{
+  margin: 0px;
+}
+.breed_type h4,.dog_breed_type h4,.gender_val h4,.breed_type h4{
+  font-size: 10px;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin: 0px;
+}
+.card_gender_age_wrap,.card_dog_gender{
+  display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.card_dog_breed,.breed_title,.dog_breed_type{
+  display: inline-block;
+}
+.dog_breed_type,.gender_val{
+  margin-left: 5px;
+}
+.sug_course_outer ul{
+  padding: 0px;
+}
+
+.card_icons button,.filter_icon{
+  background: transparent;
+  border: none;
+}
+.filter_con{
+  border:none;
+}
+
+/* dog_gallery css */
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.swiper {
+  width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.swiper-slide {
+  background-size: cover;
+  background-position: center;
+}
+
+.mySwiper2 {
+  height: 80%;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.mySwiper {
+  height: 20%;
+  box-sizing: border-box;
+  padding: 10px 0;
+}
+
+.mySwiper .swiper-slide {
+  width: 25%;
+  height: 100%;
+  opacity: 0.4;
+}
+
+.mySwiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.connection_right_box .swiper-button-next,.connection_right_box .swiper-button-prev{
+  display: none;
+}
+.dog_connection_button button{
+  font-size: 12px;
+    font-weight: 500;
+    background: #F3735F;
+    border: 1px solid #F3735F;
+    padding: 4px 8px;
+    color: #ffffff;
+    text-transform: capitalize;
+    border-radius: 5px;
+}
+.sug_course_outer ul li{
+  list-style-type: none;
+  margin-bottom: 10px;
+}
+.conn_profile_list{
+  margin: 5px 2px;
+}
+.connection_right_box{
+  box-shadow: 0px 2px 5px #00000029;
+    padding: 15px 10px;
+    border-radius: 15px;
+}
+/* dog gallery css end */
