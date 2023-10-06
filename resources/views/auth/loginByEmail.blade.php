@@ -10,7 +10,7 @@
     <div class="col-lg-6 mx-auto user_right_side">
             
         <div class="col-lg-12 doo_right login-by-phone-no activeD">
-            <a class="mb-3 d-inline-block" href="{{ route('login') }}"><img src="{{ asset('assets/images/Icon ionic-ios-arrow-round-back.png') }}"></a>
+            <a class="mb-3 d-inline-block" href="{{ route('login') }}"><img src="{{ dsld_static_asset('assets/images/Icon ionic-ios-arrow-round-back.png') }}"></a>
             <h2>What's Your Email?</h2>
             <form class="signup-email" name="signup-email" id="signup-email" action="{{ route('register.email.submit') }}" method="post">
                 @csrf
@@ -29,7 +29,7 @@
 
         <div class="col-lg-12 doo_right login-by-phone-no">
             <div class="col-lg-12 back_btn">
-                <a class="mb-3 d-inline-block" href="#"><img src="{{ asset('assets/images/Icon ionic-ios-arrow-round-back.png') }}"></a>
+                <a class="mb-3 d-inline-block" href="#"><img src="{{ dsld_static_asset('assets/images/Icon ionic-ios-arrow-round-back.png') }}"></a>
             </div>
             <h2>OTP Verification</h2>
             

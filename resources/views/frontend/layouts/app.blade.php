@@ -7,12 +7,23 @@
     <meta name="api-token" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="base-url" content="{{ env('APP_URL') }}">
-    <link rel="icon" type="image/x-icon" href="{{ asset('frontend/images/favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ dsld_static_asset('frontend/images/favicon.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
-    
+    @production
+      @php
+          $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+      @endphp
+
+      <link rel="stylesheet" href="{{ dsld_get_base_URL() }}public/build/{{$manifest['resources/css/style.css']['file']}}">
+      <link rel="stylesheet" href="{{ dsld_get_base_URL() }}public/build/{{$manifest['resources/css/responsive.css']['file']}}">
+    @else
+
+      @vite(['resources/css/style.css','resources/css/responsive.css'])
+
+    @endproduction
     <style>
       .activeD{position: relative;}
       .loader-area{
@@ -83,7 +94,7 @@
 }
     </style>
     @yield('header')
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
   </head>
   <body>
     <div id="top-progress-bar"></div>
@@ -110,8 +121,23 @@
       </div>
     </div>
 
- 
-<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    @production
+
+@php
+
+    $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+
+@endphp
+
+<script src="{{ dsld_get_base_URL() }}public/build/{{$manifest['resources/js/app.js']['file']}}"></script>
+
+@else
+
+@vite(['resources/js/app.js'])
+
+@endproduction
+
+<script src="{{ dsld_static_asset('assets/js/jquery.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="{{ dsld_static_asset('backend/assets/plugins/bootstrap-notify/bootstrap-notify.js') }}"></script>  
