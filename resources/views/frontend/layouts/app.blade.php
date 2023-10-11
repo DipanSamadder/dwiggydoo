@@ -150,5 +150,6 @@
 
 @include('frontend.modals.notification-cancel-fr')
 @include('frontend.modals.notification-accept-fr')
+@include('frontend.modals.notification-delete-fr')
 </body>
 </html>

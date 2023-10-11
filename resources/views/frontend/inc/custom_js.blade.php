@@ -311,6 +311,7 @@ function frSelect(id){
     countSelectItems(numChecked);
 }
 function countSelectItems(count){
+    if(count > 0 ){$('.deleteBox-wrap').show();}else{$('.deleteBox-wrap').hide();}
     $('.fr_count').text('('+count+')');
 }
 
@@ -334,7 +335,9 @@ function postAjaxSubmitNotif(formName, modal=null){
     formData.append("_token", '{{ csrf_token() }}');
     if(modal == 'confirmModal'){
         formData.append("action", 'accept');
-    }else{
+    }else if(modal == 'DeleteFRModal'){
+        formData.append("action", 'delete');
+    }else if(modal == 'cancelModal'){
         formData.append("action", 'cancel');
     }
 
@@ -353,10 +356,10 @@ function postAjaxSubmitNotif(formName, modal=null){
 
     success: function (data) {
         $(formName).parent().find('.loader-area').remove();
-        if(modal == 'confirmModal'){
-            manageReceivedFriendRequestMultiple();
-        }else{
+        if(modal == 'cancelModal'){
             manageSendFriendRequestMultiple();
+        }else{
+            manageReceivedFriendRequestMultiple();
         }
         if(data.success === true){
             dsldFlashNotification('success', data.message);
@@ -366,10 +369,10 @@ function postAjaxSubmitNotif(formName, modal=null){
         if(modal != ''){ $('#'+modal).modal('hide'); }
     },
     error: function(xhr, status, error) {
-        if(modal == 'confirmModal'){
-            manageReceivedFriendRequestMultiple();
-        }else{
+        if(modal == 'cancelModal'){
             manageSendFriendRequestMultiple();
+        }else{
+            manageReceivedFriendRequestMultiple();
         }
         
         $(formName).parent().find('.loader-area').remove();

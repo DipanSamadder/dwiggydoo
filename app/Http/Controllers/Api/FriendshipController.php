@@ -324,9 +324,12 @@ class FriendshipController extends Controller
                 $friendship = Friendship::find($id);
                 if($request->action == 'cancel'){
                     if($friendship->status == 0){
-                        dsld_notification_remove($friendship->receiver_id, $friendship->dogable_id, 'friend_requests');
+                        dsld_notification_remove($friendship->dogable_id, $friendship->receiver_id, 'friend_requests');
                         $friendship->delete();
                    }
+                }else if($request->action == 'delete'){
+                    dsld_notification_remove($friendship->dogable_id, $friendship->receiver_id, 'friend_requests');
+                    $friendship->delete();
                 }else if($request->action == 'accept'){
                     dsld_notification_hide($friendship->dogable_id, $friendship->receiver_id, 'friend_requests');
                     $friendship->update(['status' => 1]);
@@ -335,10 +338,13 @@ class FriendshipController extends Controller
 
             }
             if($request->action == 'cancel'){
-                return $this->sendResponse([], 'Friend requiest delete successfull.');
+                return $this->sendResponse([], 'Friend requiest cancel successfull.');
             }
             else if($request->action == 'accept'){
                 return $this->sendResponse([], 'Accept your friend request.');
+            }
+            else if($request->action == 'delete'){
+                return $this->sendResponse([], 'Friend requiest delete successfull.');
             }
         }else{
             return $this->sendError( 'Sorry! Not found.','',201);

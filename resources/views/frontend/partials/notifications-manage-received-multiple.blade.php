@@ -36,9 +36,9 @@
         color: #ffffff;
     }
 </style>
-<div class="deleteBox-wrap" style="bottom: -50px;">
+<div class="deleteBox-wrap" style="bottom: -50px;display:none;">
     <div class="delete_box_sec d-flex align-items-center justify-content-center" style="position:unset">
-        <a href="#" data-bs-toggle="modal" data-bs-target="#cancelModal">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#DeleteFRModal">
             <i class="fas fa-trash-alt"></i> Delete <span class="fr_count"></span>
         </a>
         <a href="#" data-bs-toggle="modal" data-bs-target="#confirmModal"> 
