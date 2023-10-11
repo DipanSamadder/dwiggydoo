@@ -164,7 +164,7 @@
 @endsection
 
 @section('footer')
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 <script>
 function singleBreedClear(){
     
@@ -204,34 +204,8 @@ function getData(){
     );
 }
 
-function sendFriendRequest(sid, rid){
-    var formData = new FormData();
-    formData.append("_browser", 1);
-    formData.append("sender_id", sid);
-    formData.append("receiver_id", rid);
-    $.ajax({
-        type: 'post',
-        url: '{{ env("APP_URL") }}/api/v1/friend-request-send',
-        data: formData,
-        dataType: "json",
-        mimeType: "multipart/form-data",
-        cache: false,
-        processData:false,
-        contentType: false,
 
-        success: function (data, textStatus, xhr) {
-
-            if(data.success === true){
-                dsldFlashNotification('success', data.message);
-            }else{
-                dsldFlashNotification('error', errorResponseMessage(data.message));
-            }
-            $('#bogs-items .items-'+rid).hide('explode', {direction: 'left'}, 500);
-        }
-    })
-}
-
-function removeFriendRequest(id){
+function removeFriendNext(id){
     $('#bogs-items .items-'+id).hide('slide', {direction: 'left'}, 500);
 }
 

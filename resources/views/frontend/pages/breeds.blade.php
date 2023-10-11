@@ -114,16 +114,7 @@
     
 </script>
 <script>
-const recognition = new webkitSpeechRecognition(); 
-recognition.onresult = function(event) {
-    const transcript = event.results[0][0].transcript;
-    $('#breed-search').val(transcript);
-    fetchBreedDataSearch(transcript);
-};
 
-document.getElementById('microBtn').addEventListener('click', function() {
-    recognition.start();
-});
 
 $('#breed-search').on('keyup', function(){
     fetchBreedDataSearch($('#breed-search').val());
@@ -139,6 +130,15 @@ function fetchBreedDataSearch(text) {
         }
     });
 }
+const recognition = new webkitSpeechRecognition(); 
+recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    $('#breed-search').val(transcript);
+    fetchBreedDataSearch(transcript);
+};
 
+document.getElementById('microBtn').addEventListener('click', function() {
+    recognition.start();
+});
 </script>
 @endsection

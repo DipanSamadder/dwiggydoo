@@ -38,6 +38,10 @@ class Dog extends Model  implements HasMedia
         return $this->hasOne(User::class, 'id', 'user_id');
     }
     
+    public function breeds(){
+        return $this->belongsTo(Breed::class, 'breed_id');
+    }
+    
     public function posts()
     {
         return $this->hasMany(Friendship::class, 'sender_id');

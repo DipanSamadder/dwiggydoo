@@ -14,9 +14,9 @@
                     <div class="col-lg-6">
                     <div class="bread_title">
                         <h3>
-                        <span>
+                        <!-- <span>
                             <i class="fa-solid fa-arrow-left"></i>
-                        </span>&nbsp; Their Connection
+                        </span>&nbsp;  -->Their Connection
                         </h3>
                     </div>
                     </div>
@@ -32,77 +32,12 @@
                     </div>
                 </div>
                 </div>
+                @if(isset($fcount))
                 <div class="connection_box">
-                <h3>1,046 connections</h3>
+                    <h3>{{ $fcount }} connections</h3>
                 </div>
-                <div class="connection_card">
-                <ul>
-                    <li>
-                    <div class="card_details">
-                        <div class="row">
-                        <div class="col-lg-2">
-                            <div class="connection_card_img text-center">
-                            <img src="assets/images/dogs/img-1.png" alt="" class="img-fluid" />
-                            </div>
-                        </div>
-                        <div class="col-lg-7 ps-0">
-                            <div class="card_title">
-                            <h3>charlie <span>
-                                <i class="fa-solid fa-mars-stroke-up"></i>
-                                </span>
-                            </h3>
-                            <h5>Breed: <b>Golden R</b>
-                            </h5>
-                            <p>connected today</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="card_icons text-end">
-                            <span class="connection_msg">
-                                <i class="fa-regular fa-comment"></i>
-                            </span>
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#Modal_connection" class="connection_kebada">
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                            </button>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </li>
-                    <li>
-                    <div class="card_details">
-                        <div class="row">
-                        <div class="col-lg-2">
-                            <div class="connection_card_img text-center">
-                            <img src="assets/images/dogs/img-1.png" alt="" class="img-fluid" />
-                            </div>
-                        </div>
-                        <div class="col-lg-7 ps-0">
-                            <div class="card_title">
-                            <h3>charlie <span>
-                                <i class="fa-solid fa-mars-stroke-up"></i>
-                                </span>
-                            </h3>
-                            <h5>Breed: <b>Golden R</b>
-                            </h5>
-                            <p>connected today</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="card_icons text-end">
-                            <span class="connection_msg">
-                                <i class="fa-regular fa-comment"></i>
-                            </span>
-                            <span class="connection_kebada">
-                                <i class="fa-solid fa-ellipsis-vertical"></i>
-                            </span>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </li>
-                </ul>
-                </div>
+                @endif
+                <div id="connections-ajax-items"></div>
             </div>
             </div>
         </div>
@@ -114,37 +49,117 @@
     
 @endsection
 
+@section('modal')
+
+    <div class="modal fade" id="filter_connection" tabindex="-1" aria-labelledby="filter_connection" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered filter_modal">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="submitFilterConnection" action="{{ route('connections.filter') }}" method="post">
+                        @csrf
+                        <div class="filter_top_modal">
+                            <h3>filter</h3>
+                        </div>
+                        <div class="filter_gender filter_con">
+                            <div class="row ">
+                                <div class="col-lg-6 filter_top_modal text-start">
+                                    <label for="recent" class="form-label">Recently added</label>
+                                </div>
+                                <div class="col-lg-6 text-end">
+                                    <input type="radio" id="recent" name="filter" value="recent" class="form-radio"  onchange="connections_filter();"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 filter_top_modal text-start">
+                                    <label for="dog_name" class="form-label">Dog Name</label>
+                                </div>
+                                <div class="col-lg-6 text-end">
+                                    <input type="radio" id="dog_name" value="dog" name="filter" class="form-radio" onchange="connections_filter();"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 filter_top_modal text-start">
+                                    <label for="breed_name" class="form-label">Breed Name</label>
+                                </div>
+                                <div class="col-lg-6 text-end">
+                                    <input type="radio" id="breed_name" value="breed" name="filter" class="form-radio" onchange="connections_filter();"/>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div class="modal fade" id="connection_setting" tabindex="-1" aria-labelledby="connection_setting" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered filter_modal">
+            <div class="modal-content">
+                <div class="modal-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div> -->
+    @include('frontend.modals.small-modal', ['modal_id' => 'connection_setting', 'modal_dialog_class' => 'filter_modal'])
+@endsection
+
 @section('footer')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.js" integrity="sha512-2w85qGM9apXW9EgevsY4S4fnJIUz6U6mXlLbgDKphBuwh7jPQNad70Ll5W+pcIrJ6rIMGpjP0CxYGQwKsynIaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    
 <!-- Initialize Swiper -->
 <script>
 
-  const myCustomSlider = document.querySelectorAll('.mySwiper');
+function connections_filter(){
+    $('#submitFilterConnection').submit();
+}
 
-    for( i=0; i< myCustomSlider.length; i++ ) {
-    
-    myCustomSlider[i].classList.add('mySwiper-' + i);
-
-    var swiper = new Swiper('.mySwiper-' + i, {
-        spaceBetween: 10,
-        slidesPerView: 3,
-        freeMode: true,
-        watchSlidesProgress: true,
+$(document).ready(function(){
+    getFilterData();
+    getNearMeData();
+    $('#submitFilterConnection').submit(function(e){
+        e.preventDefault();
+        getFilterData();
     });
+});
 
-    var swiper2 = new Swiper('.mySwiperD-' + i, {
-        spaceBetween: 10,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+function getFilterData(){
+    $('#filter_connection').modal('hide');
+    $('#connections-ajax-items').html('<div style="position: relative;height: 100vh;"><div class="loader-area"><span class="loader"></span></div></div>');
+    $.post( 
+        $('#submitFilterConnection').attr('action'),
+        $('#submitFilterConnection').serialize(),
+        function(response) {
+            $('#connections-ajax-items').html(response);             
         },
-        thumbs: {
-            swiper: swiper,
+        "html"
+    );
+}
+
+function getNearMeData(){
+    $('#near_me_profile').html('<div style="position: relative;height: 100vh;"><div class="loader-area"><span class="loader"></span></div></div>');
+    $.post( '{{ route("dog.near_me") }}',
+        {'_token': '{{ csrf_token() }}'},
+        function(response) {
+            $('#near_me_profile').html(response);             
         },
-        });
-        console.log(swiper2)
-    }
+        "html"
+    );
+}
+
+function getModalSettingData(fid){
+    $('#connection_setting').modal('show');
+    $('#connection_setting_body').html('<div style="position: relative;height: 100vh;"><div class="loader-area"><span class="loader"></span></div></div>');
+    $.post( '{{ route("connections.modal.setting") }}',
+        {'_token': '{{ csrf_token() }}', 'friendship_id': fid},
+        function(response) {
+            $('#connection_setting_body').html(response);             
+        },
+        "html"
+    );
+}
+
 
 </script>
 @endsection

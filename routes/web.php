@@ -65,6 +65,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/breeds/filter', 'Dogs\BreedsController@filter_breeds_by_slug')->name('breeds.filter.slug');
     Route::post('/breeds-search', 'Dogs\BreedsController@breeds_search')->name('breeds.search');
     Route::get('/connections', 'Dogs\FriendshipController@connections')->name('connections');
+    Route::post('/connections/filter', 'Dogs\FriendshipController@filter_connections')->name('connections.filter');
+    Route::post('/connections/settings', 'Dogs\FriendshipController@connections_setting')->name('connections.modal.setting');
+    Route::post('/dog/near-me', 'Dogs\DogsController@near_me')->name('dog.near_me');
+    Route::post('/notification', 'Setting\NotifictionsController@get_notifictions')->name('notifictions.get');
+    Route::post('/notification/manage', 'Setting\NotifictionsController@manage')->name('notifictions.manage');
+    Route::post('/notification/manage-multiple', 'Setting\NotifictionsController@manage_multiple')->name('notifictions.manage.multiple');
+    Route::post('/notification/received-request', 'Setting\NotifictionsController@received_request')->name('notifictions.received.request');
+    Route::post('/notification/sent-request', 'Setting\NotifictionsController@sent_request')->name('notifictions.sent.request');
+    Route::post('/notification/received-request-multiple', 'Setting\NotifictionsController@received_request_multiple')->name('notifictions.received.request.multiple');
+    Route::post('/notification/sent-request-multiple', 'Setting\NotifictionsController@sent_request_multiple')->name('notifictions.sent.request.multiple');
 });
 Route::get('/barcode-scanner', function () {
     return view('frontend.barcode-scanner');

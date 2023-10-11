@@ -7,10 +7,64 @@ use App\Models\Reward;
 use App\Models\Dog;
 use App\Models\GoodGene;
 use App\Models\Breed;
+use App\Models\Notification;
 use App\Models\Translation;
 use App\Models\PostsMeta;
 use App\Models\RolePermission;
 use  App\Http\Controllers\MailController;
+
+if(! function_exists('dsld_notification_insert')){
+    function dsld_notification_insert($sender_id, $receiver_id = null, $message, $subject, $reson_key, $reson_id = null){
+        $notiy = new Notification;
+        $notiy->receiver_id = $receiver_id;
+        if(isset($sender_id)){ $notiy->sender_id = $sender_id; }
+        if(isset($reson_id)){ $notiy->reason_id = $reson_id; }
+        $notiy->message = $message;
+        $notiy->sub = $subject;
+        $notiy->reason_key = $reson_key;
+
+        if($notiy->save()){
+            return $notiy->id;
+        }else{
+            return 0;
+        }
+
+    }
+}
+if(! function_exists('dsld_notification_hide')){
+    function dsld_notification_hide($sender_id, $receiver_id, $reason_key){
+        $notiy = Notification::where('receiver_id', $receiver_id)->where('sender_id', $sender_id)->where('reason_key', $reason_key)->first();
+        if(!is_null($notiy)){
+            $notiy->is_view = 1;
+            $notiy->is_hide = 1;
+            $notiy->save();
+            return $notiy->id;
+        }else{
+            return 0;
+        }
+
+    }
+}
+if(! function_exists('dsld_notification_remove')){
+    function dsld_notification_remove($sender_id, $receiver_id, $reason_key){
+        $notiy = Notification::where('receiver_id', $receiver_id)->where('sender_id', $sender_id)->where('reason_key', $reason_key)->first();
+        if(!is_null($notiy)){
+            $notiy->delete();
+            return 1;
+        }else{
+            return 0;
+        }
+
+    }
+}
+
+if(!function_exists('dsld_active_dogs_by_user')){
+    function dsld_active_dogs_by_user(){
+        $dog= Dog::where('user_id',  Auth::user()->id)->where('is_default', 1)->first();
+        return $dog;
+    }
+}
+
 
 if (!function_exists('dsld_lazy_image_by_id')) {
 

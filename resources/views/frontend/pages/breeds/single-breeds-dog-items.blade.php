@@ -34,10 +34,10 @@
                     <img src="{{ asset('assets/images/female_icon.png')}}" alt="female_icon" class="img-fluid" />
                 </div>
                 <div class="right_block">
-                    <a href="#" onclick="sendFriendRequest('{{ Session::get('defaultDogDetails.id') }}','{{ $value->id }}')" class="add_user mt-0">
+                    <a href="#" onclick="sendFriendRequest('{{ Session::get('defaultDogDetails.id') }}','{{ $value->id }}', 'bogs-items')" class="add_user mt-0">
                         <i class="fas fa-user-plus"></i>
                     </a>
-                    <a href="#" onclick="removeFriendRequest('{{ $value->id }}')" class="remove_user">
+                    <a href="#" onclick="removeFriendNext('{{ $value->id }}')" class="remove_user">
                         <i class="fas fa-times"></i>
                     </a>
                 </div>

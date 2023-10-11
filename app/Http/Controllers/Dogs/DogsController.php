@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Dog;
 use Validator;
 use Hash;
-
+use Session;
 class DogsController extends Controller
 {
     function __construct(){
@@ -143,6 +143,13 @@ class DogsController extends Controller
             return response()->json(['status' => 'warning', 'message' => 'Data Not found.']);
         }
        
+    }
+
+    public function near_me(Request $request){
+        $id = Session::get('defaultDogDetails.id');
+        $user = Dog::find($id);
+        $near_me_dogs = Dog::where('user_id', '!=', $user->id)->limit(5)->get();
+        return view('frontend.pages.dogs.ajax-near-me', compact('near_me_dogs'));
     }
 
 }

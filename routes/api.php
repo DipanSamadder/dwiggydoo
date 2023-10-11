@@ -98,6 +98,8 @@ Route::prefix('v1')->group(function(){
     Route::post('block-unblock-friend-request', 'Api\FriendshipController@block_unblock_friend_request')->middleware('auth:sanctum');
     Route::post('report-friend-request', 'Api\FriendshipController@report_friend_request')->middleware('auth:sanctum');
     Route::post('reject-friend-request', 'Api\FriendshipController@reject_friend_request')->middleware('auth:sanctum');
+    Route::post('cancel-friend-request', 'Api\FriendshipController@cancel_friend_request')->middleware('auth:sanctum');
+    Route::post('friend-request-multiple-submit', 'Api\FriendshipController@friend_request_multiple')->middleware('auth:sanctum');
     Route::get('show-connected-dogs/{id}', 'Api\FriendshipController@show_connected_dogs')->middleware('auth:sanctum');
 
     /**Dog Feed*/
