@@ -45,6 +45,11 @@ Route::middleware('guest')->group(function () {
     Route::post('register/opt/submit', 'Auth\RegisteredUserController@verifyOtp')->name('register.otp.submit');
     Route::get('singup-referral/{token}', 'Api\UserController@refferral_token');
     Route::resource('user_profile', 'UserProfileController');
+    Route::get('/login/google', 'Auth\AuthController@redirectToProviderGoogle')->name('google.login');
+    Route::get('/login/google/callback', 'Auth\AuthController@handleProviderCallbackGoogle');
+    Route::get('/login/facebook', 'Auth\AuthController@redirectToProviderFacebook')->name('facebook.login');
+    Route::get('/login/facebook/callback', 'Auth\AuthController@handleProviderCallbackFacebook');
+    
 });
 
 
