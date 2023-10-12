@@ -92,6 +92,29 @@
     z-index: 9999;
     transition: width 0.3s;
 }
+
+      .dsld_shimmer {
+        color: grey;
+        display:inline-block;
+        -webkit-mask:linear-gradient(-60deg,#000 30%,#0005,#000 70%) right/300% 100%;
+        background-repeat: no-repeat;
+        animation: dsld_shimmer 2.5s infinite;
+        font-size: 50px;
+        width:100%;
+        }
+
+        @keyframes dsld_shimmer {
+        100% {-webkit-mask-position:left}
+        }
+        .dsld_shimmer .dsld_shmmer_image{
+          width:100%;
+          display:inline-block;
+          animation: ImageShimmerfadeIn 5.5s normal;
+        }
+        @keyframes ImageShimmerfadeIn {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+          }
     </style>
     @yield('header')
 

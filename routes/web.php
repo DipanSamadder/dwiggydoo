@@ -61,9 +61,12 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('signout', [AuthenticatedSessionController::class, 'signout'])->name('signout');
     Route::get('/', 'HomeController@index')->name('home');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('user/profile/feed', 'Feeds\DogFeedsController@feedListsOnPrfile')->name('user.profile.feed');
+    Route::post('user/profile/feed-lists', 'Feeds\DogFeedsController@feedListsOnPrfileShow')->name('user.profile.feed_list.show');
+    Route::post('user/profile/reel-lists', 'Feeds\DogFeedsController@reelListsOnPrfileShow')->name('user.profile.reel_list.show');
     Route::get('user/setup', 'User\UsersController@setup_profile')->name('user.setup');
     Route::get('/breeds', 'Dogs\BreedsController@all_breeds')->name('breeds.all');
     Route::get('/breeds/{slug}', 'Dogs\BreedsController@find_breeds_by_slug')->name('breeds.find.slug');

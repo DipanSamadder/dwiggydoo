@@ -2786,3 +2786,341 @@ input#mobile_code {
 .modal-footer-row .del_delete:hover{
   color: #EB1717;
 }
+
+
+
+.sl__main_image_contain_left{
+  position: relative;
+  height: 216px;
+  background-color: #E9E9E9C7;
+}
+.sl__main_image_contain_left input{
+  position: absolute;
+  top: 48%;
+  left: 49%;
+  width: 12%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.sl__main_image_contain_left_inner input{
+  position: absolute;
+  top: 37%;
+  left: 44%;
+  width: 12%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.sl__main_image_contain_left label,.sl__main_image_contain_left_inner label{
+  width: 100%;
+  height: 100%;
+  display: block;
+  background-size: contain;
+}
+.sl__main_image_contain_left_inner{
+  position: relative;
+  height: 100px;
+  background-color: #E9E9E9C7;
+}
+.sl__main_image_contain_left_inner img{
+  position: absolute;
+}
+
+.sl___inputed_sub_contain .sl___input_container__radio_sub input[type='radio']:checked + label{
+  border: 1px solid #F3735F;
+}
+.sl___input_container__radio_sub{
+  position: relative;
+}
+.sl___input_container__radio_sub input{
+  position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.sl__main_image_edit_profile img{
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.sl__main_image_edit_profile{
+  position: relative;
+}
+.sl__main_image_edit_profile .e_profile_input input{
+  position: absolute;
+    z-index: 2;
+    left: 10%;
+    top: 0px;
+    opacity: 0;
+    width: 75%;
+    cursor: pointer;
+}
+.sl__main_image_edit_profile .e_profile_input{
+  position: absolute;
+    bottom: 0px;
+    right: 44%;
+    width: 25px;
+    height: 25px;
+    background-color: #F3735F;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 12px;
+}
+.sl__main_image_edit_profile .e_profile_input i{
+  top: 6px;
+    position: absolute;
+    left: 6px;
+}
+
+.sl__input_age input{
+  width: 65px;
+}
+.sl__input_birth,.sl__input_month,.sl__input_year,.sl__input_age{
+  display: inline-block;
+    width: 125px !important;
+}
+
+.modal_gene_wrap label{
+  font-size: 14px;
+  font-weight: 600;
+}
+.modal_gene_wrap{
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 32px;
+}
+.genes_modal_footer{
+  justify-content: center !important;
+}
+.genes_modal_footer .btn-save{
+  font-size: 12px;
+    font-weight: 600;
+    border: 1px solid #F3735F;
+    background-color: #F3735F;
+    color: #ffffff;
+    border-radius: 15px;
+}
+.genes_modal_footer .btn-save:hover{
+  color: #ffffff;
+  border: 1px solid #F3735F;
+    background-color: #F3735F;
+}
+.mail-verify-wrap h3{
+  font-size: 14px;
+    font-weight: 600;
+}
+.mail-verify-wrap p{
+  font-size: 12px;
+    font-weight: 500;
+}
+.email_otp input[type="text"]{
+  background: #F1F1F1;
+    border: none;
+    width: 25px;
+    height: 25px;
+    padding: 0px 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin: 0px 4px;
+}
+.email_otp input[type="text"]:focus-visible{
+  outline: none;
+}
+.verifyBtn button{
+  font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    background-color: #f3735f;
+    color: #ffffff;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+.verifyBtn button:hover{
+  background-color: #f3735f;
+    color: #ffffff;
+}
+.verifyBtn p{
+  font-size: 12px;
+    font-weight: 500;
+    margin: 0px;
+}
+.mail_modal_section{
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+.modal-header-row{
+  padding: 15px 15px 0px;
+  text-align: right;
+}
+.mail_modal_section .mail-verify-wrap{
+  margin: 10px 0px;
+}
+.mail_modal_section .email_otp{
+  margin: 17px 0px;
+}
+.add_dog_title h3{
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin: 0px;
+}
+.dog_list ul{
+  padding: 10px 12px;
+}
+.dog_list ul li{
+  list-style-type: none;
+  padding-bottom: 15px;
+}
+.dog_detail h2{
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0px;
+  text-transform: capitalize;
+}
+.dog_label{
+  width: 15%;
+  display: inline-block;
+}
+.dog_label label,.gender_label label{
+  font-size: 10px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+.dog_value{
+  width: 78%;
+    display: inline-block;
+}
+.dog_value p,.gender_value p{
+  font-size: 10px;
+    font-weight: 600;
+    text-transform: capitalize;
+    margin: 0px;
+}
+.dog_activeBtn .activeDog{
+  font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+    background-color: transparent;
+    color: #f3735f;
+    border: 1px solid #f3735f;
+    border-radius: 12px;
+    padding: 3px 8px;
+}
+.dog_activeBtn .dogDots{
+  font-size: 12px;
+    background-color: transparent;
+    border: none;
+}
+.add_dog_title{
+  padding-bottom: 15px;
+}
+.dog_addBtn button{
+  width: 245px;
+    background-color: #ffffff;
+    border: 1px dashed #f3735f;
+    font-size: 12px;
+    font-weight: 600;
+    color: #f3735f;
+    border-radius: 4px;
+    padding: 4px 10px;
+}
+.ellipses_submenu{
+  width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0px 3px 6px #00000029;
+}
+.ellipses_submenu ul li{
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 0px 0px 5px;
+}
+
+.ellipses_submenu ul li:last-child{
+  padding: 0px;
+}
+.ellipses_submenu ul li span{
+  margin-right: 5px;
+}
+.mydogActive{
+  display: block !important;
+}
+.dogSwitch{
+  background-color: #F3735F !important;
+  color: #ffffff !important;
+}
+
+.dog_breed_setting{
+  position: relative;
+}
+.dog_breed_setting::before{
+  content: "";
+  background: url(../images/beagle.png) no-repeat;
+  width: 20px;
+  height: 28px;
+  display: inline-block;
+  position: absolute;
+  z-index: 2;
+  right: 25px;
+  top: 46px;
+  background-size: contain;
+}
+.dog_breed_setting::after{
+  content: "";
+  border-left: 1px solid #f3735f;
+  position: absolute;
+  right: 58px;
+  top: 42px;
+  height: 30px;
+}
+.dog_breed_setting span{
+  position: absolute;
+    right: 5px;
+    top: 50px;
+    font-size: 12px;
+}
+.sl_main_input_radio input[type="radio"]:checked{
+  accent-color: #F3735F;
+  border:1px solid #f3735f;
+}
+
+.post_tabs_sec .post_tabs{
+  display: flex;
+  justify-content: space-around;
+}
+
+.sl___input_container__name {
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+}
+.sl___input_container__name input {
+  border: 1px solid #E9E9E9C7;
+  padding: 5px 15px;
+  background: #E9E9E9C7;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.sl___input_container__name label {
+  color: #848282;
+  font-weight: 500;
+  font-size: 14px;
+  padding-bottom: 5px;
+}
+
+.sl___input_submit__btn button {
+  border: 1px solid #F3735F;
+  font-size: 12px;
+  color: #F3735F;
+  padding: 5px 30px;
+  border-radius: 20px;
+  background: #ffffff;
+  margin-top: 25px;
+  font-weight: 700;
+}

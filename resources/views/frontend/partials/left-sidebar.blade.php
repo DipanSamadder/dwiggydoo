@@ -23,7 +23,7 @@
                      <li class="solution nav-item"><a href="#" class="nav-link"><i class="fas fa-hand-holding-heart"></i> <span class="menu_name">Your Solution</span></a></li>
                      <li class="connection nav-item"><a href="{{ route('connections') }}" class="nav-link {{ dsld_is_route_active(['connections'], 'active') }}"><i class="fas fa-users"></i> <span class="menu_name">Their Connection</span></a></li>
                      <li class="notification nav-item"><a href="#" class="nav-link" onclick="notifications();"><i class="far fa-bell"></i> <span class="menu_name">Notifications</span></a></li>
-                     <li class="profile nav-item"><a href="#" class="nav-link"><span class="profile_icon">
+                     <li class="profile nav-item"><a href="{{ route('user.profile.feed') }}" class="nav-link {{ dsld_is_route_active(['user.profile.feed'], 'active') }}"><span class="profile_icon">
 
                         @include('frontend.components.sessions.dogs.profile-image')
                   
