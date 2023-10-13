@@ -69,7 +69,11 @@ Route::prefix('v1')->group(function(){
     Route::post('setup/profile/details/step1', 'Api\UserController@setupStep1')->middleware('auth:sanctum');
     Route::post('setup/profile/details/step2', 'Api\UserController@setupStep2')->middleware('auth:sanctum');
     Route::get('referral-code-generator/{id}', 'Api\UserController@refferal_code_generators')->middleware('auth:sanctum');
+    Route::post('user-update-profile', 'Api\UserController@updateUserProfile')->middleware('auth:sanctum');
 
+    // <---------Email Verify Update---------->
+    Route::post('verify-email-update', 'Api\AuthController@verifyEmailUpdate')->middleware('auth:sanctum');
+    Route::post('update-verify-otp', 'Api\AuthController@verifyUpdateOtp')->middleware('auth:sanctum');
 
     /**Status**/
     Route::post('status-items/create', 'Api\StatusItemController@create')->middleware('auth:sanctum');

@@ -317,4 +317,45 @@ class UserController extends Controller
             'message' => 'Profile information has been updated successfully'
         ]);
     }
+
+
+    // -----------------------Funtion to update user profile--------------------------->>
+    public function updateUserProfile(Request $request){
+        $auth =  auth('sanctum')->user();
+        $message = [
+            'phone.required' => 'Phone is required with country code.',
+            'phone.min' => 'Enter your validate phone number with country code.',
+            'phone.max' => 'Enter your validate phone number with country code.',
+            'phone.regex' => 'Enter your validate phone number with country code.',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'age' => 'required|numeric',
+            'email' => 'required|email',
+            'dob' => 'required',
+            'gender' => 'required',
+            'phone' => 'required|regex:/^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/|min:12|max:15',$message,
+        ]
+        );
+
+        if($validator->fails()){
+            return $this->sendError($validator->messages());       
+        }
+        else{
+            $user = User::findOrFail($auth->id);
+            $user->name =  $request->name;
+            $user->email =  $request->email;
+            $user->phone =  $request->phone;
+            $user->age =  $request->age;
+            $user->dob =  $request->dob;
+            $user->gender =  $request->gender;
+            $user->save();
+        }
+        if($user){
+             return response()->json(['success'=> true,'message' => 'Profile has been Updated.']);
+         }else{
+             return response()->json(['success'=> false,'message' => 'Sorry! Profile failed to Update.']);
+         }
+    }
 }

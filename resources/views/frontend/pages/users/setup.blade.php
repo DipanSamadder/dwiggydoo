@@ -13,10 +13,7 @@
    #map {
      height: 100%;min-height: 400px;
    }
-   
-
-   fdf
-   
+      
    .custom-infowindow {
        background-color: #ffffff;
        color: #333333;

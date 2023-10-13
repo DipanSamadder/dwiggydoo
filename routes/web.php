@@ -84,6 +84,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/notification/sent-request', 'Setting\NotifictionsController@sent_request')->name('notifictions.sent.request');
     Route::post('/notification/received-request-multiple', 'Setting\NotifictionsController@received_request_multiple')->name('notifictions.received.request.multiple');
     Route::post('/notification/sent-request-multiple', 'Setting\NotifictionsController@sent_request_multiple')->name('notifictions.sent.request.multiple');
+    Route::get('/setting', 'Setting\SettingController@setting')->name('setting');
+
 });
 Route::get('/barcode-scanner', function () {
     return view('frontend.barcode-scanner');

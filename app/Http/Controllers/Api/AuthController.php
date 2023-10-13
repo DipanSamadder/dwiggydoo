@@ -319,5 +319,75 @@ class AuthController extends Controller
                         ];
         return $this->sendResponse($success, 'User Login successfully.');      
     }
+
+        // -----------------------Send Update Email Otp---------------------------------->>
+
+        public function verifyEmailUpdate(Request $request){
+            $user =  auth('sanctum')->user();
+            $message = [
+                'email.required' => 'Email is required',
+                'email.email' => 'Enter your validate email',
+            ];
+    
+            $validator = Validator::make($request->all(), ['email' => 'required|email'], $message);
+            if ($validator->fails())
+            {
+                return response()->json(['success'=> false,'message' => $validator->messages()]);
+            }
+            
+            $data  = $this->generateOtpViaMail($user);
+            if($data != null){
+        
+                $success['otp'] = $data->otp; 
+                $success['user_id'] = $data->user_id; 
+                $success['expire_at'] = $data->expire_at; 
+    
+                dsld_mail_send($request->email, 'Otp for Email Verification.', 'emails.otp_template', $success, 0);             
+                return response()->json(['success'=> true,'message' => 'Otp sent on your email.', 'data'=> $success]);
+            }else{
+                return response()->json(['success'=> false,'message' => 'Sorry! Otp not send.']);
+            }
+        }
+    
+        // -----------------------verify Update Email Otp---------------------------------->>
+    
+        public function verifyUpdateOtp(Request $request){
+            //validation email validation 
+            $user =  auth('sanctum')->user();
+            $message = [
+                'otp.required' => 'Otp is required',
+            ];
+    
+            $validator = Validator::make($request->all(), ['otp' => 'required'], $message);
+    
+            if ($validator->fails()){
+                return $this->sendError($validator->messages());
+            }
+    
+            //Checked email validation 
+    
+            $userVerified = UserVerified::where('user_id', $user->id)->where('otp', $request->otp)->first();
+    
+            if(!$userVerified){ 
+                return $this->sendError('Otp is not correct.');
+            }else if($userVerified && now()->isAfter($userVerified->expire_at)){
+    
+                return $this->sendError('Your otp has been expires.');
+            }
+    
+            $user = User::findOrfail($user->id);
+            if($user){
+               $userVerified->update([
+                    'expire_at' => now(),
+               ]);
+               $user->update([                
+                'email' => $request->email
+               ]);
+    
+            return response()->json(['success'=> true,'message' => 'Email has been Updated.']);
+            }else{
+                return response()->json(['success'=> false,'message' => 'Sorry! Email failed to Update.']);
+            }
+       }
    
 }
