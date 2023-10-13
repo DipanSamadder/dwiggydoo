@@ -39,6 +39,8 @@ Route::get('/optimize', function() {
 Route::view('medias', 'media')->name('media');
 
 
+
+
 Route::middleware('guest')->group(function () {
     Route::get('register/phone', 'Auth\RegisteredUserController@signInByPhone')->name('register.phone');
     Route::get('register/email', 'Auth\RegisteredUserController@signInByEmail')->name('register.email');
