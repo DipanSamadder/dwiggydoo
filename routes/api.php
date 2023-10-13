@@ -83,7 +83,7 @@ Route::prefix('v1')->group(function(){
     Route::get('status/{slug}', 'Api\StatusItemController@status_by_slug')->middleware('auth:sanctum');
     Route::get('track-my-status/{id}', 'Api\StatusItemController@track_my_status')->middleware('auth:sanctum');
 
-
+    
     /**Wallet System**/
     Route::get('get-notifications/{id}', 'Api\WalletController@index')->middleware('auth:sanctum');
 
