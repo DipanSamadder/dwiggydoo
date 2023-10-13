@@ -4,36 +4,41 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\StatusItem;
 use App\Models\StatusItemsTrack;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Validator; 
 use App\Http\Resources\StatusItemsCollection;
+use App\Http\Resources\StatusUserCollection;
 use App\Http\Resources\StatusItemsTrackCollection;
 use Carbon\Carbon;
 
 class StatusItemController extends Controller
 {
+    protected $userID;
+	public function __construct(){
+		$this->userID = auth('sanctum')->user();
+	}
 
+    
     public function create(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|numeric',
             'dsld_file' => 'required'
         ],
         [
-            'user_id.required' => 'User id required.',
             'dsld_file.required' => 'File id required.',
         ]
         );
 
         if($validator->fails()){
-            return $this->sendError($validator->messages());       
+            return $this->sendError($validator->messages(), '', 201);       
         }
         $slug = dsld_generate_slug_by_text_with_model('App\Models\StatusItem', dsld_random_code_generator(10), 'slug');
 
         $type = 'file';
         $status = new StatusItem;
-        $status->user_id = $request->user_id;
+        $status->user_id = $this->userID->id;
         $status->expires_at = now()->addHour(24);
         $status->type = 'uploading.';
         $status->slug = $slug;
@@ -71,11 +76,9 @@ class StatusItemController extends Controller
     public function seen(Request $request)
     {
          $validator = Validator::make($request->all(), [
-            'user_id' => 'required|numeric',
             'status_items_id' => 'required'
         ],
         [
-            'user_id.required' => 'User id required.',
             'status_items_id.required' => 'Status id required.',
         ]
         );
@@ -83,16 +86,16 @@ class StatusItemController extends Controller
         if($validator->fails()){
             return $this->sendError($validator->messages());       
         }
-        $track = StatusItemsTrack::where('status_items_id', $request->status_items_id)->where('user_id', $request->user_id)->first();
+        $track = StatusItemsTrack::where('status_items_id', $request->status_items_id)->where('user_id', $this->userID->id)->first();
 
         if(is_null($track)){
             $data = new StatusItemsTrack;
             $data->status_items_id = $request->status_items_id;
-            $data->user_id = $request->user_id;
+            $data->user_id = $this->userID->id;
             $data->save();
 
             $success['status_items_id'] = $request->status_items_id;
-            $success['user_id'] = $request->user_id;
+            $success['user_id'] = $this->userID->id;
             return $this->sendResponse($success, 'You have seen this status.');
         }
        
@@ -102,11 +105,9 @@ class StatusItemController extends Controller
     public function destroy(Request $request)
     {
          $validator = Validator::make($request->all(), [
-            'user_id' => 'required|numeric',
             'status_items_id' => 'required'
         ],
         [
-            'user_id.required' => 'User id required.',
             'status_items_id.required' => 'Status id required.',
         ]
         );
@@ -114,13 +115,13 @@ class StatusItemController extends Controller
         if($validator->fails()){
             return $this->sendError($validator->messages());       
         }
-        $destroy = StatusItem::where('id', $request->status_items_id)->where('user_id', $request->user_id)->first();
+        $destroy = StatusItem::where('id', $request->status_items_id)->where('user_id', $this->userID->id)->first();
 
         if(!is_null($destroy)){
             $destroy->delete();
 
             $success['status_items_id'] = $request->status_items_id;
-            $success['user_id'] = $request->user_id;
+            $success['user_id'] = $this->userID->id;
             return $this->sendResponse($success, 'Your status has been deleted.');
         }else{
             return $this->sendError('Your status not found');
@@ -140,6 +141,20 @@ class StatusItemController extends Controller
         
        
     }
+
+
+    public function all_statu_users($id)
+    {
+        $status = User::whereHas('stories', function ($query) {
+            $query->where('expires_at', '>', now());
+        })->with(['stories' => function ($query) {
+            $query->where('expires_at', '>', now());
+        }])->get();
+        return $this->sendResponse(StatusUserCollection::collection($status), 'Show status data.');  
+       
+    }
+
+
     public function my_status($id)
     {
         $now = Carbon::now();

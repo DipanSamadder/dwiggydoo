@@ -62,4 +62,8 @@ class StatusItem extends Model implements HasMedia
         return $this->HasMany(StatusItemsTrack::class, 'status_items_id', 'id');
     }
  
+    // public function stoies(){
+    //     return $this->HasMany(StatusItems::class, 'user_id', 'id');
+    // }
+ 
 }

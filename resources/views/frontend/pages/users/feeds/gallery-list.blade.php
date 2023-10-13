@@ -39,13 +39,16 @@
                                 <p>{{ Session::get('userDetails.name') }}</p>
                             </div>
                             <div class="col-lg-12 post_connection">
+                                @php 
+                                    @$dogsDetails = App\Models\Dog::find(Session::get('defaultDogDetails.id'));
+                                @endphp
+                                @if($dogsDetails)
                                 <div class="col-lg-3 post_con_text">
-                                    @php 
-                                        $dogsDetails = App\Models\Dog::find(Session::get('defaultDogDetails.id'));
-                                    @endphp
-                                <h4>{{ $dogsDetails->connectedfriendships($dogsDetails->id)->count() }}</h4>
-                                <p>My Connection</p>
+                                    <h4>{{ @$dogsDetails->connectedfriendships($dogsDetails->id)->count() }}</h4>
+                                    <p>My Connection</p>
                                 </div>
+                                @endif
+
                                 <div class="col-lg-3 post_con_text">
                                 <h4>{{ $feedCountTotal }}</h4>
                                 <p>Posts</p>

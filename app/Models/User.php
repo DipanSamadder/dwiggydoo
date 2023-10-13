@@ -74,4 +74,7 @@ class User extends Authenticatable  implements HasMedia
     }
 
   
+    public function stories(){
+        return $this->hasMany(StatusItem::class, 'user_id')->where('expires_at', '>', now());
+    }
 }

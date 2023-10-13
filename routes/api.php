@@ -77,6 +77,7 @@ Route::prefix('v1')->group(function(){
     Route::post('status-items/destroy', 'Api\StatusItemController@destroy')->middleware('auth:sanctum');
     Route::post('status-items/track', 'Api\StatusItemController@track')->middleware('auth:sanctum');
     Route::get('get-all-status/{id}', 'Api\StatusItemController@all_status')->middleware('auth:sanctum');
+    Route::get('get-all-statu-users/{id}', 'Api\StatusItemController@all_statu_users')->middleware('auth:sanctum');
     Route::get('get-my-status/{id}', 'Api\StatusItemController@my_status')->middleware('auth:sanctum');
     Route::get('get-dwiggydoo-status', 'Api\StatusItemController@dwiggydoo_status');
     Route::get('status/{slug}', 'Api\StatusItemController@status_by_slug')->middleware('auth:sanctum');
