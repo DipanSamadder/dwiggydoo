@@ -47,7 +47,7 @@
                                 <p>My Connection</p>
                                 </div>
                                 <div class="col-lg-3 post_con_text">
-                                <h4>1,009</h4>
+                                <h4>{{ $feedCountTotal }}</h4>
                                 <p>Posts</p>
                                 </div>
                                 <!-- <div class="col-lg-3 post_con_text">

@@ -10,7 +10,8 @@ use Session;
 class DogFeedsController extends Controller
 {
     public function feedListsOnPrfile(){
-        return view('frontend.pages.users.feeds.gallery-list');
+        $feedCountTotal = Feed::where('feedable_id', Session::get('defaultDogDetails.id'))->count();
+        return view('frontend.pages.users.feeds.gallery-list', compact('feedCountTotal'));
     }
     public function feedListsOnPrfileShow(Request $request){
         if($request->page != 1){$start = $request->page *6;}else{$start = 0;}
