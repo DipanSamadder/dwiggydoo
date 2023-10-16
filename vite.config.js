@@ -13,4 +13,5 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    base: 'https://projects.cilearningschool.com/dwiggydoo/public/build/',  
 });
