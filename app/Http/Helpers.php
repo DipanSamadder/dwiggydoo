@@ -11,6 +11,7 @@ use App\Models\Notification;
 use App\Models\Translation;
 use App\Models\PostsMeta;
 use App\Models\RolePermission;
+use App\Models\NotPetQuestion;
 use  App\Http\Controllers\MailController;
 
 if(! function_exists('dsld_notification_insert')){
@@ -266,7 +267,17 @@ if(! function_exists('dsld_default_language')){
     }
 }
 
-
+//Get Post wise slug Nmae
+if(!function_exists('dsld_next_model_id')){
+   
+    function dsld_next_model_id($model, $id){
+       $data= $model::select("id")->where("id", '>', $id)
+            ->orderBy('id')
+            ->first();
+        if(!is_null( $data)){return $data->id;}
+        
+    }
+}
 //Get Post wise slug Nmae
 if(!function_exists('dsld_generate_slug_by_text_with_model')){
    

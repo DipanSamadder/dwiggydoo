@@ -52,7 +52,10 @@ Route::middleware('guest')->group(function () {
     Route::get('/login/google/callback', 'Auth\AuthController@handleProviderCallbackGoogle');
     Route::get('/login/facebook', 'Auth\AuthController@redirectToProviderFacebook')->name('facebook.login');
     Route::get('/login/facebook/callback', 'Auth\AuthController@handleProviderCallbackFacebook');
-    
+    Route::get('/not-a-pet', 'HomeController@notAPets')->name('not.a.pet');
+    Route::post('/not_pet_questions_ajax_get_questions', 'HomeController@ajax_get_questions')->name('not_pet.ajax_get_questions');
+    Route::post('/not_pet_questions_answer', 'HomeController@not_pet_questions_answer')->name('not_pet.answer');
+
 });
 
 
