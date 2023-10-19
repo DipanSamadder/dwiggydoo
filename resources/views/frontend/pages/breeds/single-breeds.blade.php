@@ -1,4 +1,7 @@
 @extends('frontend.layouts.app')
+@section('header')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+@endsection
 @section('content')
     <div class="main_right col-12 col-lg-6 col-md-6">
         <div class="row">
@@ -164,7 +167,8 @@
 @endsection
 
 @section('footer')
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/10.3.1/swiper-bundle.min.js" integrity="sha512-2w85qGM9apXW9EgevsY4S4fnJIUz6U6mXlLbgDKphBuwh7jPQNad70Ll5W+pcIrJ6rIMGpjP0CxYGQwKsynIaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   
 <script>
 function singleBreedClear(){
     

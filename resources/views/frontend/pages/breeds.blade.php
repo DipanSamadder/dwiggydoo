@@ -35,7 +35,11 @@
                                         <button type="button" id="search_br"data-bs-toggle="modal" data-bs-target="#exampleModal">search</button>
                                     </div>
                                 </div>
-                                @foreach (range('A', 'D') as $letter)
+                                @foreach (range('A', 'Z') as $letter)
+                                @php 
+                                    $breeds_data_count = App\Models\Breed::where('name', 'LIKE', $letter.'%' )->count();
+                                @endphp
+                                @if($breeds_data_count > 0)
                                 <div class="col-lg-12 py-3">
                                     <div class="col-lg-12 bread_search mb-2">
                                         <div class="col-lg-1 search_txt">
@@ -45,23 +49,29 @@
                                             <a href="#">back</a>
                                         </div> -->
                                     </div>
-                                    <div class="all_bread_row">
-                                        @php 
-                                            $breeds_data = App\Models\Breed::where('name', 'LIKE', $letter.'%' )->limit(7)->get();
-                                        @endphp
-                                        @if(!empty($breeds_data))
-                                            @foreach($breeds_data as $key => $value)
-                                                
-                                                <div class=" srch_rslt">
-                                                    <a href="{{ route('breeds.find.slug', ['slug' => $value->slug]) }}">
-                                                        <label for="" class="form-label">{{ $value->name }}</label>
-                                                    </a>
-                                                </div>
-                                                
-                                            @endforeach
+                                    <div class="all_bread_row items-breed-{{ $letter }}" id="all_bread_show" >
+                                            @php 
+                                                $breeds_data = App\Models\Breed::where('name', 'LIKE', $letter.'%' )->get();
+                                            @endphp
+                                            @if(!empty($breeds_data))
+                                                @foreach($breeds_data as $key => $value)
+                                                    
+                                                    <div class="srch_rslt @if($key > 4) d-none @endif">
+                                                        <a href="{{ route('breeds.find.slug', ['slug' => $value->slug]) }}">
+                                                            <label for="" class="form-label" style="width: 100%">{{ $value->name }}</label>
+                                                        </a>
+                                                    </div>
+                                                    
+                                                @endforeach
+                                            @endif
+                                        @if($breeds_data_count > 5)
+                                            <div class="srch_rslt txt_bk text-center">
+                                                <a class="more-button" role="button" onclick="more_breeds('{{ $letter }}')">View All</a>
+                                            </div>
                                         @endif
                                     </div>
                                 </div>
+                                @endif
                                 @endforeach
                             </div>
 
@@ -116,6 +126,20 @@
 <script>
 
 
+function more_breeds(letter) {
+    var has = $('.items-breed-'+letter+ ' > .srch_rslt').hasClass('d-none');
+    if (has) {
+        $('.items-breed-'+letter+ ' .more-button').text('Back');
+        $('.items-breed-'+letter+ ' > .d-none').addClass('d-view');
+        $('.items-breed-'+letter+ ' > .d-none').removeClass('d-none');
+        
+    } else {
+        $('.items-breed-'+letter+ ' .more-button').text('View All');
+        $('.items-breed-'+letter+ ' > .d-view').addClass('d-none');
+        $('.items-breed-'+letter+ ' > .d-view').removeClass('d-view');
+    }
+}
+
 $('#breed-search').on('keyup', function(){
     fetchBreedDataSearch($('#breed-search').val());
 })
@@ -140,5 +164,8 @@ recognition.onresult = function(event) {
 document.getElementById('microBtn').addEventListener('click', function() {
     recognition.start();
 });
+
+
+
 </script>
 @endsection

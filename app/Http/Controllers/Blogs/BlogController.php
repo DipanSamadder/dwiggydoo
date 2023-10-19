@@ -60,4 +60,9 @@ class BlogController extends Controller
 
     }
 
+    public function home_suggested_blog(){
+        $data = Post::where('type', 'blog_post')->where('status', 1)->limit(8)->get();
+        return view('frontend.partials.ajax_home_suggested_blog', compact('data'));
+    }
+
 }

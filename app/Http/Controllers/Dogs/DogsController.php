@@ -151,5 +151,13 @@ class DogsController extends Controller
         $near_me_dogs = Dog::where('user_id', '!=', $user->id)->limit(5)->get();
         return view('frontend.pages.dogs.ajax-near-me', compact('near_me_dogs'));
     }
+    public function find_dogs_by_slug($slug){
+        $dogs = Dog::where('slug', $slug)->where('status', 1)->first();
 
+        if(!is_null($dogs)){
+            return view('frontend.pages.dogs.single-dogs', compact('dogs'));
+        }
+        abort(404);
+    }
+  
 }

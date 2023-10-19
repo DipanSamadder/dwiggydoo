@@ -172,10 +172,8 @@ const getCurrentSkin = function () {
   };
 };
 </script>
-    <script>
-      
-
-   
+<script>
+    
     function getUserStories(){
         $.ajax({
             type: 'get',
@@ -187,7 +185,7 @@ const getCurrentSkin = function () {
             contentType: false,
 
             success: function (data, textStatus, xhr) {
-                console.log(data);
+                //console.log(data);
                 var currentSkin = getCurrentSkin();
                 var stories = window.Zuck(document.querySelector('#stories'), {
                   backNative: true,
@@ -214,6 +212,8 @@ const getCurrentSkin = function () {
     $('document').ready(function(){
       getUserStories();
     });
+
+
     
-    </script>
+</script>
 @endsection

@@ -13,6 +13,7 @@
     });
     $(document).ready(function(){
         updateMetaToken();
+        getSuggestedBlog();
     });
   function updateMetaToken() {
         const metaAppToken = document.querySelector('meta[name="api-token"]');
@@ -20,7 +21,25 @@
             metaAppToken.setAttribute('content', sessionTokenType+' '+sessionToken);
         }
     }
+    function getSuggestedBlog(){
+        $.ajax({
+            type: 'post',
+            url: '{{ route("home.suggested.blog") }}',
+            dataType: "html",
+            mimeType: "multipart/form-data",
+            cache: false,
+            processData:false,
+            contentType: false,
 
+            success: function (data, textStatus, xhr) {
+                
+               $('#home_suggeted_blog').html(data);
+               setTimeout(function() {   
+                    $('#home_suggeted_blog').find('.dsld_shimmer').removeClass('dsld_shimmer');  
+                }, 2000);
+            }
+        });
+    }
     
 function sendFriendRequest(sid, rid, items_id){
     var formData = new FormData();
@@ -38,8 +57,9 @@ function sendFriendRequest(sid, rid, items_id){
         contentType: false,
 
         success: function (data, textStatus, xhr) {
-
-            $('#'+items_id+' .items-'+rid).hide('slide', {direction: 'left'}, 500);
+            if(items_id != ''){
+                $('#'+items_id+' .items-'+rid).hide('slide', {direction: 'left'}, 500);
+            }
             if(data.success === true){
                 dsldFlashNotification('success', data.message);
             }else{

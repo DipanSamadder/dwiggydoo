@@ -14,17 +14,15 @@
             <input type="text" class="form-control form-control-sm" placeholder="Search your breed"/>
         </div>
         <div class="col-lg-11 mx-auto srch_tagline">
-            <div class="row pt-2">
-            <div class="col-lg-3 srch_rslt srch_b">
-                <label for="" class="form-label">Culture</label>
-            </div>
-            <div class="col-lg-3 srch_rslt srch_b">
-                <label for="" class="form-label">Lifestyle</label>
-            </div>
-            <div class="col-lg-3 srch_rslt srch_b">
-                <label for="" class="form-label">Realationship</label>
-            </div>
-            </div>
+            @if(App\Models\GoodGene::where('status', 1)->count() > 0)
+                <div class="row pt-2">
+                    @foreach(App\Models\GoodGene::where('status', 1)->limit(3)->get() as $key => $value)
+                    <div class="col-lg-3 srch_rslt srch_b">
+                        <label for="" class="form-label">{{ $value->name }}</label>
+                    </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
         <div class="col-lg-11 mx-auto sp_brd pt-3 ">
             <h2>top breed</h2>

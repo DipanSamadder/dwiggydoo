@@ -58,12 +58,12 @@
                     <form id="submitFilterConnection" action="{{ route('connections.filter') }}" method="post">
                         @csrf
                         <div class="filter_top_modal">
-                            <h3>filter</h3>
+                            <h3>Sort</h3>
                         </div>
                         <div class="filter_gender filter_con">
                             <div class="row ">
                                 <div class="col-lg-6 filter_top_modal text-start">
-                                    <label for="recent" class="form-label">Recently added</label>
+                                    <label for="recent" class="form-label">New to Old</label>
                                 </div>
                                 <div class="col-lg-6 text-end">
                                     <input type="radio" id="recent" name="filter" value="recent" class="form-radio"  onchange="connections_filter();"/>
@@ -71,20 +71,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 filter_top_modal text-start">
-                                    <label for="dog_name" class="form-label">Dog Name</label>
+                                    <label for="old" class="form-label">Old to New</label>
                                 </div>
                                 <div class="col-lg-6 text-end">
-                                    <input type="radio" id="dog_name" value="dog" name="filter" class="form-radio" onchange="connections_filter();"/>
+                                    <input type="radio" id="old" value="old" name="filter" class="form-radio" onchange="connections_filter();"/>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6 filter_top_modal text-start">
-                                    <label for="breed_name" class="form-label">Breed Name</label>
-                                </div>
-                                <div class="col-lg-6 text-end">
-                                    <input type="radio" id="breed_name" value="breed" name="filter" class="form-radio" onchange="connections_filter();"/>
-                                </div>
-                            </div>
+                            <div c
                         </div>
                     </form>
                 </div>

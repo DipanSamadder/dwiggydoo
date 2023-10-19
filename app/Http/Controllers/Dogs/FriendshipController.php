@@ -54,12 +54,13 @@ class FriendshipController extends Controller
             case 'recent':
                 $friendship = $friendship->orderBy('created_at', 'desc');
                 break;
-            case 'recent':
+            case 'old':
+                $friendship = $friendship->orderBy('created_at', 'asc');
 
                 break;
 
             default:
-            $friendship = $friendship->orderBy('created_at', 'asc');
+            $friendship = $friendship->orderBy('created_at', 'desc');
 
         }
             
