@@ -159,19 +159,19 @@ class PagesController extends Controller
             $page = Post::where('slug', $page.'/'.$slug1.'/'.$slug2.'/'.$slug3)->first();
         }
 
-        $header_menu = Menu::where('type', 'header_menu')->where('status', 0)->orderBy('order', 'asc')->get();
+
         if($page != null){
-             if($page->template == 'blogs_template'){
-                $posts = Post::where('type', 'posts')->paginate(6);
-                return view('frontend.pages.'.$page->template, compact('page', 'header_menu', 'posts'));
+             if($page->template == 'single_blog'){
+                $posts = Post::where('type', 'blog_post')->paginate(6);
+                return view('frontend.pages.'.$page->template, compact('page', 'posts'));
 
             }else if($page->template == 'single-leadership'){
-                return view('frontend.pages.'.$page->template, compact('page', 'header_menu'));
+                return view('frontend.pages.'.$page->template, compact('page'));
 
             }else if($page->template != null){
-                return view('frontend.pages.'.$page->template, compact('page', 'header_menu'));
+                return view('frontend.pages.'.$page->template, compact('page'));
             } else{
-                 return view('frontend.pages.default', compact('page', 'header_menu'));
+                 return view('frontend.pages.default', compact('page'));
             }
         }else{
             return abort(404);

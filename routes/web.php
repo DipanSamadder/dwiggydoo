@@ -93,6 +93,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/notification/received-request-multiple', 'Setting\NotifictionsController@received_request_multiple')->name('notifictions.received.request.multiple');
     Route::post('/notification/sent-request-multiple', 'Setting\NotifictionsController@sent_request_multiple')->name('notifictions.sent.request.multiple');
     Route::post('/home/suggested-blog', 'Blogs\BlogController@home_suggested_blog')->name('home.suggested.blog');
+    Route::get('/{page}/{slug1?}/{slug2?}/{slug3?}', 'Pages\PagesController@show_custom_page')->name('custom-pages.show_custom_page');
 });
 Route::get('/barcode-scanner', function () {
     return view('frontend.barcode-scanner');
